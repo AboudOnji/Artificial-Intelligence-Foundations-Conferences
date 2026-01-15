@@ -1,0 +1,615 @@
+\documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
+\usetheme{Berlin}
+
+\usepackage[english]{babel} % Cambiado a español para acentos y textos automáticos
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{lettrine}
+\setbeamertemplate{caption}[numbered]
+\usepackage[dvipsnames,svgnames,x11names]{xcolor}
+\usepackage{xurl}
+\usepackage{hyperref}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{adjustbox}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=cyan, % Color más visible en temas oscuros
+    filecolor=blue,
+    urlcolor=blue,
+    citecolor=blue,
+}
+%----------------------------------------------------------------------------------------
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.97,0.97,0.99}
+
+\lstdefinestyle{MATLABStyle}{
+  language=Matlab,
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{blue}\bfseries,
+  commentstyle=\color{codegreen},
+  stringstyle=\color{violet},
+  numberstyle=\tiny\color{gray},
+  breakatwhitespace=false,
+  breaklines=true,
+  captionpos=b,
+  keepspaces=true,
+  numbers=left,
+  numbersep=5pt,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  tabsize=2,
+  frame=lines,
+  framerule=0.4pt,
+  backgroundcolor=\color{backcolour}
+}
+\lstset{style=MATLABStyle}
+%----------------------------------------------------------------------------------------
+%   TITLE PAGE
+%----------------------------------------------------------------------------------------
+\title{Multi-Objective Particle Swarm Optimization Algorithm (MOPSO)}
+\author{Prof. DSc. BARSEKH-ONJI Aboud}
+\institute{Universidad Anáhuac México\\ Facultad de Ingeniería}
+\date{\today}
+% --- Auto-Agenda at the start of each section ---
+\AtBeginSection[]
+{
+  \begin{frame}{Agenda}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+
+
+\begin{document}
+
+\begin{frame}
+    \titlepage
+\end{frame}
+
+% Table of Contents
+\begin{frame}{Contents}
+    \tableofcontents
+\end{frame}
+
+%------------------------------------------------
+\section{Introduction to Multi-Objective Optimization (MOP)}
+%------------------------------------------------
+
+\begin{frame}{Why Multi-Objective Optimization?}
+    
+    \begin{block}{Beyond a Single Goal}
+    So far, our PSO algorithm has focused on finding \textbf{one} best solution (the \texttt{gbest}) for a \textbf{single} objective (e.g., 'minimize error' or 'find the minimum of a function').
+    \pause
+    But what happens when we have more than one goal at the same time?
+    \end{block}
+   
+    \begin{alertblock}{Real-World Problems are Conflicting}
+    Most real-world problems have several (often conflicting) objectives.
+    \begin{itemize}
+        \item Minimize the \textbf{cost} of a bridge...
+        \item ...while maximizing its \textbf{safety}...
+        \item ...and minimizing its \textbf{weight}.
+    \end{itemize}
+\end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{The Multi-Objective Optimization Problem (MOP)}
+    
+    \begin{block}{Formal Definition}
+    We want to find the vector of decision variables $\vec{x}^{*} = [x_1^*, ..., x_n^*]^T$ which will satisfy:
+    \begin{itemize}
+        \item $m$ inequality constraints: $g_i(\vec{x}) \le 0$
+        \item $p$ equality constraints: $h_i(\vec{x}) = 0$
+    \end{itemize}
+
+    and will \textbf{optimize} the vector function:
+    
+    $$ \vec{f}(\vec{x}) = [f_1(\vec{x}), f_2(\vec{x}), ..., f_k(\vec{x})]^T $$
+    
+    Where $k$ is the number of objectives (and for MOPs, $k \ge 2$).
+    \end{block}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Why Not Use Classical Methods?}
+    
+    \begin{block}{Limitations of Classical Programming}
+    Techniques like linear programming or gradient descent are often not ideal for MOPs.
+    \begin{itemize}
+        \item They tend to generate elements of the optimal set \textbf{one at a time}. You would have to run the algorithm many times.
+
+        \item They are very sensitive to the \textbf{shape} of the final trade-off curve (the 'Pareto front'). They often fail if the front is concave or disconnected.
+    \end{itemize}
+    \end{block}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Why Use a Population-Based Metaheuristic?}
+    
+    \begin{alertblock}{The Power of a Population (a Swarm)}
+    Metaheuristics (like the PSO) are ideal for MOPs because they deal simultaneously with a \textbf{set of possible solutions} (the population).
+    \end{alertblock}
+    
+    \begin{exampleblock}{Key Advantages}
+        \begin{itemize}
+            \item We can find \textbf{several members} of the optimal 'trade-off' set \textbf{in a single run}.
+            \item They are \textbf{not sensitive} to the shape or continuity of the solution set (they can easily handle concave or disconnected fronts).
+        \end{itemize}
+    \end{exampleblock}
+
+    
+
+\end{frame}
+
+
+\begin{frame}{Why Use a Population-Based Metaheuristic?}
+    
+
+    
+    \begin{exampleblock}{Key Advantages}
+        \begin{itemize}
+            \item We can find \textbf{several members} of the optimal 'trade-off' set \textbf{in a single run}.
+            \item They are \textbf{not sensitive} to the shape or continuity of the solution set (they can easily handle concave or disconnected fronts).
+        \end{itemize}
+    \end{exampleblock}
+    
+    \begin{block}{}
+    We just need to adapt our PSO algorithm to handle multiple objectives instead of one. This is what \textbf{MOPSO} does.
+    \end{block}
+
+\end{frame}
+
+%------------------------------------------------
+\section{The Concept of Pareto Optimality}
+%------------------------------------------------
+
+\begin{frame}{The 'Optimum' Changes}
+    
+    \begin{block}{Rethinking 'Best Solution'}
+    In single-objective PSO, our goal was simple: find the single best solution (\texttt{gbest}).
+    \pause
+    
+    In a Multi-Objective Problem (MOP), this is no longer true. There is no single 'best' solution.
+    \end{block}
+    
+    \begin{alertblock}{We are looking for 'Trade-Offs'}
+    Instead of a single solution, we are trying to find a set of good \textbf{compromises} (or \textbf{'trade-offs'}).
+    \pause
+    
+    For example, a solution that is \textit{slightly} more expensive (worse) but \textit{much} safer (better) is a valid compromise. We want to find all such compromises and let the human designer choose one.
+    \end{alertblock}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{A Brief History: Edgeworth and Pareto}
+    
+    \begin{columns}[t]
+        \column{.5\textwidth}
+            \begin{block}{Francis Ysidro Edgeworth (1881)}
+            The notion of optimality we use was first proposed by Francis Ysidro Edgeworth.
+            \end{block}
+
+        \column{.5\textwidth}
+            \begin{alertblock}{Vilfredo Pareto (1896)}
+            This notion was later generalized by the economist Vilfredo Pareto.
+            
+            We will use the most commonly accepted term: \textbf{Pareto Optimum}.
+            \end{alertblock}
+    \end{columns}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Pareto Optimality: Formal Definition}
+    
+    \begin{block}{Definition}
+    A vector of decision variables $\vec{x}^* \in \mathcal{F}$ is \textbf{Pareto Optimal} if there does not exist another vector $\vec{x} \in \mathcal{F}$ such that:
+    
+    \bigskip
+    
+    $f_i(\vec{x}) \le f_i(\vec{x}^*)$ for all $i = 1, ..., k$
+    
+    \bigskip
+    \textbf{and}
+    \bigskip
+    
+    $f_j(\vec{x}) < f_j(\vec{x}^*)$ for at least one objective $j$.
+    
+    \end{block}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Pareto Optimality: In Simple Words}
+    
+    \begin{alertblock}{Explanation}
+    In plain English, a solution $\vec{x}^*$ is \textbf{Pareto Optimal} if there is no other solution $\vec{x}$ that can improve at least one objective without making any other objective worse.
+    \end{alertblock}    
+    \begin{block}{}
+    \begin{itemize}
+        \item \textbf{Solution A:} Cost=100, Safety=9
+        \item \textbf{Solution B:} Cost=90, Safety=9
+        \item \textbf{Solution C:} Cost=90, Safety=8
+    \end{itemize}
+    \begin{itemize}
+        \item \textbf{B dominates A}: B is cheaper (better) and has the same safety.
+        \item \textbf{B dominates C}: B is just as cheap and has better safety.
+        \item Solution \textbf{B} is \textbf{nondominated} by A or C.
+    \end{itemize}
+    \end{block}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{The Key Vocabulary}
+\begin{columns}
+    \column{.6\textwidth}
+    \begin{block}{The Goal of a MOPSO}
+    \begin{itemize}
+        \item \textbf{Nondominated Solution:} A solution that is not dominated by any other feasible solution in the search space. (Like Solution B in the previous example).
+        
+        \item \textbf{Pareto Optimal Set:} The set of \textbf{all} nondominated solutions.
+        
+        \item \textbf{Pareto Front:} The plot of the objective function values (e.g., the Cost vs. Safety values) for all solutions in the Pareto Optimal Set.
+    \end{itemize}
+    \end{block}
+    
+    \column{.4\textwidth}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.75\linewidth]{fig1.jpg}
+        \caption{The \textbf{Pareto Front} is the set of optimal trade-offs.}
+    \end{figure}
+
+\end{columns}
+    
+    
+    
+\end{frame}
+
+%------------------------------------------------
+\section{From PSO to MOPSO: The 3 Challenges}
+%------------------------------------------------
+
+\begin{frame}{Revisiting Single-Objective PSO}
+    
+    \begin{block}{The Algorithm We Know}
+    In the standard PSO (gbest model) that we already studied, every particle updates its velocity based on two simple, clear pieces of information:
+    \begin{itemize}
+        \item Its own best-known position (\texttt{pbest}).
+        \item The \textbf{single best-known position} found by the entire swarm (\texttt{gbest}).
+    \end{itemize}
+    \end{block}
+    
+    \begin{alertblock}{The 'gbest' Velocity Update}
+    The key was this equation, which guided the entire swarm toward one single point:
+    \begin{equation*}
+        v_{ij}(t+1) = w v_{ij}(t) + c_1 r_1 (y_{ij}(t) - x_{ij}(t)) + c_2 r_2 (\hat{y}_j(t) - x_{ij}(t))
+    \end{equation*}
+    Where $\hat{y}_j(t)$ was the \texttt{gbest}.
+    \end{alertblock}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Why Does Standard PSO Fail for MOPs?}
+    
+    \begin{block}{The Problem with \texttt{gbest} and \texttt{pbest}}
+    The entire logic of PSO is built on the idea that there is \textbf{one} best solution to find.
+        
+    In a Multi-Objective Problem, we don't have one \texttt{gbest}. We have an entire \textbf{Pareto Front} of solutions that are all 'equally optimal' (nondominated).
+    \end{block}
+    
+    \begin{alertblock}{The Algorithm Breaks}
+    We can no longer answer these simple questions:
+    \begin{itemize}
+        \item If \texttt{gbest} is now a \textit{set} of 100 solutions, which one should the particle follow?
+        \item If a particle finds a new solution, how does it know if it's 'better' than its current \texttt{pbest}? It might be better in one objective but worse in another.
+    \end{itemize}
+    \end{alertblock}
+\end{frame}
+\begin{frame}{Why Does Standard PSO Fail for MOPs?}
+
+    \begin{examples}{Conclusion}
+    To create a MOPSO, we must fundamentally change how PSO's core components work.
+    \end{examples}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{The 3 Fundamental Challenges}
+
+            \begin{alertblock}{1. Leader Selection}
+                How do we select a particle (leader) from the Pareto Front to guide the swarm?
+                \begin{itemize}
+                    \item If all nondominated solutions are equally good, which one should a particle use as its \texttt{gbest}?
+                    \item Should the choice be random, or based on another criterion?
+                \end{itemize}
+            \end{alertblock}
+\end{frame}
+\begin{frame}{The 3 Fundamental Challenges}
+            \begin{alertblock}{2. Solution Retention}
+                How do we retain the many nondominated solutions found during the search?
+                \begin{itemize}
+                    \item We can't just store one \texttt{pbest} and one \texttt{gbest} anymore.
+                    \item We need a special place to store all the optimal trade-offs we find.
+                \end{itemize}
+            \end{alertblock}
+\end{frame}
+\begin{frame}{The 3 Fundamental Challenges}
+            \begin{alertblock}{3. Diversity Maintenance}
+                How do we maintain diversity to prevent the entire swarm from converging to a single point on the Pareto Front?
+                \begin{itemize}
+                    \item It's not enough to find *one* optimal solution. We must find the \textit{entire} front.
+                    \item We need a mechanism to spread the particles out.
+                \end{itemize}
+            \end{alertblock}
+\end{frame}
+%------------------------------------------------
+\section{Solutions and the MOPSO Algorithm}
+%------------------------------------------------
+
+\begin{frame}{Solving Retention: The External Archive}
+    
+    \begin{block}{Solution for Challenges 1 \& 2}
+    To solve the problems of \textbf{leader selection} and \textbf{solution retention}, most MOPSOs use an \textbf{External Archive} (also called a repository).
+    \end{block}
+    
+    \begin{alertblock}{What is an External Archive?}
+    It is a special, separate list that stores all the nondominated solutions found so far during the entire search. It becomes the 'memory' of the swarm.
+    \end{alertblock}
+\end{frame}
+\begin{frame}{Solving Retention: The External Archive}    
+    \begin{exampleblock}{Update Rules for the Archive}
+    \begin{itemize}
+        \item When a particle flies to a new position, the new solution is compared to the archive.
+        \item The new solution is added to the archive \textbf{only if} it is not dominated by any solution already in the archive.
+        \item If the new solution \textbf{dominates} one or more solutions in the archive, those dominated solutions are removed.
+    \end{itemize}
+    \end{exampleblock}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{The Bounded Archive Problem}
+    
+    \begin{block}{A New Problem: Infinite Growth}
+    The external archive has a practical drawback: its size can grow very quickly. Updating and managing an archive with thousands of solutions at every generation becomes computationally expensive.
+    \end{block}
+    
+    \begin{alertblock}{The Solution: A Bounded (Fixed-Size) Archive}
+    Due to practical reasons, archives are given a maximum size (e.g., 100 solutions).
+    
+    \textbf{But this creates a new question:} If the archive is full and a new, valid nondominated solution is found, which solution do we remove from the archive?
+    \end{alertblock}
+\end{frame}
+\begin{frame}{The Bounded Archive Problem}
+
+    \begin{exampleblock}{Maintaining Diversity in the Archive}
+    We need an additional criterion. The most common solution is to remove the solution that is in the \textbf{most crowded region} of the Pareto front. This helps to keep the solutions in the archive \textbf{well-spread}.
+    \end{exampleblock}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Solving Leader Selection}
+    
+    \begin{block}{Picking a Leader from the Archive}
+    Now that the swarm has an archive of nondominated solutions, how does a particle choose its \texttt{gbest} (its leader) from this set?
+    \end{block}
+    
+    \begin{alertblock}{Using Density to Select a Leader}
+    A good strategy is to select leaders from the \textbf{less crowded} regions of the archive. This encourages particles to fly towards the 'empty' parts of the Pareto front, helping to spread out the solutions.
+    \end{alertblock}
+\end{frame}
+\begin{frame}{Solving Leader Selection}
+
+    \begin{columns}[t]
+        \column{.48\textwidth}
+            \textbf{Nearest Neighbor Estimator} 
+            \begin{figure}
+                % Please add the figure from page 21 of talk-anahuac-2024.pdf
+                \includegraphics[width=0.75\linewidth]{fig2.png}
+                \caption{Prefers solutions with a larger 'cuboid' (less crowded).}
+            \end{figure}
+
+        \column{.48\textwidth}
+            \textbf{Kernel (Niching) Estimator} 
+            \begin{figure}
+                % Please add the figure from page 23 of talk-anahuac-2024.pdf
+                \includegraphics[width=0.8\linewidth]{fig3.png}
+                \caption{Prefers solutions with fewer neighbors within a 'niche' radius $\sigma_{share}$.}
+            \end{figure}
+    \end{columns}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Solving Diversity: Flight Strategy (Mechanism 1)}
+    
+    \begin{block}{}
+    Besides selecting leaders, we can promote diversity in two main ways: (1) the flight strategy and (2) mutation.
+    \end{block}
+    
+    \begin{alertblock}{Mechanism 1: Flight Strategy}
+    \begin{itemize}
+        \item \textbf{Topologies:} Using neighborhoods smaller than the entire swarm (like in \texttt{lbest} PSO) can preserve diversity for longer.
+        \item \textbf{Inertia Weight ($w$):} The inertia weight ($w$) is crucial for controlling the trade-off between global (wide) and local (nearby) exploration.
+        \item A common strategy (Shi, 1999) is to \textbf{linearly decrease $w$} during the run. This allows for more global exploration at the beginning and more fine-grained local search at the end.
+    \end{itemize}
+    \end{alertblock}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Solving Diversity: Mutation (Mechanism 2)}
+    
+    \begin{block}{Mechanism 2: Mutation (Turbulence)}
+    The standard PSO velocity update is like a 'mutation with a conscience,' as it is guided by the particle's own experience and its neighbors' experience.
+    Sometimes, however, we need 'craziness' or 'turbulence'—a random mutation.
+    \end{block}
+    
+    \begin{alertblock}{Why is Mutation Needed?}
+    \begin{itemize}
+        \item A swarm can \textbf{stagnate} when particle velocities become almost zero.
+        \item This leads to the whole swarm being trapped in a \textbf{local optimum}.
+        \item A mutation operator introduces a random change that can 'kick' a particle out of the local optimum and potentially find a new, better region of the search space.
+    \end{itemize}
+    \end{alertblock}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{The General MOPSO Algorithm}
+    
+
+    \begin{enumerate}
+        \item \textbf{Initialize} the swarm (positions $P[i]$ and velocities $V[i]$).
+        \item \textbf{Initialize Archive:} Evaluate the swarm and store all nondominated particles in the external archive.
+        \item \textbf{Loop} until stopping condition is met:
+        \begin{itemize}
+            \item \textbf{Select Leaders:} For each particle $P[i]$, select a leader from the archive (e.g., using a density measure).
+            \item \textbf{Fly:} Update the particle's velocity and position using  \texttt{pbest} and selected leader.
+            \item \textbf{Mutate:} Apply a turbulence/mutation operator to the particle's position.
+            \item \textbf{Evaluate:} Calculate the objective values for the particle's new position.
+            \item \textbf{Update \texttt{pbest}:} Update $P[i]$'s \texttt{pbest} if the new position is not dominated by its old \texttt{pbest}.
+            \item \textbf{Update Archive:} Add the new particle to the archive if it is nondominated. Remove any solutions from the archive that are now dominated by this new particle. 
+        \end{itemize}
+        \item \textbf{End Loop}.
+    \end{enumerate}
+
+\end{frame}
+
+%------------------------------------------------
+\section{Applications and Future of MOPSO}
+%------------------------------------------------
+
+\begin{frame}{Some Applications}
+    \frametitle{Where is MOPSO Used?}
+    
+    \begin{block}{MOPSOs are used to solve complex, real-world problems:}
+   
+    
+    \begin{itemize}
+        \item Optimal groundwater management
+        \item Design of efficient speed profiles for Automatic Train Operation (ATO) 
+        \item Planning of electrical distribution systems, incorporating distributed generation 
+        \item Complex network clustering 
+        \item Partial classification for accident severity analysis 
+        \item And many more in engineering, data mining, and scheduling 
+    \end{itemize}
+ \end{block}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{What is Missing? The Future of the Field}
+    
+    \begin{alertblock}{MOPSO is a very active field. Key research areas are still open:}
+    \end{alertblock}
+    
+            \begin{block}{Impact of Parameters}
+                \begin{itemize}
+                    \item Detailed studies on the impact of parameters are still missing.
+                    \item The role of leader selection was underestimated for many years.
+                    \item MOPSOs that can adapt their own parameters are still very scarce.
+                \end{itemize}
+            \end{block}
+            
+            \begin{block}{Theoretical Studies}
+                \begin{itemize}
+                    \item Critical aspects like \textbf{convergence analysis} and \textbf{run-time analysis} for MOPSOs are currently missing in the literature.
+                \end{itemize}
+            \end{block}
+            
+\end{frame}
+\begin{frame}{What is Missing? The Future of the Field}
+
+            \begin{block}{New Algorithms}
+                \begin{itemize}
+                    \item More creativity is needed in designing new algorithms.
+                    \item Use for \textbf{Many-Objective Optimization} (problems with 4 or more objectives) is a new and growing area.
+                \end{itemize}
+            \end{block}
+            
+            \begin{block}{Applicability}
+                \begin{itemize}
+                    \item We need to identify \textit{which types} of problems MOPSOs are best suited for.
+                    \item Many authors use MOPSO for its simplicity, but cannot show a clear advantage over other evolutionary algorithms for their specific problem.
+                \end{itemize}
+            \end{block}
+            
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{What is Missing?}
+    
+    \begin{columns}[t]
+        \column{.48\textwidth}
+            \begin{block}{Incorporation of Preferences}
+                \begin{itemize}
+                    \item The work on incorporating a user's preferences into a MOPSO is scarce.
+                    \item This is very important for real-world problems, as a designer may not want to see thousands of solutions on a Pareto front.
+                \end{itemize}
+            \end{block}
+
+        \column{.48\textwidth}
+            \begin{alertblock}{Parallelism}
+                \begin{itemize}
+                    \item Few parallel MOPSOs exist.
+                    \item Implementations on \textbf{GPUs} are also scarce.
+                    \item Implementations in hardware do not seem to be available.
+                \end{itemize}
+            \end{alertblock}
+    \end{columns}
+
+\end{frame}
+
+%------------------------------------------------
+\section{Conclusions}
+%------------------------------------------------
+
+\begin{frame}{Conclusions}
+    
+    \begin{alertblock}{What's Next?}
+    As the research area matures, it is desirable to start analyzing deeper questions:
+    \begin{itemize}
+        \item \textbf{Applicability:} What problems are MOPSOs really good (or bad) at solving?
+        \item \textbf{Search Behavior:} How does a MOPSO actually move through the search space compared to a genetic algorithm?
+        \item \textbf{Theoretical Aspects:} We need to develop a solid theoretical foundation for convergence and run-time.
+    \end{itemize}
+    \end{alertblock}
+    
+    \begin{exampleblock}{Final Thought}
+    This work is expected to appear within the next few years as this field reaches its maturity.
+    \end{exampleblock}
+
+\end{frame}
+\end{document}

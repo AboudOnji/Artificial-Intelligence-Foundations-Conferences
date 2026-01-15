@@ -1,0 +1,181 @@
+\documentclass{beamer}
+\usepackage{ragged2e}
+\usepackage{times}
+\usepackage{array}
+\usepackage{amsmath}  % Paquete principal para ecuaciones avanzadas
+\usepackage{amssymb}  % Símbolos matemáticos adicionales
+\usepackage{amsfonts} % Fuentes matemáticas adicionales
+\usepackage{mathtools}
+\usepackage{booktabs} % Para formato APA en tablas
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+%\usecolortheme{dolphin}%crane, beaver,dolphin,wolverine,seagull,fly,albatross
+\setbeamertemplate{caption}[numbered]
+\usepackage[english]{babel}
+\usepackage{caption}
+\usepackage{setspace}
+\usepackage{changepage}
+
+\captionsetup{
+    font=footnotesize, % Tamaño de la letra para las captions
+    labelfont=bf,      % Hace "Figura X" en negrita
+    labelsep=colon     % Cambia el separador después de "Figura X"
+}
+\usepackage[style=apa, backend=biber]{biblatex} % Configuración para APA o el estilo deseado
+\addbibresource{sample.bib} % Archivo .bib
+
+
+\justifying
+
+% Tema para la presentación
+\usetheme{Berkeley} %  "Madrid"  "Berlin", "CambridgeUS","Warsaw" etc.
+\setbeamertemplate{caption}[numbered]
+\addtolength{\topskip}{-1cm} % Reduce el espacio superior
+\usefonttheme{professionalfonts}
+% Personalizar el footline
+\setbeamertemplate{footline}{%
+  \hbox{%
+    \begin{beamercolorbox}[wd=0.8\paperwidth,ht=2.25ex,dp=1ex,leftskip=1em]{author in head/foot}%
+      \usebeamerfont{author in head/foot}BARSEKH-ONJI Aboud, ORCID: 0009-0004-5440-8092
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=0.2\paperwidth,ht=2.25ex,dp=1ex,rightskip=1em]{page number in head/foot}%
+      \usebeamerfont{ page number in head/foot}\insertframenumber{} / \inserttotalframenumber
+    \end{beamercolorbox}%
+  }%
+}
+% Información del título
+\institute{\textbf{Universidad Anáhuac México}\\ {Facultad de Ingeniería}}
+\title{\textbf {{Introduction to Computational Intelligence}}}
+\author{\textbf{Prof. DSc. BARSEKH-ONJI Aboud}}
+\date \today
+
+
+\begin{document}
+\justifying
+
+\begin{frame}{}
+    \maketitle
+    \textbf{\textit{Machine Learning}}
+\end{frame}
+
+\begin{frame}{\textbf{What is Machine Learning?}}
+\begin{block}{}
+\justifying
+Machine learning teaches computers to do what comes naturally to humans and animals:\textbf{ learn from experience}. Machine learning algorithms use computational methods to “learn” information directly from data without relying on a predetermined equation as a model. The algorithms adaptively improve their performance as the number of samples available for learning increases.
+\end{block}  
+\end{frame}
+
+\begin{frame}{\textbf{When we use machine learning?}}
+\begin{block}{}
+\justifying
+\begin{itemize}
+\justifying
+    \item When a system is too complex for handwritten rules, like in face and speech recognition.
+    \item When the rules of a task are constantly changing, as in fraud detection.
+    \item And when the nature of the data itself keeps changing, like in automated trading, energy demand forecasting, and predicting shopping trends.
+\end{itemize}
+\end{block}  
+\end{frame}
+
+\begin{frame}{\textbf{How Machine Learning works?}}
+\begin{block}{Supervised Learning}
+\justifying
+which trains a model on known input and output data so that it can predict future outputs.
+\end{block}  
+\begin{block}{Unsupervised Learning}
+\justifying
+which finds hidden patterns or intrinsic structures in input data.
+\end{block}  
+\end{frame}
+
+\begin{frame}{\textbf{How Machine Learning works?}}
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{img/MLClss.png}
+    \caption{Machine Learning Classification}
+    \label{fig:enter-label}
+\end{figure}
+\end{frame}
+
+\begin{frame}{\textbf{Supervised Learning}}
+    \begin{block}
+    \justifying
+        The aim of supervised machine learning is to build a model that makes predictions based on evidence in the presence of uncertainty. \textbf{A supervised learning algorithm takes a known set of input data and known responses to the data (output)} and trains a model to generate reasonable predictions for the response to new data.
+    \end{block}
+\end{frame}
+
+\begin{frame}{\textbf{Supervised Learning}}
+    \begin{block}{Classification techniques}
+    \justifying
+        Predict discrete responses, e.g. whether an email is genuine or spam, or whether a tumor is cancerous or benign. Classification models classify input data into categories. Typical applications include medical imaging, speech recognition, and credit scoring.
+    \end{block}
+    \begin{block}{Regression Techniques}
+    \justifying
+        Predict continuous responses. e.g., changes in temperature or fluctuations in power demand. Typical applications include electricity load forecasting and algorithmic trading.
+    \end{block}
+\end{frame}
+
+\begin{frame}{\textbf{Unsupervised Learning}}
+    \begin{block}
+    \justifying
+        Unsupervised learning draws \textbf{inferences} from datasets that do not have labeled responses associated with the input data.
+        
+        \textbf{Clustering} is the most common unsupervised learning technique. It puts data into different groups based on the shared characteristics of the data.
+        
+        Clustering is used to find \textbf{hidden groups} in applications such as gene sequence analysis, market research, and object recognition among others.
+    \end{block}
+\end{frame}
+
+\begin{frame}{\textbf{Unsupervised Learning}}
+    \begin{figure}
+        \centering
+        \includegraphics[width=\linewidth]{img/Clustering.png}
+        \caption{Clustering based on patterns}
+        \label{fig:enter-label}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{\textbf{Machine learning algorithms}}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.7\linewidth]{img/classML.jpg}
+        \caption{Machine larning (supervised \& unsupervised algorithms)}
+        \label{fig:enter-label}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{\textbf{Tuning Inference System}}
+    \begin{figure}
+        \centering
+        \includegraphics[width=\linewidth]{img/Blackbox.png}
+        \caption{Black Box Model}
+        \label{fig:enter-label}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{\textbf{Black Box System and AI}}
+    \begin{figure}
+        \centering
+        \includegraphics[width=\linewidth]{img/TuningInference.png}
+        \caption{Tuning Process}
+        \label{fig:enter-label}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{\textbf{Steps to build an AI model}}
+    \begin{figure}
+        \centering
+        \includegraphics[width=\linewidth]{img/steps.jpg}
+        \caption{Steps to build an AI mode}
+        \label{fig:enter-label}
+    \end{figure}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{\textbf{Bibliography}}
+    \justifying
+    \footnotesize
+    \setbeamertemplate{bibliography item}{}
+    \nocite{*} 
+    \printbibliography
+\end{frame}
+\end{document}
+

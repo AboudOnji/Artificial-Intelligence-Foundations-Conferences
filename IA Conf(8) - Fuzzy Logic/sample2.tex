@@ -1,0 +1,216 @@
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND THEMES
+%----------------------------------------------------------------------------------------
+
+\documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
+\usetheme{SimpleDarkBlue}
+
+\usepackage[english]{babel}
+\usepackage{hyperref}
+\usepackage{graphicx} % Allows including images
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+\usepackage{amsmath}
+\usepackage{lettrine}
+\setbeamertemplate{caption}[numbered]
+\usepackage[dvipsnames,svgnames,x11names]{xcolor}% Para definir y usar colores (ej. en hipervínculos)
+\usepackage{xurl}
+\usepackage{hyperref}       % Para crear hipervínculos internos y externos
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{adjustbox}
+\hypersetup{
+    colorlinks=true,        % Colorear los enlaces en lugar de usar recuadros
+    linkcolor=blue,     % Color para enlaces internos (índice, referencias cruzadas)
+    filecolor=blue, % Color para enlaces a archivos locales
+    urlcolor=blue,      % Color para URLs
+    citecolor=blue,     % Color para citas bibliográficas
+}
+%----------------------------------------------------------------------------------------
+
+\usepackage{listings}
+\usepackage{xcolor} % Para colores en listings
+ \definecolor{codegreen}{rgb}{0,0.6,0}
+ \definecolor{codegray}{rgb}{0.5,0.5,0.5}
+ \definecolor{codepurple}{rgb}{0.58,0,0.82}
+ \definecolor{backcolour}{rgb}{0.97,0.97,0.99}
+
+\lstdefinestyle{MATLABStyle}{
+  language=Matlab,
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{blue}\bfseries,
+  commentstyle=\color{codegreen},
+  stringstyle=\color{violet},
+  numberstyle=\tiny\color{gray},
+  breakatwhitespace=false,
+  breaklines=true,
+  captionpos=b,
+  keepspaces=true,
+  numbers=left,
+  numbersep=5pt,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  tabsize=2,
+  frame=lines, % Añade un marco alrededor del código
+  framerule=0.4pt, % Grosor del marco
+  backgroundcolor=\color{backcolour} % Color de fondo suave
+}
+\lstset{style=MATLABStyle}
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title{Fuzzy Logic Foundations}
+\subtitle{Fuzzy Expert Systems}
+
+\author{Prof. D.Sc. BARSEKH-ONJI Aboud}
+
+\institute
+{
+    Facultad de Ingeniería \\
+    Universidad Anáhuac México % Your institution for the title page
+}
+\date{\today} % Date, can be changed to a custom date
+
+%----------------------------------------------------------------------------------------
+%	PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+% Poner esto en el preámbulo
+\AtBeginSection[]
+{
+  \begin{frame}{Agenda}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+\begin{document}
+
+\begin{frame}
+    % Print the title page as the first slide
+    \titlepage
+\end{frame}
+%----------------------------------------------------------------------------------------
+%   SECTION: Mamdani vs. Sugeno Models
+%----------------------------------------------------------------------------------------
+\section{Intelligent Fuzzy Systems Process}
+\begin{frame}
+ \frametitle{Intelligent Fuzzy Systems Process}
+
+    \begin{columns}
+        \column[t]{0.5\textwidth}
+         \begin{figure}
+        \centering
+        \includegraphics[width=0.7\textwidth]{Process.png} 
+    \end{figure}  
+        \column[t]{0.5\textwidth}
+         \begin{block}{Note:}
+        The FIS process is the same for both Mamdani and Sugeno models. The key difference lies in the \textbf{rule output} (consequent) and how the final output is computed.
+    \end{block}  
+    \end{columns}
+   
+   
+   
+\end{frame}
+\section{Fuzzy Models: Mamdani vs. Sugeno}
+
+\begin{frame}{The Mamdani Model: Intuitive \& Linguistic}
+    \begin{block}{Key Concept: The output of each rule is a FUZZY SET.}
+        This model is excellent at capturing expert knowledge in a human-like, linguistic way.
+    \end{block}
+
+            \textbf{Rule Structure:}
+            \begin{alertblock}{IF-THEN}
+                IF \textit{service} is \textbf{good} \\
+                AND \textit{food} is \textbf{tasty} \\
+                THEN \textit{tip} is \textbf{generous}.
+            \end{alertblock}
+            \textbf{Process:}
+            \begin{enumerate}
+                \item Evaluate the "IF" part (antecedent).
+                \item "Clip" or "scale" the output fuzzy set (\textit{generous}).
+                \item Aggregate all output fuzzy sets from all rules.
+                \item \textbf{Defuzzify} the final aggregate shape to get a single crisp number (e.g., using Centroid).
+            \end{enumerate}
+            
+\end{frame}
+
+\begin{frame}{The Mamdani Model: Intuitive \& Linguistic}
+
+\begin{figure}
+                \centering
+                \includegraphics[width=0.6\textwidth]{mamdani.png} 
+            \end{figure}
+            \begin{block}{Note:}
+                The defuzzification step (e.g., Centroid) is computationally expensive, especially with many rules or complex shapes.
+            \end{block}
+\end{frame} 
+%----------------------------------------------------------------------------------------
+
+\begin{frame}{The Sugeno (TSK) Model: Computational \& Precise}
+    \begin{block}{Key Concept: The output of each rule is a MATH FUNCTION (a constant or linear polynomial).}
+        This model is computationally efficient and works very well for control systems and data-driven modeling (like ANFIS).
+    \end{block}
+
+            
+            \begin{exampleblock}{IF-THEN \textbf{Rule Structure (Zero-Order):}}
+                 IF \textit{service} is \textbf{good} \\
+                 AND \textit{food} is \textbf{tasty} \\
+                 THEN \textit{tip} = \textbf{20\%}.
+            \end{exampleblock}
+            
+           
+            \begin{exampleblock}{IF-THEN  \textbf{Rule Structure (First-Order):}}
+                 IF \textit{service} is \textbf{good} \\
+                 AND \textit{food} is \textbf{tasty} \\
+                 THEN \textit{tip} = \textbf{c1*service + c2*food + k}.
+            \end{exampleblock}
+            
+\end{frame}
+
+\begin{frame}{The Sugeno (TSK) Model: Computational \& Precise}
+
+\begin{figure}
+                \centering
+                \includegraphics[width=0.6\textwidth]{sugeno.png} % Replace with an image illustrating the Sugeno process
+            \end{figure}
+            \begin{block}{Note:}
+                The Sugeno model is very efficient and fast, making it ideal for real-time applications.
+            \end{block}
+\end{frame} 
+
+%----------------------------------------------------------------------------------------
+
+\begin{frame}{Mamdani vs. Sugeno}
+    \begin{table}
+    \centering
+    \footnotesize
+    \begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}
+        \toprule
+        \textbf{\textcolor{blue}{Mamdani}} & \textbf{\textcolor{red}{Sugeno (TSK)}} \\
+        \midrule
+        \end{tabular}
+        \begin{adjustbox}{width=\textwidth, valign=t}
+        \begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}
+        \textbf{Rule Output (Consequent)} & \\
+        A Fuzzy Set. & A mathematical function (constant or linear). \\
+        \textit{"tip is \textbf{generous}"} & \textit{"tip = \textbf{20}" or "tip = f(x,y)"} \\
+        \midrule
+        \textbf{Final Output Aggregation} & \\
+        The aggregate of all output fuzzy sets. & A weighted average of each rule's crisp output. \\
+        \midrule
+        \textbf{Final Output Type} & \\
+        Fuzzy. Requires \textbf{defuzzification} (e.g., Centroid) to get a crisp number. & Crisp. No defuzzification needed. \\
+        \midrule
+        \textbf{Best For} & \\
+        Capturing human expert knowledge. Systems where the output needs to be linguistically interpretable. & Control systems, data-driven modeling, optimization problems (\texttt{ANFIS}, \texttt{tunefis}). \\
+        \midrule
+        \textbf{Computational Cost} & \\
+        Higher. The defuzzification step is computationally expensive. & Lower. Very efficient and fast. \\
+        \bottomrule
+    \end{tabular}
+    \end{adjustbox}
+    \caption{Key differences between the two main FIS models.}
+    \end{table}
+\end{frame}
+\end{document}
+

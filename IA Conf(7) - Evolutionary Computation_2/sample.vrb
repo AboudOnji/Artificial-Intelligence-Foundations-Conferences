@@ -1,0 +1,18 @@
+\frametitle{Límites y Restricciones No Lineales}
+
+            \begin{alertblock}{Restricciones No Lineales}
+                 Para restricciones complejas no lineales, se debe crear una función aparte.
+                \begin{lstlisting}
+% Funcion que define las restricciones
+function [c, ceq] = ellipsecons(x)
+    % Desigualdad: c(x) <= 0
+    c = 2*x(1)^2 + x(2)^2 - 3;
+    % Igualdad: ceq(x) = 0
+    ceq = (x(1)+1)^2 - (x(2)/2)^4;
+end
+
+% Llamada a ga con el manejador @ellipsecons
+nonlcon = @ellipsecons;
+x = ga(fun, 2, [],[],[],[],[],[], nonlcon);
+                \end{lstlisting}
+            \end{alertblock}

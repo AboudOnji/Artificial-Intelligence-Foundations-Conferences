@@ -1,0 +1,386 @@
+\documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
+\usetheme{Berlin}
+
+\usepackage[spanish]{babel} % Cambiado a español para acentos y textos automáticos
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{lettrine}
+\setbeamertemplate{caption}[numbered]
+\usepackage[dvipsnames,svgnames,x11names]{xcolor}
+\usepackage{xurl}
+\usepackage{hyperref}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{adjustbox}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=cyan, % Color más visible en temas oscuros
+    filecolor=blue,
+    urlcolor=blue,
+    citecolor=blue,
+}
+%----------------------------------------------------------------------------------------
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.97,0.97,0.99}
+
+\lstdefinestyle{MATLABStyle}{
+  language=Matlab,
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{blue}\bfseries,
+  commentstyle=\color{codegreen},
+  stringstyle=\color{violet},
+  numberstyle=\tiny\color{gray},
+  breakatwhitespace=false,
+  breaklines=true,
+  captionpos=b,
+  keepspaces=true,
+  numbers=left,
+  numbersep=5pt,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  tabsize=2,
+  frame=lines,
+  framerule=0.4pt,
+  backgroundcolor=\color{backcolour}
+}
+\lstset{style=MATLABStyle}
+%----------------------------------------------------------------------------------------
+%   TITLE PAGE
+\title{Redes Neuronales Artificiales: \\ Fundamentos y Aplicaciones}
+\author{Prof. Dr. BARSEKH-ONJI Aboud}
+\institute{{Universidad Anáhuac México}\\{Facultad de Ingeniería}}
+\date{\today}
+% Important to Code - Configuraciones para listings, si se usara código
+\lstset{
+language=MATLAB, % Cambiado a MATLAB
+basicstyle=\small\ttfamily, % Fuente y tamaño del código
+keywordstyle=\color{blue}\bfseries, % Estilo de las palabras clave
+commentstyle=\color{green}\itshape, % Estilo de los comentarios
+stringstyle=\color{red}, % Estilo de las cadenas
+showspaces=false, % No mostrar espacios como caracteres especiales
+showtabs=false, % No mostrar tabulaciones como caracteres especiales
+ breaklines=true, % Habilitar saltos de línea automáticos
+numbers=left, % Mostrar números de línea a la izquierda
+numberstyle=\tiny\color{gray}, % Estilo de los números de línea
+frame=topbot, % Poner un marco alrededor del código (otras opciones: leftline, topbot, etc.)
+framesep=5pt, % Espacio entre el marco y el código
+rulesep=5pt, % Espacio entre los números de línea y el código
+backgroundcolor=\color{blue!10}, % Color de fondo (requiere xcolor)
+rulecolor=\color{black} % Color del marco
+}
+
+\begin{document}
+
+% Diapositiva 1: Título y Bienvenida
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\begin{frame}
+    \frametitle{Contenido}
+    \tableofcontents
+\end{frame} 
+\section{Introducción}
+% Diapositiva 2: ¿Por qué Redes Neuronales Artificiales? Conexión con lo Visto
+\begin{frame}{¿Por qué Redes Neuronales Artificiales?}
+    \begin{itemize}
+        \item Ya conocen algoritmos de Clasificación y Regresión (SVM, Árboles, etc.).
+        \item También han explorado la inspiración biológica (Algoritmos Genéticos).
+        \item Los problemas complejos a menudo requieren modelos que aprendan patrones no lineales.
+        \item Las ANNs son potentes para modelar relaciones complejas en datos de alta dimensión.
+    \end{itemize}
+\end{frame}
+\begin{frame}{ejemplo: Datos No Linealmente Separables}  
+
+    
+    \centering
+    \includegraphics[width=1.1\textwidth]{fig1.jpg}  
+\end{frame}
+
+% Diapositiva 3: La Neurona Artificial: La Unidad Básica
+
+\begin{frame}{Diagrama de una red neuronal}
+     \centering
+    \includegraphics[width=\textwidth]{fig2.png} 
+\end{frame}
+\section{La Neurona Artificial}
+\begin{frame}{La Neurona Artificial: La Unidad Básica}
+    \begin{itemize}
+        \item Inspirada en la neurona biológica (dendritas, soma, axón).
+        \item Modelo matemático simple:
+        \item Entradas: $x_1, x_2, ..., x_n$
+        \item Pesos: $w_1, w_2, ..., w_n$ (fuerza de la conexión)
+        \item Suma Ponderada: $z = \sum_{i=1}^{n} w_i x_i + b$ (con bias $b$)
+        \item Función de Activación: $f$
+        \item Salida: $y = f(z)$
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}{Diagrama de una red neuronal}
+     \centering
+    \includegraphics[width=1.1\textwidth]{fig3.png} 
+\end{frame}
+
+% Diapositiva 4: Funciones de Activación Comunes
+\begin{frame}{Funciones de Activación Comunes}
+    \begin{itemize}
+        \item Introducen no-linealidad, permitiendo aprender patrones complejos.
+        \item Algunas comunes:
+        \item \textbf{Sigmoide (Logística):} $f(z) = \frac{1}{1 + e^{-z}}$ \\ (Salida entre 0 y 1)
+        \item \textbf{Tangente Hiperbólica (tanh):} $f(z) = \frac{e^z - e^{-z}}{e^z + e^{-z}}$ \\ (Salida entre -1 y 1)
+        \item \textbf{ReLU (Rectified Linear Unit):} $f(z) = \max(0, z)$ \\ (Muy popular, eficiente)
+    \end{itemize}
+
+\end{frame}
+\begin{frame}{Funciones de Activación Comunes}
+\centering
+    \includegraphics[width=1.1\textwidth]{fig41.jpg}
+\end{frame}
+% Diapositiva 5: Arquitectura de la Red Neuronal: Capas
+\section{Arquitectura de ANN}
+\begin{frame}{Arquitectura de la Red Neuronal: Capas}
+    \begin{itemize}
+        \item Las neuronas se organizan en capas.
+        \item \textbf{Capa de Entrada:} Recibe los datos brutos.
+        \item \textbf{Capas Ocultas:} Procesan la información (una o más). Aquí ocurre la magia de aprender representaciones complejas.
+        \item \textbf{Capa de Salida:} Produce el resultado final de la red.
+        \item La 'profundidad' de la red se refiere al número de capas ocultas.
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}{Arquitectura de la Red Neuronal: Capas}
+\centering
+    \includegraphics[width=0.6\textwidth]{fig6.png}
+\end{frame}
+
+\begin{frame}{Arquitectura de la Red Neuronal: Capas}
+\centering
+    \includegraphics[width=0.75\textwidth]{fig7.png}
+\end{frame}
+
+% Diapositiva 6: Tipos de Arquitecturas (Básicas)
+\begin{frame}{Tipos de Arquitecturas (Básicas)}
+    \begin{itemize}
+        \item \textbf{Perceptrón:} Una sola capa de salida (sin capa oculta). Limitado a problemas linealmente separables.
+        \item \textbf{Perceptrón Multicapa (MLP):} Con una o más capas ocultas.
+        \begin{itemize}
+            \item Arquitectura 'Feedforward': La información fluye solo hacia adelante.
+            \item Capaces de aproximar cualquier función continua (Teorema de Aproximación Universal).
+        \end{itemize}
+        \item Existen otras arquitecturas para tareas específicas (CNN, RNN - para cursos avanzados).
+    \end{itemize}
+
+    \vspace{0.5cm}
+    
+\end{frame}
+\section{Entrenamiento de ANN}
+% Diapositiva 7: ¿Cómo Aprende una Red Neuronal? El Proceso de Entrenamiento
+\begin{frame}{¿Cómo Aprende una Red Neuronal? Entrenamiento}
+    \begin{itemize}
+        \item El objetivo es ajustar los pesos ($w$) y bias ($b$).
+        \item Se busca minimizar el error entre la salida de la red y la salida deseada.
+        \item \textbf{Función de Costo (o Pérdida):} Mide qué tan mal lo está haciendo la red (ej. MSE, Cross-Entropy).
+        \item Queremos encontrar los $w$ y $b$ que minimizan esta función de costo.
+    \end{itemize}
+
+\end{frame}
+\subsection{Descenso de Gradiente: El Motor del Aprendizaje}
+% Diapositiva 8: Descenso de Gradiente: El Motor del Aprendizaje
+\begin{frame}{Descenso de Gradiente: El Motor del Aprendizaje}
+    \begin{itemize}
+        \item Algoritmo de optimización iterativo.
+        \item Ajusta los parámetros ($w$, $b$) en la dirección opuesta al gradiente de la función de costo.
+        \item El gradiente indica la dirección de máximo aumento de la función.
+        \item Queremos 'descender' en la superficie de costo.
+        \item \textbf{Tasa de Aprendizaje ($\alpha$):} Controla el tamaño del paso en cada iteración.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Ilustración conceptual del descenso de gradiente en 2D}
+\centering
+    \includegraphics[width=0.6\textwidth]{fig8.jpg}
+\end{frame}
+\subsection{Backpropagation: Calculando los Gradientes}
+% Diapositiva 9: Backpropagation (Retropropagación): Calculando los Gradientes
+\begin{frame}{Backpropagation: Calculando los Gradientes}
+    \begin{itemize}
+        \item Algoritmo eficiente para calcular los gradientes en redes multicapa.
+        \item Proceso en dos fases:
+        \item \textbf{1. Forward Pass:} Calcular la salida de la red para una entrada dada.
+        \item \textbf{2. Backward Pass:} Calcular el error en la capa de salida y propagarlo hacia atrás.
+        \item Se usa la regla de la cadena del cálculo para encontrar la contribución de cada peso/bias al error total.
+        \item Permite saber cómo ajustar cada peso y bias para reducir el error.
+    \end{itemize}
+
+    \vspace{0.5cm}
+    % Figura: Diagrama ilustrando Forward y Backward Pass
+    % \centering
+    % \includegraphics[width=0.9\textwidth]{figures/backpropagation_flow.png}
+    % Describir la figura: 'Flujo de información durante el forward pass y el backward pass para calcular gradientes.'
+\end{frame}
+\subsection{Hiperparámetros Importantes}
+% Diapositiva 10: Hiperparámetros Importantes
+\begin{frame}{Hiperparámetros Importantes}
+    \begin{itemize}
+        \item Parámetros que NO se aprenden, se configuran antes del entrenamiento.
+        \item Influyen crucialmente en el rendimiento de la red.
+        \item Ejemplos:
+        \begin{itemize}
+            \item Número de capas ocultas y neuronas por capa.
+            \item Función de activación.
+            \item Tasa de aprendizaje ($\alpha$).
+            \item Número de épocas (iteraciones de entrenamiento).
+            \item Tamaño del batch.
+        \end{itemize}
+        \item La validación cruzada ayuda a seleccionarlos (conexión con conocimiento previo).
+    \end{itemize}
+\end{frame}
+
+% Diapositiva 11: Sobreajuste (Overfitting) y Cómo Mitigarlo
+\begin{frame}{Sobreajuste (Overfitting) y Mitigación}
+    \begin{itemize}
+        \item La red aprende demasiado bien los datos de entrenamiento, pero generaliza mal a datos nuevos.
+        \item Señal de que el modelo es demasiado complejo para la cantidad de datos.
+        \item Técnicas para mitigar (breve mención):
+        \begin{itemize}
+            \item Regularización (L1, L2).
+            \item Dropout.
+            \item Detención temprana (Early Stopping).
+        \end{itemize}
+    \end{itemize}
+
+    \vspace{0.5cm}
+    % Figura: Gráfica de Error de Entrenamiento vs. Validación mostrando overfitting
+    % \centering
+    % \includegraphics[width=0.7\textwidth]{figures/overfitting_graph.png}
+    % Describir la figura: 'Gráfica típica mostrando cómo el error de validación aumenta mientras el error de entrenamiento disminuye, indicando sobreajuste.'
+\end{frame}
+\section{Aplicaciones de las ANNs}
+% Diapositiva 12: Aplicaciones de las Redes Neuronales Artificiales
+\begin{frame}{Aplicaciones de las ANNs}
+    \begin{itemize}
+        \item Extremadamente versátiles.
+        \item \textbf{Reconocimiento de Imágenes:} Clasificación, detección de objetos.
+        \item \textbf{Procesamiento del Lenguaje Natural (PLN):} Traducción, análisis de sentimiento.
+        \item \textbf{Predicción y Series de Tiempo:} Finanzas, demanda.
+        \item \textbf{Robótica y Control:} Navegación, manipulación.
+        \item \textbf{Medicina:} Diagnóstico basado en imágenes.
+        \item \textbf{Juegos:} Superando a expertos humanos.
+    \end{itemize}
+
+    \vspace{0.5cm}
+    % Figuras: Mosaico o ejemplos de varias aplicaciones (una figura por aplicación o un collage)
+    % \centering
+    % \includegraphics[width=\textwidth]{figures/nn_applications_collage.png}
+    % Describir la figura: 'Ejemplos visuales de diferentes áreas donde las ANNs son aplicadas.'
+\end{frame}
+
+% Diapositiva 13: ANNs en MATLAB
+\begin{frame}{ANNs en MATLAB}
+    \begin{itemize}
+        \item MATLAB cuenta con herramientas poderosas para ANNs.
+        \item \textbf{Neural Network Toolbox} (o Deep Learning Toolbox).
+        \item Permite:
+        \begin{itemize}
+            \item Crear diferentes arquitecturas de red.
+            \item Configurar parámetros y funciones de activación.
+            \item Entrenar redes con varios algoritmos de optimización.
+            \item Evaluar y visualizar el rendimiento.
+        \end{itemize}
+        \item Funciones clave: \texttt{feedforwardnet}, \texttt{train}, \texttt{sim}, \texttt{plotperform}.
+    \end{itemize}
+
+    \vspace{0.5cm}
+    % Figura: Captura de pantalla del NN Toolbox de MATLAB (si es posible) o ícono del toolbox.
+    % \centering
+    % \includegraphics[width=0.8\textwidth]{figures/matlab_nn_toolbox.png}
+    % Describir la figura: 'Entorno de MATLAB para trabajar con redes neuronales.'
+\end{frame}
+
+
+\begin{frame}{Ejemplo en MATLAB}
+    \begin{enumerate}
+        \item \textbf{Preparación de Datos:}
+        \begin{itemize}
+            \item Generar o cargar el conjunto de datos (Ej: Espirales).
+            \item Organizar entradas (X) y salidas objetivo (T).
+        \end{itemize}
+
+        \item \textbf{Creación de la Red:}
+        \begin{itemize}
+            \item Definir la arquitectura (Ej: \texttt{feedforwardnet}).
+            \item Especificar número de neuronas en capas ocultas.
+            \item Configurar funciones de activación y división de datos.
+        \end{itemize}
+
+        \item \textbf{Entrenamiento:}
+        \begin{itemize}
+            \item Usar la función \texttt{train(net, X, T)}.
+            \item La red ajusta pesos y bias iterativamente (Descenso de Gradiente, Backpropagation).
+        \end{itemize}
+
+        \item \textbf{Evaluación:}
+        \begin{itemize}
+            \item Usar la función \texttt{sim(net, X\_test)} en datos no vistos.
+            \item Calcular métricas de rendimiento (Ej: Precisión, Matriz de Confusión).
+            \item Visualizar resultados (Ej: \texttt{plotperform}, \texttt{plotconfusion}).
+        \end{itemize}
+
+        \item \textbf{Visualización de Frontera (Opcional):}
+    \end{enumerate}
+\end{frame} 
+\begin{frame}{Conjunto de datos}
+   \centering
+    \includegraphics[width=0.6\textwidth]{fig9.jpg} 
+\end{frame}
+
+\section{Ventajas y Desventajas de las ANNs}
+\begin{frame}{Ventajas y Desventajas}
+    \begin{columns}
+        \column{0.5\textwidth}
+        \textbf{Ventajas:}
+        \begin{itemize}
+            \item Modelado de relaciones no lineales complejas.
+            \item Robustas a datos ruidosos/incompletos.
+            \item Alta capacidad de generalización.
+            \item Útiles para datos de alta dimensión.
+        \end{itemize}
+        \column{0.5\textwidth}
+        \textbf{Desventajas:}
+        \begin{itemize}
+            \item 'Caja Negra' (dificultad de interpretación).
+            \item Requieren grandes cantidades de datos.
+            \item Entrenamiento computacionalmente costoso.
+            \item Selección de hiperparámetros a veces empírica.
+        \end{itemize}
+    \end{columns}
+\end{frame}
+\section{Conclusiones y futuro de las ANN}
+% Diapositiva 15: Conclusiones y Futuro
+\begin{frame}{Conclusiones y Futuro}
+    \begin{itemize}
+        \item Las ANNs son modelos potentes inspirados biológicamente.
+        \item Compuestas por neuronas artificiales, organizadas en capas.
+        \item Aprenden ajustando pesos y bias, típicamente con Descenso de Gradiente y Backpropagation.
+        \item Amplias aplicaciones en diversos campos.
+        \item MATLAB es una herramienta útil para experimentar con ANNs.
+        \item El campo del Deep Learning sigue en constante evolución.
+    \end{itemize}
+
+
+\end{frame}
+
+
+
+\end{document}

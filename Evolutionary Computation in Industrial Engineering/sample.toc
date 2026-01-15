@@ -1,0 +1,14 @@
+\babel@toc {spanish}{}\relax 
+\beamer@sectionintoc {1}{La Inteligencia Computacional y la Inteligencia artificial generativa}{3}{0}{1}
+\beamer@sectionintoc {2}{Introducción: La Nueva Frontera de la Optimización}{6}{0}{2}
+\beamer@sectionintoc {3}{Terminología de los Problemas de Optimización}{12}{0}{3}
+\beamer@subsectionintoc {3}{1}{Problema de Optimización: Maximización de Producción}{20}{0}{3}
+\beamer@subsectionintoc {3}{2}{Modelo de Cantidad Económica de Pedido (EOQ) con Descuentos por Cantidad.}{24}{0}{3}
+\beamer@sectionintoc {4}{El nuevo rol del Ingeniero Industrial}{29}{0}{4}
+\beamer@sectionintoc {5}{Introducción a la Computación Evolutiva}{31}{0}{5}
+\beamer@sectionintoc {6}{Principios en la biología}{37}{0}{6}
+\beamer@sectionintoc {7}{Pioneros y Paradigmas Computacionales}{40}{0}{7}
+\beamer@subsectionintoc {7}{1}{Ejemplo de Aplicación: Optimización de Función}{45}{0}{7}
+\beamer@sectionintoc {8}{Algoritmos Genéticos (AG)}{49}{0}{8}
+\beamer@subsectionintoc {8}{1}{El Algoritmo Genético Canónico}{51}{0}{8}
+\beamer@subsectionintoc {8}{2}{Aplicación del Algoritmo Genético}{61}{0}{8}

@@ -1,0 +1,22 @@
+\babel@toc {spanish}{}\relax 
+\beamer@sectionintoc {1}{Introducción a la Computación Evolutiva}{2}{0}{1}
+\beamer@subsectionintoc {1}{1}{Antecedentes Históricos y Fundamentos Biológicos}{5}{0}{1}
+\beamer@subsectionintoc {1}{2}{Pioneros y Paradigmas Computacionales}{8}{0}{1}
+\beamer@sectionintoc {2}{Programación Evolutiva (EP)}{13}{0}{2}
+\beamer@subsectionintoc {2}{1}{Algoritmo y Representación}{15}{0}{2}
+\beamer@sectionintoc {3}{Estrategias Evolutivas (ES)}{18}{0}{3}
+\beamer@subsectionintoc {3}{1}{Evolución de las Estrategias}{20}{0}{3}
+\beamer@subsectionintoc {3}{2}{Ejemplo de Aplicación: Optimización de Función}{21}{0}{3}
+\beamer@sectionintoc {4}{Algoritmos Genéticos (AG)}{26}{0}{4}
+\beamer@subsectionintoc {4}{1}{El Algoritmo Genético Canónico}{28}{0}{4}
+\beamer@subsectionintoc {4}{2}{Operadores de Cruce (Crossover)}{32}{0}{4}
+\beamer@subsubsectionintoc {4}{2}{1}{Cruce para Representaciones Binarias}{33}{0}{4}
+\beamer@subsubsectionintoc {4}{2}{2}{Cruce para Representaciones de Punto Flotante}{36}{0}{4}
+\beamer@subsubsectionintoc {4}{2}{3}{Operadores de Cruce Multiparentales}{40}{0}{4}
+\beamer@subsectionintoc {4}{3}{Operadores de Mutación}{46}{0}{4}
+\beamer@subsubsectionintoc {4}{3}{1}{Mutación para Representaciones Binarias}{47}{0}{4}
+\beamer@subsubsectionintoc {4}{3}{2}{Mutación para Representaciones de Punto Flotante}{51}{0}{4}
+\beamer@subsubsectionintoc {4}{3}{3}{Operador de Macromutación: Gallina sin Cabeza}{52}{0}{4}
+\beamer@subsectionintoc {4}{4}{Variantes de Algoritmos Genéticos}{54}{0}{4}
+\beamer@subsubsectionintoc {4}{4}{1}{Algoritmos Genéticos 'Messy' (mGA)}{55}{0}{4}
+\beamer@subsubsectionintoc {4}{4}{2}{Evolución Interactiva (EI)}{58}{0}{4}

@@ -1,0 +1,6 @@
+\babel@toc {spanish}{}\relax 
+\beamer@sectionintoc {1}{De los Números a la Acción}{3}{0}{1}
+\beamer@sectionintoc {2}{¿Qué es el Análisis de Sentimientos?}{6}{0}{2}
+\beamer@sectionintoc {3}{El Algoritmo VADER}{9}{0}{3}
+\beamer@sectionintoc {4}{Ejemplo Práctico en MATLAB}{12}{0}{4}
+\beamer@sectionintoc {5}{Conclusiones y Próximos Pasos}{18}{0}{5}

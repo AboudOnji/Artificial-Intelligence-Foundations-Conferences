@@ -1,0 +1,606 @@
+\documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
+\usetheme{Berlin}
+
+\usepackage[spanish]{babel} % Cambiado a español para acentos y textos automáticos
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{lettrine}
+\setbeamertemplate{caption}[numbered]
+\usepackage[dvipsnames,svgnames,x11names]{xcolor}
+\usepackage{xurl}
+\usepackage{hyperref}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{adjustbox}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=cyan, % Color más visible en temas oscuros
+    filecolor=blue,
+    urlcolor=blue,
+    citecolor=blue,
+}
+%----------------------------------------------------------------------------------------
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.97,0.97,0.99}
+
+\lstdefinestyle{MATLABStyle}{
+  language=Matlab,
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{blue}\bfseries,
+  commentstyle=\color{codegreen},
+  stringstyle=\color{violet},
+  numberstyle=\tiny\color{gray},
+  breakatwhitespace=false,
+  breaklines=true,
+  captionpos=b,
+  keepspaces=true,
+  numbers=left,
+  numbersep=5pt,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  tabsize=2,
+  frame=lines,
+  framerule=0.4pt,
+  backgroundcolor=\color{backcolour}
+}
+\lstset{style=MATLABStyle}
+
+\lstset{
+language=MATLAB, % Cambiado a MATLAB
+basicstyle=\small\ttfamily, % Fuente y tamaño del código
+keywordstyle=\color{blue}\bfseries, % Estilo de las palabras clave
+commentstyle=\color{codegreen}\itshape, % Estilo de los comentarios
+stringstyle=\color{red}, % Estilo de las cadenas
+showspaces=false, % No mostrar espacios como caracteres especiales
+showtabs=false, % No mostrar tabulaciones como caracteres especiales
+ breaklines=true, % Habilitar saltos de línea automáticos
+numbers=left, % Mostrar números de línea a la izquierda
+numberstyle=\tiny\color{gray}, % Estilo de los números de línea
+frame=topbot, % Poner un marco alrededor del código (otras opciones: leftline, topbot, etc.)
+framesep=5pt, % Espacio entre el marco y el código
+rulesep=5pt, % Espacio entre los números de línea y el código
+backgroundcolor=\color{blue!10}, % Color de fondo (requiere xcolor)
+rulecolor=\color{black} % Color del marco
+}
+
+\title{Introducción a la Inteligencia Computacional}
+\subtitle{Materia: Fundamentos de Inteligencia Artificial}
+
+
+\author{Prof. D.Sc. BARSEKH-ONJI Aboud}
+
+\institute
+{
+    Facultad de Ingeniería \\
+    Universidad Anáhuac México % Your institution for the title page
+}
+\date{\today} % Date, can be changed to a custom date
+
+%----------------------------------------------------------------------------------------
+%	PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+% Poner esto en el preámbulo
+\AtBeginSection[]
+{
+  \begin{frame}{Agenda}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+\begin{document}
+
+\begin{frame}
+    % Print the title page as the first slide
+    \titlepage
+\end{frame}
+
+%------------------------------------------------
+\section{Inteligencia Artificial e Inteligencia Computacional}
+%------------------------------------------------
+
+\begin{frame}{Definiendo la Inteligencia}
+    \begin{block}{Punto de Partida: La Inteligencia Humana}
+    La inteligencia humana es un espectro de capacidades cognitivas: razonamiento, aprendizaje, resolución de problemas, percepción, lenguaje y creatividad. Trasladar esto a una máquina es un desafío complejo.
+    \end{block}
+    
+    \begin{alertblock}{Definiciones de Inteligencia Artificial (IA)}
+    Existen diferentes enfoques para definir la IA:
+        \begin{itemize}
+            \item \textbf{Enfoque Humano:} Sistemas que piensan o actúan como humanos.
+            \item \textbf{Enfoque Racional:} Sistemas que piensan o actúan racionalmente. El enfoque del \textbf{agente racional}, que toma la mejor decisión posible dada la información disponible, ha ganado gran tracción en la investigación.
+        \end{itemize}
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{La Prueba de Turing (1950)}
+    \begin{block}{Un Punto de Inflexión Histórico}
+    Propuesta por Alan Turing, busca responder a la pregunta: ¿pueden pensar las máquinas?
+    \begin{itemize}
+        \item \textbf{El Juego:} Un evaluador humano se comunica por texto con dos entidades ocultas: una máquina y un humano.
+        \item \textbf{El Veredicto:} Si el evaluador no puede distinguir de manera fiable cuál es la máquina, se dice que esta ha superado la prueba y exhibe un comportamiento inteligente.
+    \end{itemize}
+    \end{block}
+    
+    \begin{alertblock}{Críticas y Debate}
+    Aunque es un referente cultural, la prueba ha sido muy debatida. Argumentos como la 'Habitación China' de John Searle cuestionan si realmente mide la \textbf{comprensión genuina} o solo una \textbf{simulación sofisticada} del lenguaje.
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Inteligencia Computacional (IC)}
+    \begin{block}{Definición}
+    La IC es 'el estudio de mecanismos \textbf{adaptativos} para permitir o facilitar el comportamiento inteligente en entornos complejos y cambiantes'. El énfasis está en la \textbf{adaptación} y el \textbf{aprendizaje}.
+    \end{block}
+    
+    \begin{alertblock}{Habilidades Centrales de los Sistemas de IC}
+    Estos sistemas demuestran una habilidad intrínseca para:
+        \begin{itemize}
+            \item Aprender de la experiencia.
+            \item Adaptarse a nuevas situaciones.
+            \item Generalizar el conocimiento a casos no vistos.
+            \item Descubrir patrones ocultos en los datos.
+        \end{itemize}
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{IA vs. IC: Un Enfoque Distintivo}
+    \begin{columns}[t]
+        \column{.48\textwidth}
+            \begin{block}{Inteligencia Artificial (General)}
+                Es un campo amplio que también abarca enfoques simbólicos, lógicos y basados en el conocimiento explícito, como los sistemas expertos clásicos.
+            \end{block}
+
+        \column{.48\textwidth}
+            \begin{alertblock}{Inteligencia Computacional (Específico)}
+                 Es una rama de la IA con un enfoque distintivo en algoritmos a menudo \textbf{inspirados en la naturaleza}. Se centra en paradigmas como:
+                 \begin{itemize}
+                    \item Redes Neuronales Artificiales
+                    \item Computación Evolutiva
+                    \item Lógica Difusa
+                    \item Inteligencia de Enjambre
+                \end{itemize}
+            \end{alertblock}
+    \end{columns}
+\end{frame}
+%------------------------------------------------
+\section{Ramas Principales de la Inteligencia Artificial}
+%------------------------------------------------
+
+\begin{frame}{Aprendizaje Automático de Máquina (Machine Learning)}
+    \begin{block}{Definición}
+    El Aprendizaje Automático (ML) es una rama de la IA cuyo objetivo es desarrollar modelos que permitan a los sistemas informáticos mejorar su rendimiento en una tarea a través de la experiencia, es decir, \textbf{aprendiendo de los datos} sin necesidad de ser programados explícitamente para cada detalle.
+    \end{block}
+    
+    \begin{alertblock}{Concepto Clave: Generalización}
+    Es la capacidad de un modelo de ML para funcionar bien y hacer predicciones precisas con \textbf{datos no vistos previamente}. Es el objetivo crucial del proceso de aprendizaje.
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+\subsection{Aprendizaje Automático de Máquina}
+%------------------------------------------------
+
+\begin{frame}{Principales Categorías de Aprendizaje Automático}
+    \begin{columns}[t]
+        \column{.32\textwidth}
+            \begin{block}{Aprendizaje Supervisado}
+            El algoritmo aprende de datos \textbf{etiquetados}, donde cada entrada tiene una salida correcta conocida. El objetivo es predecir la salida para nuevas entradas.
+            \end{block}
+        \column{.32\textwidth}
+            \begin{alertblock}{Aprendizaje No Supervisado}
+            El algoritmo trabaja con datos \textbf{sin etiquetar}. El objetivo es descubrir patrones, estructuras o agrupaciones inherentes en los datos.
+            \end{alertblock}
+        \column{.32\textwidth}
+            \begin{block}{Aprendizaje por Refuerzo}
+            Un agente aprende a tomar decisiones interactuando con un \textbf{entorno}. El objetivo es aprender una estrategia que maximice una \textbf{recompensa} acumulada.
+            \end{block}
+    \end{columns}
+    
+   
+\end{frame}
+\begin{frame}{Principales Categorías de Aprendizaje Automático}
+ \begin{figure}
+        \centering
+        \includegraphics[width=0.8\linewidth]{Figuras/Cap1/fig1.png}
+        \caption{Paradigmas del Aprendizaje Automático.}
+        \label{fig:1}
+    \end{figure}
+\end{frame}
+%------------------------------------------------
+
+\begin{frame}{Aprendizaje Supervisado: Aprender con un Maestro}
+    \begin{block}{Analogía}
+    Es como enseñarle a un niño la diferencia entre un perro y un gato: le muestras fotos etiquetadas ('esto es un perro', 'esto es un gato') y supervisas su aprendizaje. El modelo aprende a mapear una entrada (imagen) a una salida (etiqueta).
+    \end{block}
+    
+    \begin{alertblock}{Tareas Típicas}
+        \begin{itemize}
+            \item \textbf{Clasificación:} Predecir una etiqueta categórica.
+                \begin{itemize}
+                    \item Ej: 'spam' o 'no spam', tipo de animal en una foto.
+                \end{itemize}
+            \item \textbf{Regresión:} Predecir un valor continuo.
+                \begin{itemize}
+                    \item Ej: precio de una casa, temperatura de mañana.
+                \end{itemize}
+        \end{itemize}
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Aprendizaje No Supervisado y por Refuerzo}
+    \begin{columns}[t]
+        \column{.48\textwidth}
+            \begin{block}{Aprendizaje No Supervisado}
+            \frametitle{Encontrar Estructura Oculta}
+                El algoritmo explora datos sin etiquetar para encontrar patrones por sí mismo.
+                \begin{itemize}
+                    \item \textbf{Agrupamiento (Clustering):} Descubrir grupos naturales en los datos (e.g., segmentar clientes por comportamiento de compra).
+                    \item \textbf{Reducción de Dimensionalidad:} Encontrar representaciones más compactas de los datos.
+                \end{itemize}
+            \end{block}
+
+        \column{.48\textwidth}
+            \begin{alertblock}{Aprendizaje por Refuerzo}
+            \frametitle{Aprender por Prueba y Error}
+                Un agente aprende interactuando con un entorno. No recibe 'respuestas correctas', sino señales de \textbf{recompensa} o \textbf{castigo} por sus acciones, buscando maximizar la recompensa a largo plazo.
+                \begin{itemize}
+                    \item \textbf{Ejemplo Clásico:} Un programa que aprende a jugar ajedrez o Go.
+                \end{itemize}
+            \end{alertblock}
+    \end{columns}
+\end{frame}
+
+%------------------------------------------------
+\subsection{Aprendizaje Profundo}
+%------------------------------------------------
+
+\begin{frame}{Aprendizaje Profundo (Deep Learning)}
+    \begin{block}{Definición}
+    El Aprendizaje Profundo (DL) es una rama del Aprendizaje Automático caracterizada por el uso de \textbf{Redes Neuronales Artificiales (ANN)} con múltiples capas de procesamiento, conocidas como arquitecturas 'profundas'.
+    \end{block}
+    
+    \begin{alertblock}{La Fuerza de la Profundidad: Aprendizaje Jerárquico}
+    La 'profundidad' se refiere al número de capas a través de las cuales se transforman los datos. Esta estructura jerárquica permite que el modelo aprenda características complejas de forma incremental: las primeras capas aprenden rasgos simples (como bordes en una imagen) y las capas posteriores los combinan para formar conceptos más abstractos (como rostros).
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Aplicaciones y Desafíos del Aprendizaje Profundo}
+
+            \begin{block}{Avances Espectaculares}
+            El DL ha sido el motor de revoluciones en dominios como:
+                \begin{itemize}
+                    \item \textbf{Visión por Computadora:} Clasificación de imágenes y detección de objetos con Redes Neuronales Convolucionales (CNNs).
+                    \item \textbf{Procesamiento del Lenguaje Natural (NLP):} Traducción y generación de texto con \textit{Transformers}.
+                    \item \textbf{Reconocimiento de Voz.}
+                    \item \textbf{Juegos y Control:} Agentes con nivel sobrehumano en juegos como Go (AlphaGo).
+                \end{itemize}
+            \end{block}
+
+
+           
+
+\end{frame}
+\begin{frame}{Aplicaciones y Desafíos del Aprendizaje Profundo}
+
+ \begin{alertblock}{El Gran Desafío: La 'Caja Negra'}
+                A pesar de su efectividad, los modelos de DL a menudo son 'cajas negras' imposibles de interpretar. No podemos saber con certeza por qué toman una decisión específica.
+                
+                \vspace{1em}
+                Esta falta de interpretabilidad es un limitante en áreas críticas y ha dado origen a un nuevo campo de investigación: la \textbf{Inteligencia Artificial Explicable (XAI)}.
+            \end{alertblock}
+\end{frame}
+%------------------------------------------------
+\subsection{Modelos de Lenguaje y Procesamiento del Lenguaje Natural (NLP)}
+%------------------------------------------------
+
+\begin{frame}{NLP y Modelos de Lenguaje}
+    \begin{columns}[t]
+        \column{.48\textwidth}
+            \begin{block}{Procesamiento del Lenguaje Natural (NLP) ��️}
+                Es una rama de la IA que se ocupa de la interacción entre las computadoras y el lenguaje humano.
+                
+                \vspace{1em}
+                \textbf{Objetivo:} Permitir que las máquinas procesen, comprendan, generen y respondan al lenguaje humano de manera útil y significativa.
+            \end{block}
+
+        \column{.48\textwidth}
+            \begin{alertblock}{Modelos de Lenguaje (LMs)}
+                 Son el componente central del NLP. Un LM es un modelo probabilístico que, dado un contexto, predice cuál es la siguiente palabra más probable en una secuencia.
+                 
+                 \vspace{1em}
+                 Pensemos en la función de autocompletar de nuestros teclados o editores de código.
+            \end{alertblock}
+    \end{columns}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{La Revolución del Aprendizaje Profundo en NLP}
+    \begin{block}{Evolución de los Modelos de Lenguaje}
+        \begin{itemize}
+            \item \textbf{LMs Tradicionales (n-gramas):} Capturan dependencias locales, pero fallan con el contexto a largo plazo. \pause
+            \item \textbf{Redes Neuronales Recurrentes (RNNs):} Primer gran avance para modelar secuencias y dependencias a más largo plazo. \pause
+            \item \textbf{Arquitectura Transformer:} Una revolución gracias a su mecanismo de 'auto-atención', que le permite ponderar la importancia de todas las palabras en una secuencia a la vez.
+        \end{itemize}
+    \end{block}
+    
+    \begin{alertblock}{Grandes Modelos de Lenguaje (LLMs)}
+    Son una manifestación de los LMs basados en Transformers, como \textbf{GPT} o \textbf{Gemini}. Se caracterizan por tener miles de millones de parámetros y ser entrenados en cantidades masivas de texto, lo que les permite aprender una comprensión general del lenguaje, el conocimiento del mundo y patrones de razonamiento.
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Usar un LLM vs. 'Hacer' Inteligencia Artificial}
+    \begin{block}{Uso de LLMs}
+    Estos modelos pueden ser ajustados para tareas específicas (\textit{fine-tuning}) o utilizados directamente mediante \textbf{ingeniería de prompts} (\textit{prompt engineering}), demostrando capacidades asombrosas en generación de texto, traducción, resumen y hasta programación.
+    \end{block}
+    
+    \begin{alertblock}{Una Distinción Importante}
+        \begin{itemize}
+            \item \textbf{Usar un LLM:} Es ser un usuario de un producto final desarrollado con IA.
+            \item \textbf{'Hacer' IA / Inteligencia Computacional:} Implica aplicar directamente un algoritmo (ML o DL) sobre una base de datos para crear un nuevo modelo inteligente. Significa tener contacto directo tanto con los datos como con los algoritmos.
+        \end{itemize}
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+\section{Tipos de Inteligencia Computacional}
+%------------------------------------------------
+
+\begin{frame}{Paradigmas de la Inteligencia Computacional (IC)}
+    \begin{block}{Enfoque Principal}
+    La Inteligencia Computacional se distingue por su enfoque en paradigmas que simulan procesos o estrategias que existen en la \textbf{naturaleza} con la finalidad de lograr \textbf{adaptación y aprendizaje}.
+    \end{block}
+    
+    \begin{alertblock}{Características Comunes de los Algoritmos de IC}
+    Todos los algoritmos que pertenecen a la IC son:
+        \begin{itemize}
+            \item \textbf{Iterativos:} Mejoran su solución a lo largo de múltiples pasos o 'generaciones'.
+            \item \textbf{Optimizadores:} Buscan resolver un problema de optimización, como minimizar un error de predicción.
+        \end{itemize}
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+\subsection{Redes Neuronales Artificiales}
+%------------------------------------------------
+
+\begin{frame}{Redes Neuronales Artificiales (ANN)}
+    \frametitle{Inspiración: El Cerebro Humano}
+    \begin{block}{Concepto}
+    Las Redes Neuronales Artificiales (ANNs) son uno de los pilares de la IC. Tratan de simular la red neuronal del cerebro humano, representando redes de neuronas artificiales interconectadas y organizadas en capas.
+    \end{block}
+    
+    \begin{columns}[c]
+        \column{.48\textwidth}
+            \begin{alertblock}{Funcionamiento Básico de una Neurona}
+                 \begin{enumerate}
+                    \item Recibe señales de entrada.
+                    \item Calcula una suma ponderada de estas entradas.
+                    \item Aplica una \textbf{función de activación} no lineal para producir una señal de salida.
+                \end{enumerate}
+            \end{alertblock}
+        \column{.48\textwidth}
+             \begin{block}{Proceso de Aprendizaje}
+                El 'aprendizaje' consiste en un algoritmo iterativo que \textbf{ajusta los pesos} de las conexiones para minimizar el error entre la salida producida por la red y la salida deseada.
+            \end{block}
+    \end{columns}
+\end{frame}
+
+%------------------------------------------------
+\subsection{Computación Evolutiva}
+%------------------------------------------------
+
+\begin{frame}{Computación Evolutiva (CE)}
+    \frametitle{Inspiración: La Evolución Biológica}
+    \begin{block}{Concepto}
+    La Computación Evolutiva es una familia de algoritmos de optimización que se inspiran directamente en la teoría de la evolución de Charles Darwin: \textbf{selección natural, herencia genética y mutación}.
+    \end{block}
+    
+    \begin{alertblock}{Funcionamiento General}
+    Estos algoritmos operan sobre una \textbf{'población'} de posibles soluciones y buscan mejorar su calidad de forma iterativa a lo largo de múltiples \textbf{'generaciones'}.
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{El Ciclo de un Algoritmo Evolutivo}
+    \begin{enumerate}
+        \item \textbf{Población Inicial:} Se genera un conjunto inicial de posibles soluciones ('cromosomas'), a menudo de forma aleatoria. \pause
+        
+        \item \textbf{Evaluación de Aptitud (\textit{Fitness}):} Cada solución es evaluada con una 'función de aptitud' que cuantifica qué tan buena es. \pause
+        
+        \item \textbf{Selección:} Las mejores soluciones ('los más aptos') son seleccionadas para ser 'padres' de la siguiente generación. \pause
+        
+        \item \textbf{Operadores Genéticos:} Se crean nuevas soluciones ('descendencia') combinando a los padres (\textbf{cruce}) e introduciendo pequeñas variaciones (\textbf{mutación}). \pause
+        
+        \item \textbf{Reemplazo:} La nueva generación de soluciones reemplaza a la anterior. \pause
+        
+        \item El ciclo se repite hasta que se cumple un criterio de terminación (e.g., número de generaciones, calidad de la solución).
+    \end{enumerate}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Principales Paradigmas de la Computación Evolutiva}
+    \begin{itemize}
+        \item \textbf{Algoritmos Genéticos (GA):} Típicamente utilizan representaciones binarias de las soluciones y enfatizan el operador de cruce. \pause
+        
+        \item \textbf{Programación Genética (GP):} Evolucionan directamente programas de computadora o expresiones matemáticas, a menudo representados como árboles. \pause
+        
+        \item \textbf{Estrategias Evolutivas (ES):} Se centran en la optimización de parámetros de valor real y a menudo auto-adaptan sus propias estrategias de mutación. \pause
+        
+        \item \textbf{Programación Evolutiva (EP):} Pone un mayor énfasis en la mutación como principal motor de la evolución, modelando la evolución a nivel de especie.
+    \end{itemize}
+\end{frame}
+
+%------------------------------------------------
+\subsection{Lógica Difusa y Sistemas Difusos}
+%------------------------------------------------
+
+\begin{frame}{Lógica Difusa: Más Allá del Verdadero y Falso}
+    \begin{columns}[t]
+        \column{.48\textwidth}
+            \begin{block}{Lógica Clásica (Booleana)}
+                \begin{itemize}
+                    \item Opera con proposiciones que son estrictamente \textbf{verdaderas} o \textbf{falsas}.
+                    \item Utiliza valores binarios (0 o 1).
+                \end{itemize}
+            \end{block}
+
+        \column{.48\textwidth}
+            \begin{alertblock}{Lógica Difusa (Fuzzy Logic)}
+                 \begin{itemize}
+                    \item Permite hablar de \textbf{'grados de verdad'}.
+                    \item Una proposición puede ser parcialmente verdadera.
+                    \item Trata con la imprecisión y vaguedad del razonamiento humano.
+                \end{itemize}
+            \end{alertblock}
+    \end{columns}
+    
+    \begin{block}{Concepto Central: El Conjunto Difuso}
+    A diferencia de un conjunto clásico, en un \textbf{conjunto difuso} los elementos tienen un \textbf{grado de pertenencia} que varía en el intervalo continuo [0, 1]. Por ejemplo, una temperatura de 18°C puede pertenecer un 70\% al conjunto 'templado' y un 30\% al conjunto 'frío'.
+    \end{block}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Sistemas de Inferencia Difusa}
+    \begin{block}{¿Cómo funciona un Sistema Difuso?}
+    Utilizan reglas lingüísticas para modelar sistemas y tomar decisiones. Constan de cuatro componentes:
+    \end{block}
+    
+    \begin{enumerate}
+        \item \textbf{Fuzificación:} Convierte las entradas numéricas ('nítidas') en grados de pertenencia a conjuntos difusos. \pause
+        \item \textbf{Base de Reglas Difusas:} Un conjunto de reglas del tipo \textbf{'SI-ENTONCES'}. Por ejemplo: 'SI la temperatura ES alta ENTONCES la velocidad del ventilador ES rápida'. \pause
+        \item \textbf{Motor de Inferencia:} Combina las reglas para derivar las conclusiones difusas. \pause
+        \item \textbf{Defuzificación:} Convierte la conclusión difusa de nuevo en una salida numérica y accionable.
+    \end{enumerate}
+    
+    \begin{alertblock}{Aplicaciones}
+    Son especialmente valorados en el diseño de \textbf{sistemas de control}, donde el conocimiento de un experto puede ser fácilmente traducido a reglas lingüísticas.
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+\subsection{Inteligencia de Enjambre}
+%------------------------------------------------
+
+\begin{frame}{Inteligencia de Enjambre (Swarm Intelligence)}
+    \frametitle{Inspiración: Comportamiento Colectivo}
+    \begin{block}{Concepto}
+    Es un paradigma de la IC que se inspira en el comportamiento colectivo de sistemas naturales como colonias de hormigas, bandadas de pájaros o bancos de peces.
+    \end{block}
+    
+    \begin{alertblock}{Funcionamiento}
+    Estos sistemas están compuestos por un gran número de agentes individuales relativamente simples que siguen reglas básicas. De sus interacciones locales emerge un comportamiento global inteligente y autoorganizado, sin necesidad de un control centralizado.
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Características Fundamentales de los Enjambres}
+    \begin{itemize}
+        \item \textbf{Control descentralizado:} No hay una entidad única que dirija el comportamiento del enjambre. \pause
+        \item \textbf{Autoorganización:} Los patrones y estructuras globales surgen espontáneamente de las interacciones locales entre agentes. \pause
+        \item \textbf{Robustez:} El sistema puede tolerar fallos de algunos individuos sin que el rendimiento global se vea afectado significativamente. \pause
+        \item \textbf{Escalabilidad:} El comportamiento del sistema puede mantenerse efectivo incluso si aumenta el número de agentes. \pause
+        \item \textbf{Comunicación indirecta:} Los agentes a menudo interactúan modificando su entorno (e.g., el rastro de feromonas de las hormigas), y estas modificaciones sirven como señales para otros.
+    \end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Algoritmos Prominentes de Inteligencia de Enjambre}
+    \begin{columns}[t]
+        \column{.48\textwidth}
+            \begin{block}{Optimización por Enjambre de Partículas (PSO)}
+                \begin{itemize}
+                    \item \textbf{Inspiración:} El movimiento coordinado de las bandadas de pájaros o bancos de peces buscando alimento.
+                    \item \textbf{Mecanismo:} Una población de 'partículas' (soluciones) 'vuela' a través del espacio de búsqueda, ajustando su trayectoria en base a su propia mejor experiencia y la mejor experiencia de todo el enjambre.
+                \end{itemize}
+            \end{block}
+
+        \column{.48\textwidth}
+            \begin{alertblock}{Optimización por Colonia de Hormigas (ACO)}
+                 \begin{itemize}
+                    \item \textbf{Inspiración:} El comportamiento de las hormigas para encontrar los caminos más cortos hacia una fuente de alimento.
+                    \item \textbf{Mecanismo:} 'Hormigas' artificiales construyen soluciones y depositan 'feromona' en los caminos que eligen. Los caminos con más feromona son más atractivos, guiando al enjambre hacia buenas soluciones.
+                \end{itemize}
+            \end{alertblock}
+    \end{columns}
+\end{frame}
+
+%------------------------------------------------
+\subsection{Sistemas Inmunes Artificiales}
+%------------------------------------------------
+
+\begin{frame}{Sistemas Inmunes Artificiales (AIS)}
+    \frametitle{Inspiración: El Sistema Inmunológico}
+    \begin{block}{Concepto}
+    Los Sistemas Inmunes Artificiales (AIS) son una clase de sistemas computacionales inspirados en los principios y mecanismos del sistema inmunológico de los vertebrados.
+    \end{block}
+    
+    \begin{alertblock}{Capacidades del Sistema Inmunológico a Emular}
+    El sistema inmunológico natural es un sistema complejo, distribuido y altamente adaptativo con notables capacidades de:
+        \begin{itemize}
+            \item Aprendizaje y memoria.
+            \item Reconocimiento de patrones (distinguiendo entre 'lo propio' y 'lo no propio').
+            \item Autoorganización y robustez.
+        \end{itemize}
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Conceptos Inmunológicos Clave y Aplicaciones}
+  
+            \begin{block}{Conceptos que Inspiran Algoritmos}
+                \begin{itemize}
+                    \item \textbf{Selección Clonal:} Clonar y mutar las mejores soluciones (para optimización).
+                    \item \textbf{Selección Negativa:} Generar detectores que reconozcan patrones anómalos o 'no propios' (para detección de anomalías).
+                    \item \textbf{Redes Inmunes:} Modelar el sistema como una red auto-regulada (para clustering).
+                    \item \textbf{Teoría del Peligro:} Reaccionar a señales de 'peligro' en lugar de solo a lo 'no propio' (para detección de intrusiones).
+                \end{itemize}
+            \end{block}
+
+           
+\end{frame}
+\begin{frame}{Conceptos Inmunológicos Clave y Aplicaciones}
+
+ \begin{alertblock}{Aplicaciones}
+                 \begin{itemize}
+                    \item Detección de intrusiones en redes informáticas.
+                    \item Detección de virus y spam.
+                    \item Clasificación de datos.
+                    \item Optimización de funciones.
+                    \item Robótica.
+                \end{itemize}
+            \end{alertblock}
+\end{frame}
+
+\begin{frame}[allowframebreaks]{Referencias}
+    \nocite{*} % Este comando incluye todas las referencias
+    
+    \bibliographystyle{apalike} % Define el estilo visual de la bibliografía
+    \bibliography{references} % Apunta a tu archivo references.bib
+\end{frame}
+\end{document}

@@ -1,0 +1,6 @@
+\babel@toc {spanish}{}\relax 
+\beamer@sectionintoc {1}{Repaso y El Siguiente Paso}{3}{0}{1}
+\beamer@sectionintoc {2}{Modelo Bag-of-Words (Bolsa de Palabras)}{6}{0}{2}
+\beamer@sectionintoc {3}{Ponderación TF-IDF}{13}{0}{3}
+\beamer@sectionintoc {4}{Ejemplo Práctico en MATLAB}{16}{0}{4}
+\beamer@sectionintoc {5}{Conclusiones y Próximos Pasos}{23}{0}{5}

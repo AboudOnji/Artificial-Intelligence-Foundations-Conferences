@@ -1,0 +1,8 @@
+\frametitle{Análisis del Resultado}
+\begin{block}{Observaciones}
+        \begin{itemize}
+            \item El texto se ha reducido a sus palabras más significativas.
+            \item Las palabras están en su forma raíz, lo que facilita el análisis posterior.
+            \item ¡Este texto ''limpio'' ya está listo para ser convertido en números para un modelo de IA!
+        \end{itemize}
+    \end{block}

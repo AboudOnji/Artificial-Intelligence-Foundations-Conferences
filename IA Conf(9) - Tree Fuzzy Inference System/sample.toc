@@ -1,0 +1,13 @@
+\babel@toc {english}{}\relax 
+\beamer@sectionintoc {1}{Introduction to Tree Fuzzy Inference Systems}{2}{0}{1}
+\beamer@sectionintoc {2}{Hierarchical Fuzzy Systems}{4}{0}{2}
+\beamer@sectionintoc {3}{Types of Hierarchical Structures}{7}{0}{3}
+\beamer@subsectionintoc {3}{1}{Incremental Structure}{9}{0}{3}
+\beamer@subsectionintoc {3}{2}{Aggregated Structure}{13}{0}{3}
+\beamer@subsubsectionintoc {3}{2}{1}{Variation on Aggregated Structure}{16}{0}{3}
+\beamer@subsectionintoc {3}{3}{Cascaded or Combined Structure}{16}{0}{3}
+\beamer@subsubsectionintoc {3}{3}{1}{Variation on Aggreagated Structure}{16}{0}{3}
+\beamer@subsectionintoc {3}{4}{Cascaded or Combined Structure}{17}{0}{3}
+\beamer@sectionintoc {4}{Add or Remove FIS Tree Outputs}{19}{0}{4}
+\beamer@sectionintoc {5}{Use the same Value of Multiple Inputs of FIS Tree}{21}{0}{5}
+\beamer@sectionintoc {6}{Conclusion}{23}{0}{6}

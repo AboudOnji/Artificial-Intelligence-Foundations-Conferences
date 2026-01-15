@@ -1,0 +1,6 @@
+\frametitle{Stage 1: Learning the Rules (`learnFisTree.m`)}
+\begin{block}{Goal}
+    Automatically generate a small, effective set of fuzzy rules from the data, replacing our initial manual rules.
+    \end{block}
+
+

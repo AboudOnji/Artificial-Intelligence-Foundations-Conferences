@@ -1,0 +1,289 @@
+
+\documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
+\usetheme{SimpleDarkBlue}
+
+\usepackage[english]{babel}
+\usepackage{hyperref}
+\usepackage{graphicx} % Allows including images
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+\usepackage{amsmath}
+\usepackage{lettrine}
+\setbeamertemplate{caption}[numbered]
+\usepackage[dvipsnames,svgnames,x11names]{xcolor}% Para definir y usar colores (ej. en hipervínculos)
+\usepackage{xurl}
+\usepackage{hyperref}       % Para crear hipervínculos internos y externos
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{adjustbox}
+\hypersetup{
+    colorlinks=true,        % Colorear los enlaces en lugar de usar recuadros
+    linkcolor=blue,     % Color para enlaces internos (índice, referencias cruzadas)
+    filecolor=blue, % Color para enlaces a archivos locales
+    urlcolor=blue,      % Color para URLs
+    citecolor=blue,     % Color para citas bibliográficas
+}
+%----------------------------------------------------------------------------------------
+
+\usepackage{listings}
+\usepackage{xcolor} % Para colores en listings
+ \definecolor{codegreen}{rgb}{0,0.6,0}
+ \definecolor{codegray}{rgb}{0.5,0.5,0.5}
+ \definecolor{codepurple}{rgb}{0.58,0,0.82}
+ \definecolor{backcolour}{rgb}{0.97,0.97,0.99}
+
+\lstdefinestyle{MATLABStyle}{
+  language=Matlab,
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{blue}\bfseries,
+  commentstyle=\color{codegreen},
+  stringstyle=\color{violet},
+  numberstyle=\tiny\color{gray},
+  breakatwhitespace=false,
+  breaklines=true,
+  captionpos=b,
+  keepspaces=true,
+  numbers=left,
+  numbersep=5pt,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  tabsize=2,
+  frame=lines, % Añade un marco alrededor del código
+  framerule=0.4pt, % Grosor del marco
+  backgroundcolor=\color{backcolour} % Color de fondo suave
+}
+\lstset{style=MATLABStyle}
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title{Tree Fuzzy Inference Systems}
+\subtitle{Introduction to Fuzzy Intelligence Computation}
+
+\author{Prof. D.Sc. BARSEKH-ONJI Aboud}
+
+\institute
+{
+    Faculty of Engineering \\
+    Universidad Anáhuac México Sur % Your institution for the title page
+}
+\date{\today} % Date, can be changed to a custom date
+
+%----------------------------------------------------------------------------------------
+%	PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+% Poner esto en el preámbulo
+\AtBeginSection[]
+{
+  \begin{frame}{Agenda}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+\begin{document}
+
+\begin{frame}
+    % Print the title page as the first slide
+    \titlepage
+\end{frame}
+
+\section{Introduction to Tree Fuzzy Inference Systems}
+\begin{frame}{Introduction to Tree Fuzzy Inference Systems}
+    \begin{block}{Principle Idea}
+        As the number of \textbf{inputs to a fuzzy system increases}, the number of \textbf{rules increases exponentially}. This large rule base reduces the \textbf{computational efficiency }of the fuzzy system. It also makes the operation of the fuzzy system harder to understand, and it makes the \textbf{tuning} of rule and membership function parameters more dicult. Because many applications have a limited amounts of training data, a large rule base reduces the generalizability of tuned fuzzy systems.
+    \end{block}
+    
+\end{frame}
+\section{Hierarchical Fuzzy Systems}
+\begin{frame}{Hierarchical Fuzzy Systems}
+    \begin{block}{}
+        To overcome this issue, you can implement a fuzzy inference system (FIS) as a tree of smaller interconnected FIS objects rather than as a single monolithic FIS object. These FIS trees are also known as \textbf{hierarchical fuzzy systems} because the fuzzy systems are arranged in hierarchical tree structures. In a tree structure, the outputs of the low-level fuzzy systems are used as inputs to the high-level fuzzy systems. A FIS tree is more computationally ecient and easier to understand than a single FIS with the same number of inputs.
+    \end{block}
+\end{frame}
+
+\begin{frame}{How to create FIS Tree?}
+    \begin{block}{We can create a FIS tree using:}
+        \begin{itemize}
+            \item A \texttt{fistree} object.
+            \item The Fuzzy Logic Designer App.
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\section{Types of Hierarchical Structures}
+\begin{frame}{Types of Hierarchical Structures}
+    \begin{alertblock}{}
+        There are several FIS tree structures that you can use for your application. The following gure shows commonly used FIS tree structures: an \textbf{incremental}, \textbf{aggregated}, or \textbf{cascaded} structure.
+    \end{alertblock}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.5\linewidth]{FIS_tree_types.png}
+        \caption{Types of Hierarchical FIS Tree Structures}
+    \end{figure}
+\end{frame}
+\subsection{Incremental Structure}
+\begin{frame}{Incremental Structure}
+    \begin{block}{Nature of Input Variables}
+        In an incremental structure, input values are incorporated in multiple stages to refine the output values in several levels.
+        The following figure shows a monolithic ($n=1$) FIS with four inputs ($j = 1, 2, 3, 4$) and three MFs.
+    \end{block}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.4\linewidth]{one_fis.png}
+        \caption{Single FIS example}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Numbers of Rules}
+  \begin{figure}
+        \centering
+        \includegraphics[width=0.3\linewidth]{one_fis.png}
+        \caption{Single FIS example}
+    \end{figure}  
+    \begin{alertblock}{}
+        The total of rules number can be calculated using:
+        \begin{equation}
+            N_{rules}=N_{fis}.N^{N_{input}}_{MFs}
+        \end{equation}
+        In this case: $N_{rules}=1\times3^4=81$,  Hence, the total number of rules in an incremental FIS tree is linear with the number of input pairs.
+    \end{alertblock}
+\end{frame}
+
+\begin{frame}{Incremental Structure}
+    \begin{block}{Input Selection in a FIS Tree}
+        Input selection at different levels in an incremental FIS tree uses \textbf{input rankings based on their contributions to the final output values}. The input values that contribute the most are generally used at the lowest level, while the least influential ones are used at the highest level. In other words, low-rank input values are dependent on high-rank input values.
+    \end{block}
+\end{frame}
+
+\begin{frame}{Incremental Structure}
+    \begin{alertblock}{}
+        In an incremental FIS tree, each input value usually contributes to the inference process to a certain extent, without being significantly correlated with the other inputs. For example, a fuzzy system forecasts the possibility of buying an automobile using four inputs: color, number of doors, horse power, and autopilot. The inputs are four distinct automobile features, which can independently influence a buyer’s decision. Hence, the inputs can be ranked using the existing data to construct a FIS tree, as shown in the following figure.
+    \end{alertblock}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.45\linewidth]{aggregated_fis.png}
+        \caption{FIS tree (Incremental Structure)}
+    \end{figure}
+\end{frame}
+\subsection{Aggregated Structure}
+\begin{frame}{Aggregated Structure}
+
+    \begin{block}{Principal Idea about Aggregated Structure}
+    In an aggregated structure, input values are incorporated as groups at the lowest level, where each input group is fed into a FIS. The outputs of the lower level fuzzy systems are combined (aggregated) using the higher level fuzzy systems.
+    \end{block}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.3\linewidth]{agg.png}
+        \caption{Aggregated FIS Tree}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Aggregated Structure}
+    \begin{example}
+       An autonomous robot navigation task combines obstacle avoidance and target reaching sub-tasks for collision-free navigation. To achieve the navigation task, the FIS tree can use four inputs: \begin{itemize}
+           \item distance to the closest obstacle,
+           \item  angle of the closest obstacle, 
+           \item distance to the target, 
+           \item and angle of the target.
+       \end{itemize}
+       Distances and angles are measured with respect to the current position and heading direction of the robot. In this case, at the lowest level, the inputs naturally group as shown in the following figure: obstacle distance and obstacle angle (group 1) and target distance and target angle (group 2).
+       Two fuzzy systems separately process individual group inputs and then another fuzzy system combines their outputs to produce a collision-free heading for the robot.
+    \end{example}
+\end{frame}
+
+\begin{frame}{Aggregated Structure}
+    \begin{block}{}
+        In an aggregated FIS tree, input values are naturally grouped together for specific decision-making.
+    \end{block}
+
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.5\linewidth]{robot.png}
+    \end{figure}
+\end{frame}
+\subsubsection{Variation on Aggregated Structure}
+\subsection{Cascaded or Combined Structure}
+
+\subsubsection{Variation on Aggreagated Structure}
+\begin{frame}{Variation on Aggregated Structure}
+    \begin{block}{Parallel Structure}
+        A parallel structure is a variation of the aggregated structure. In a parallel structure, the outputs of the low-level fuzzy systems are not combined using another fuzzy system. Instead, they are combined using a mathematical function, such as weighted average or weighted sum.
+    \end{block}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.4\linewidth]{parallel.png}
+        \caption{Parallel FIS Tree}
+    \end{figure}
+\end{frame}
+
+\subsection{Cascaded or Combined Structure}
+\begin{frame}{Cascaded or Combined Structure}
+\begin{columns}
+    \column[t]{0.6\textwidth}
+            \begin{block}{Principal Idea about Cascaded Structure}
+            A cascaded structure, also known as combined structure, combines both incremental and aggregated structures to construct a FIS tree. This structure is suitable for a system that includes both correlated and uncorrelated inputs. The tree groups the correlated inputs in an aggregated structure, and adds uncorrelated inputs in an incremental structure. The following figure shows an example of a cascaded tree structure, where the first four inputs are grouped pairwise in an aggregated structure and the fifth input is added in an incremental structure.
+            \end{block}
+
+    \column[t]{0.40\textwidth}
+        \begin{figure}
+            \centering
+            \includegraphics[width=0.6\linewidth]{cascaded.png}
+            \caption{Cascaded FIS Tree}
+        \end{figure}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Cascaded or Combined Structure}
+\begin{columns}
+\column[t]{0.4\textwidth}
+    \begin{example}
+    consider the robot navigation task discussed in Aggregated Structure. Suppose that task includes another input, the previous heading of the robot, taken into account to prevent large changes in the robot heading. You can add this input using the incremental structure of the following diagram.
+    \end{example}
+\column[t]{0.6\textwidth}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.9\linewidth]{heart.png}
+        \caption{Cascaded FIS Tree Example}
+    \end{figure}
+\end{columns}
+\end{frame}
+
+\section{Add or Remove FIS Tree Outputs}
+\begin{frame}{Add or Remove FIS Tree Outputs}
+\begin{columns}
+\column[t]{0.4\textwidth}
+    \begin{block}{Outputs Operations}
+        When you evaluate a fistree object, it returns results for only the open outputs, which are not connected to any FIS inputs in the FIS tree. You can optionally access other outputs in the tree. For instance, in the following diagram of an aggregated FIS tree, you might want to obtain the output of fis2 when you evaluate the tree.
+    \end{block}
+\column[t]{0.6\textwidth}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.9\linewidth]{addOutputs.png}
+        \caption{FIS Tree Outputs}
+    \end{figure}
+\end{columns}
+\end{frame}
+
+\section{Use the same Value of Multiple Inputs of FIS Tree}
+\begin{frame}{Use the same Value of Multiple Inputs of FIS Tree}
+\begin{columns}
+\column[t]{0.4\textwidth}
+    \begin{block}{Inputs Operations}
+        A fistree object allows using the same value for multiple inputs. For instance, in the following figure, input2 of fis1 and input1 of fis2 use the same value during evaluation.
+    \end{block}
+\column[t]{0.6\textwidth}
+        \begin{figure}
+        \centering
+        \includegraphics[width=0.9\linewidth]{UseInputs.png}
+        \caption{FIS Tree Inputs}
+    \end{figure}
+\end{columns}
+\end{frame}
+\section{Conclusion}
+\begin{frame}{Conclusion}
+    \begin{block}{}
+        A FIS tree is a hierarchical structure of interconnected fuzzy inference systems. A FIS tree is more computationally efficient and easier to understand than a single FIS with the same number of inputs. You can create a FIS tree using a fistree object or the Fuzzy Logic Designer app. There are several FIS tree structures that you can use for your application: an incremental, aggregated, or cascaded structure.
+    \end{block}
+\end{frame}
+\end{document}
+

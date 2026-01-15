@@ -1,0 +1,411 @@
+\documentclass{beamer}
+
+\usepackage{lmodern}
+\usepackage{amssymb}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{amsmath} % Para fórmulas matemáticas
+% No cargamos listings ni verbatim, ni paquetes complejos para cajas
+
+% Theme - puedes elegir otro si prefieres
+\usetheme{Berkeley}
+\usecolortheme{default}
+
+\title{Algoritmos Evolutivos y PSO en Python\\(Optimización Metaheurística)}
+\author{Prof. DSc. BARSEKH-ONJI Aboud}
+\institute{{Universidad Anáhuac México}\\{Facultad de Ingeniería}}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\section*{Introducción a la Optimización}
+
+\begin{frame}{El Problema de Optimización}
+    \begin{itemize}
+        \item Encontrar los valores de un conjunto de variables de decisión ($\mathbf{x}$) que minimizan o maximizan una función objetivo ($f(\mathbf{x})$).
+        \item A menudo sujeto a restricciones.
+        \item Problemas comunes: diseño de ingeniería, planificación logística, ajuste de parámetros de modelos, etc.
+    \end{itemize}
+    \begin{equation*}
+        \min_{\mathbf{x}} f(\mathbf{x}) \quad \text{sujeto a: restricciones}
+    \end{equation*}
+    \textbf{Retos:} Funciones no lineales, no derivables, alta dimensionalidad, múltiples óptimos locales.
+\end{frame}
+
+\begin{frame}{Metaheurísticas}
+    \begin{itemize}
+        \item Estrategias de búsqueda que guían un proceso de optimización.
+        \item Generalmente inspiradas en fenómenos naturales (evolución, comportamiento animal, física, etc.).
+        \item No garantizan encontrar el óptimo global, pero son efectivas para encontrar soluciones de alta calidad en problemas complejos donde los métodos tradicionales fallan o son demasiado lentos.
+    \end{itemize}
+    \textbf{Dos ejemplos importantes: Algoritmos Evolutivos y Optimización por Enjambre de Partículas.}
+\end{frame}
+
+\section*{Algoritmos Evolutivos (EA)}
+
+\begin{frame}{Marco General de un EA}
+   \textbf{Basados en el principio de la evolución natural.}
+
+    \begin{enumerate}
+        \item \textbf{Inicialización:} Crear una población inicial de soluciones candidatas (individuos).
+        \item \textbf{Evaluación:} Calcular el "fitness" (aptitud) de cada individuo (qué tan buena es la solución).
+        \item \textbf{Selección:} Elegir individuos para ser "padres" basados en su fitness (los más aptos tienen más probabilidad).
+        \item \textbf{Cruzamiento (Crossover):} Combinar información de los padres para crear "descendencia" (nuevas soluciones).
+        \item \textbf{Mutación:} Introducir pequeños cambios aleatorios en la descendencia.
+        \item \textbf{Reemplazo:} Formar la nueva generación con parte de los padres y la descendencia.
+    \end{enumerate}
+    \textbf{Repetir pasos 2-6 por un número determinado de generaciones o hasta cumplir un criterio.}
+\end{frame}
+
+\begin{frame}{Algoritmos Genéticos (GA)}
+   \textbf{Un tipo popular de EA. Los individuos se representan a menudo como "cromosomas" (secuencias de genes/variables).}
+
+    \begin{itemize}
+        \item \textbf{Representación:} Binaria, real, etc.
+        \item \textbf{Operadores:}
+        
+            \item Selección por ruleta, torneo, elitismo.
+            \item Cruzamiento de uno o dos puntos, uniforme.
+            \item Mutación de bit flip, mutación gaussiana.
+        
+    \end{itemize}
+\end{frame}
+
+\section*{Optimización por Enjambre de Partículas (PSO)}
+
+\begin{frame}{Concepto de PSO}
+    \textbf{Basado en el comportamiento social de bandadas de aves o bancos de peces. Un "enjambre" de partículas busca el óptimo moviéndose por el espacio de búsqueda.}
+
+    \begin{itemize}
+        \item Cada partícula es una solución candidata.
+        \item Cada partícula tiene una \textbf{posición} ($x_i$) y una \textbf{velocidad} ($v_i$).
+        \item Cada partícula recuerda su mejor posición encontrada hasta ahora ($\text{pbest}_i$).
+        \item El enjambre recuerda la mejor posición global encontrada por cualquier partícula ($\text{gbest}$).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Actualización de Posición y Velocidad en PSO}
+    \textbf{En cada iteración (paso de tiempo $t$), la velocidad y posición de cada partícula $i$ se actualizan:}
+
+    \vspace{1em} % Espacio
+    \begin{equation*}
+        v_i(t+1) = w v_i(t) + c_1 r_1 (\text{pbest}_i(t) - x_i(t)) + c_2 r_2 (\text{gbest}(t) - x_i(t))
+    \end{equation*}
+    \begin{equation*}
+        x_i(t+1) = x_i(t) + v_i(t+1)
+    \end{equation*}
+
+    \vspace{0.5em} % Espacio
+    Donde:
+    \begin{itemize}
+        \item $w$: peso de inercia (controla la influencia de la velocidad anterior).
+        \item $c_1$: coeficiente de aceleración cognitiva (atrae la partícula hacia su $\text{pbest}$).
+        \item $c_2$: coeficiente de aceleración social (atrae la partícula hacia el $\text{gbest}$).
+        \item $r_1, r_2$: números aleatorios uniformes entre 0 y 1.
+        \item $\text{pbest}_i(t)$: mejor posición encontrada por la partícula $i$ hasta el tiempo $t$.
+        \item $\text{gbest}(t)$: mejor posición encontrada por todo el enjambre hasta el tiempo $t$.
+    \end{itemize}
+\end{frame}
+
+\section*{Implementación en Python}
+
+\begin{frame}{Python para EA y PSO}
+    \begin{itemize}
+        \item El ecosistema científico de Python (NumPy, SciPy) proporciona las herramientas numéricas básicas.
+        \item Existen librerías dedicadas que implementan estos algoritmos de forma eficiente y flexible.
+        \item Permite integrar la optimización con flujos de trabajo más amplios (análisis de datos, machine learning).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Librerías Clave}
+    \begin{itemize}
+        \item \textbf{DEAP (Distributed Evolutionary Algorithms in Python):} Un *framework* general para EA. Muy flexible, permite construir GAs, GP (Genetic Programming), Estrategias Evolutivas, etc. Requiere más configuración, pero ofrece control total.
+        \item \textbf{PySwarms:} Librería específica y fácil de usar para PSO. Implementa variantes estándar de PSO y herramientas de análisis.
+    \end{itemize}
+
+    \vspace{1em} % Espacio
+    \textbf{Instalación:}
+    \begin{block}{}
+        \texttt{pip install deap}
+    \end{block}
+    \begin{block}{}
+        \texttt{pip install pyswarms}
+    \end{block}
+\end{frame}
+
+\subsection*{Implementando EA con DEAP}
+
+\begin{frame}{Conceptos Clave en DEAP}
+    \begin{itemize}
+        \item \texttt{base.Fitness}: Define si se minimiza o maximiza y el número de objetivos.
+        \item \texttt{creator.create}: Factoría para crear nuevos tipos (Fitness, Individual, Population).
+        \item \texttt{tools.Toolbox}: Registro de funciones y operadores con alias, simplificando la configuración.
+        \item \texttt{algorithms}: Implementaciones de bucles evolutivos comunes.
+        \item \texttt{operators}: Funciones para selección, cruce, mutación.
+        \item \texttt{hof.HallOfFame}: Para guardar los mejores individuos encontrados.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Estructura Básica de un GA con DEAP}
+    \begin{block}{}
+        \texttt{import random}\\
+        \texttt{from deap import base, creator, tools, algorithms}\\
+        \texttt{}\\
+        \texttt{\# 1. Definir Fitness y Tipo de Individuo}\\
+        \texttt{creator.create("FitnessMax", base.Fitness, weights=(1.0,)) \# Maximizar}\\
+        \texttt{creator.create("Individual", list, fitness=creator.FitnessMax)}\\
+        \texttt{}\\
+        \texttt{\# 2. Configurar Toolbox (Operadores)}\\
+        \texttt{toolbox = base.Toolbox()}\\
+        \texttt{toolbox.register("attribute", random.random) \# Como generar genes}\\
+        \texttt{toolbox.register("individual", tools.initRepeat, creator.Individual,}\\
+        \texttt{                   toolbox.attribute, n=DIMENSION) \# Como generar individuos}\\
+        \texttt{toolbox.register("population", tools.initRepeat, list, toolbox.individual)}\\
+        \texttt{}\\
+        \texttt{toolbox.register("evaluate", FUNCION\_OBJETIVO) \# Funcion a optimizar}\\
+        \texttt{toolbox.register("mate", tools.cxTwoPoint) \# Operador de cruce}\\
+        \texttt{toolbox.register("mutate", tools.mutGaussian, mu=0, sig=1, indpb=0.1) \# Mutación}\\
+        \texttt{toolbox.register("select", tools.selTournament, tournsize=3) \# Selección}\\
+        \texttt{}\\
+        \texttt{\# 3. Ejecutar el Algoritmo (Bucle Evolutivo)}\\
+        \texttt{population = toolbox.population(n=POP\_SIZE)}\\
+        \texttt{hof = tools.HallOfFame(1) \# Para guardar el mejor individuo}\\
+        \texttt{stats = tools.Statistics(lambda ind: ind.fitness.values)}\\
+        \texttt{\# Configurar estadisticas (min, max, avg, std)}\\
+        \texttt{}\\
+        \texttt{population, logbook = algorithms.eaSimple(population, toolbox, cxpb=0.5, mutpb=0.2,}\\
+        \texttt{                                        ngen=NUM\_GENERACIONES, stats=stats,}\\
+        \texttt{                                        halloffame=hof, verbose=True)}\\
+        \texttt{}\\
+        \texttt{\# 4. Resultados}\\
+        \texttt{print("Mejor individuo es: ", hof[0])}\\
+        \texttt{print("Con fitness: ", hof[0].fitness)}
+    \end{block}
+\end{frame}
+
+\subsection*{Implementando PSO con PySwarms}
+
+\begin{frame}{Conceptos Clave en PySwarms}
+    \begin{itemize}
+        \item Se centra en la implementación directa de variantes de PSO (global best, local best).
+        \item Requiere definir la función objetivo de una manera específica: debe aceptar un array NumPy de dimensiones \texttt{(n\_partículas, n\_dimensiones)} y retornar un array NumPy con los valores de fitness para cada partícula.
+        \item Ofrece utilidades para inicialización, optimización y visualización.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Estructura Básica de PSO con PySwarms}
+    \begin{block}{}
+        \texttt{import numpy as np}\\
+        \texttt{import pyswarms as ps}\\
+        \texttt{from pyswarms.utils.functions import single\_obj as fx}\\
+        \texttt{}\\
+        \texttt{\# 1. Definir la Función Objetivo}\\
+        \texttt{\# PySwarms proporciona funciones de referencia o puedes definir la tuya.}\\
+        \texttt{\# Debe tomar un array (n\_particulas, dimensiones) y retornar un array (n\_particulas,)}\\
+        \texttt{def funcion\_a\_optimizar(x):}\\
+        \texttt{    f = ... \# Calcula el valor de la funcion para cada particula en x}\\
+        \texttt{    return f}\\
+        \texttt{}\\
+        \texttt{\# 2. Configurar el Optimizador}\\
+        \texttt{options = \{'c1': 0.5, 'c2': 0.3, 'w': 0.9\} \# Parametros del PSO}\\
+        \texttt{optimizer = ps.single\_obj.GlobalBestPSO(n\_particles=50, dimensions=2, options=options)}\\
+        \texttt{}\\
+        \texttt{\# 3. Ejecutar la Optimización}\\
+        \texttt{cost, pos = optimizer.optimize(funcion\_a\_optimizar, iters=1000)}\\
+        \texttt{}\\
+        \texttt{\# 4. Resultados}\\
+        \texttt{print("Mejor costo encontrado: ", cost)}\\
+        \texttt{print("Mejor posicion encontrada: ", pos)}\\
+        \texttt{}\\
+        \texttt{\# Opcional: Visualizar el historial de costo}\\
+        \texttt{\# from pyswarms.utils.plotters import plot\_cost\_history}\\
+        \texttt{\# plot\_cost\_history(optimizer.cost\_history)}\\
+        \texttt{\# import matplotlib.pyplot as plt}\\
+        \texttt{\# plt.show()}
+    \end{block}
+\end{frame}
+
+\section*{Funciones de Referencia}
+
+\begin{frame}{¿Qué son las Funciones de Referencia?}
+    \begin{itemize}
+        \item Funciones matemáticas con propiedades conocidas (mínimo/máximo global, número y distribución de óptimos locales).
+        \item Se utilizan para probar y comparar el rendimiento de algoritmos de optimización.
+        \item Ejemplos: Esfera, Rastrigin, Rosenbrock, Ackley, Eggholder, etc.
+    \end{itemize}
+    Permiten verificar si un algoritmo puede encontrar el óptimo conocido y cómo se comporta en diferentes tipos de paisajes de fitness.
+\end{frame}
+
+\begin{frame}{Función de Ackley}
+    Una función de referencia multimodal (con muchos óptimos locales) que presenta un reto para los optimizadores.
+
+    \vspace{1em} % Espacio
+    $$
+    f(\mathbf{x}) = -20 \exp\left(-0.2 \sqrt{\frac{1}{n} \sum_{i=1}^n x_i^2}\right) - \exp\left(\frac{1}{n} \sum_{i=1}^n \cos(2\pi x_i)\right) + 20 + e
+    $$
+
+    \vspace{0.5em} % Espacio
+    \begin{itemize}
+        \item $n$: número de dimensiones.
+        \item Mínimo global en $\mathbf{x} = (0, 0, ..., 0)$.
+        \item Valor mínimo global $f(\mathbf{0}) = 0$.
+        \item Característica: Un valle central amplio y muchos pequeños picos/valles alrededor.
+    \end{itemize}
+\end{frame}
+
+\section*{Ejemplos en Python}
+
+\begin{frame}{Ejemplo 1: GA simple (Maximizar $-x^2$) con DEAP}
+    (Este ejemplo es conceptual para mostrar DEAP; optimizar $-x^2$ es trivial analíticamente)
+
+    \begin{block}{GA Simple con DEAP}
+        \texttt{import random}\\
+        \texttt{from deap import base, creator, tools, algorithms}\\
+        \texttt{import numpy as np}\\
+        \texttt{}\\
+        \texttt{\# Definir Fitness (Maximizar) y Tipo de Individuo (lista de flotantes)}\\
+        \texttt{creator.create("FitnessMax", base.Fitness, weights=(1.0,))}\\
+        \texttt{creator.create("Individual", list, fitness=creator.FitnessMax)}\\
+        \texttt{}\\
+        \texttt{\# Configurar Toolbox}\\
+        \texttt{toolbox = base.Toolbox()}\\
+        \texttt{toolbox.register("attribute", lambda: random.uniform(-5, 5)) \# Genes entre -5 y 5}\\
+        \texttt{toolbox.register("individual", tools.initRepeat, creator.Individual,}\\
+        \texttt{                   toolbox.attribute, n=1) \# Individuos con 1 gen}\\
+        \texttt{toolbox.register("population", tools.initRepeat, list, toolbox.individual)}\\
+        \texttt{}\\
+        \texttt{def eval\_func(individual):}\\
+        \texttt{    x = individual[0]}\\
+        \texttt{    return -x**2, \# La coma es importante para retornar una tupla}\\
+        \texttt{}\\
+        \texttt{toolbox.register("evaluate", eval\_func)}\\
+        \texttt{toolbox.register("mate", tools.cxBlend, alpha=0.5) \# Cruce para flotantes}\\
+        \texttt{toolbox.register("mutate", tools.mutGaussian, mu=0, sig=1, indpb=0.2) \# Mutacion gaussiana}\\
+        \texttt{toolbox.register("select", tools.selTournament, tournsize=3)}\\
+        \texttt{}\\
+        \texttt{\# Ejecutar}\\
+        \texttt{population = toolbox.population(n=50)}\\
+        \texttt{hof = tools.HallOfFame(1)}\\
+        \texttt{\# Estadisticas opcionales}\\
+        \texttt{stats = tools.Statistics(lambda ind: ind.fitness.values)}\\
+        \texttt{stats.register("avg", np.mean)}\\
+        \texttt{stats.register("max", np.max)}\\
+        \texttt{}\\
+        \texttt{algorithms.eaSimple(population, toolbox, cxpb=0.5, mutpb=0.2, ngen=50,}\\
+        \texttt{                    stats=stats, halloffame=hof, verbose=False)}\\
+        \texttt{}\\
+        \texttt{print("Mejor individuo (deberia ser cercano a [0]): ", hof[0])}\\
+        \texttt{print("Mejor fitness (deberia ser cercano a 0): ", hof[0].fitness.values)}
+    \end{block}
+\end{frame}
+
+
+\begin{frame}{Ejemplo 2: PSO (Minimizar Ackley) con PySwarms}
+    (Usamos la función Ackley pre-implementada en PySwarms para simplicidad)
+
+    \begin{block}{PSO Minimizando Ackley con PySwarms}
+        \texttt{import numpy as np}\\
+        \texttt{import pyswarms as ps}\\
+        \texttt{from pyswarms.utils.functions import single\_obj as fx}\\
+        \texttt{\# Opcional: visualizacion}\\
+        \texttt{\# from pyswarms.utils.plotters import plot\_cost\_history, plot\_contour}\\
+        \texttt{\# import matplotlib.pyplot as plt}\\
+        \texttt{}\\
+        \texttt{\# Parametros del enjambre y la optimizacion}\\
+        \texttt{n\_particulas = 50}\\
+        \texttt{dimensiones = 2 \# Para poder visualizar en 2D}\\
+        \texttt{opciones\_pso = \{'c1': 0.5, 'c2': 0.3, 'w': 0.9\}}\\
+        \texttt{num\_iteraciones = 1000}\\
+        \texttt{}\\
+        \texttt{\# Limites del espacio de busqueda (Ackley tipicamente en [-32, 32])}\\
+        \texttt{limite\_inferior = -32}\\
+        \texttt{limite\_superior = 32}\\
+        \texttt{limites = (np.array([limite\_inferior]*dimensiones),}\\
+        \end{block}
+\end{frame}
+\begin{frame}{Frame Title}
+\begin{block}{}
+        \texttt{           np.array([limite\_superior]*dimensiones))}\\
+        \texttt{}\\
+        \texttt{\# Crear el optimizador Global Best PSO}\\
+        \texttt{optimizer = ps.single\_obj.GlobalBestPSO(n\_particles=n\_particulas,}\\
+        \texttt{                                        dimensions=dimensiones,}\\
+        \texttt{                                        options=opciones\_pso,}\\
+        \texttt{                                        bounds=limites)}\\
+        \texttt{}\\
+        \texttt{\# Ejecutar la optimizacion sobre la funcion Ackley}\\
+        \texttt{\# La funcion fx.ackley ya tiene el formato que PySwarms espera}\\
+        \texttt{costo\_minimo, mejor\_posicion = optimizer.optimize(fx.ackley, iters=num\_iteraciones)}\\
+        \texttt{}\\
+        \texttt{\# Mostrar resultados}\\
+        \texttt{print(f"Costo minimo encontrado: \{costo\_minimo\}")}\\
+        \texttt{print(f"Mejor posicion encontrada (cercana a [0,0]): \{mejor\_posicion\}")}\\
+        \texttt{}\\
+        \texttt{\# Para visualizar (descomentar si tienes matplotlib instalado y quieres ver)}\\
+        \texttt{\# plot\_cost\_history(optimizer.cost\_history)}\\
+        \texttt{\# plt.title("Historial de Costo (Ackley)")}\\
+        \texttt{\# plt.show()}\\
+        \texttt{\#}\\
+        \texttt{\# Si dimensiones es 2, puedes visualizar el enjambre}\\
+        \texttt{\# if dimensiones == 2:}\\
+        \texttt{\#     plot\_contour(func=fx.ackley, center=(0,0), radius=35,}\\
+        \texttt{\#                  surface\_args=\{'cmap': 'jet'\})}\\
+        \texttt{\#     plot\_swarm(optimizer.pos\_history, ax=plt.gca())\}\\
+        \texttt{\#     plt.title("Trayectoria del Enjambre en Ackley")}\\
+        \texttt{\#     plt.show()}
+    \end{block}
+\end{frame}
+
+
+\section*{Comparativa y Consideraciones}
+
+\begin{frame}{DEAP vs PySwarms}
+    \begin{itemize}
+        \item \textbf{DEAP:} Framework flexible para \textbf{cualquier EA}. Ideal si necesitas implementar variantes no estándar, GA con representaciones complejas, Programación Genética, etc. Requiere que implementes el bucle evolutivo o uses los algoritmos pre-construidos (\texttt{eaSimple}, etc.) configurando el \texttt{Toolbox}.
+        \item \textbf{PySwarms:} Librería dedicada a \textbf{PSO}. Más fácil de usar si solo necesitas PSO estándar (global o local best). Abstrae el bucle de optimización en el método \texttt{.optimize()}. Incluye utilidades específicas para PSO.
+    \end{itemize}
+    Elige según la generalidad o especificidad del algoritmo que necesites.
+\end{frame}
+
+\begin{frame}{Consideraciones de Implementación}
+    \begin{itemize}
+        \item \textbf{Vectorización:} En Python, las operaciones sobre arrays de NumPy son mucho más rápidas que los bucles explícitos. Asegúrate de que tu función objetivo y operadores (si usas DEAP de forma avanzada) aprovechen esto.
+        \item \textbf{Parámetros:} El rendimiento de EA y PSO es muy sensible a sus parámetros (tamaño de población/enjambre, num. generaciones/iteraciones, tasas de cruce/mutación, $w, c_1, c_2$). A menudo requieren ajuste experimental.
+        \item \textbf{Optimizaciones Multimodales:} Para funciones como Ackley, es crucial un buen balance entre exploración (buscar nuevas áreas) y explotación (refinar soluciones encontradas). Los parámetros de PSO ($w, c_1, c_2$) influyen en esto. En GAs, mutación y cruce controlan la exploración/explotación.
+    \end{itemize}
+\end{frame}
+
+\section*{Recursos Adicionales}
+
+\begin{frame}{Recursos para Profundizar}
+    \begin{itemize}
+        \item \textbf{Documentación Oficial de DEAP:} (\url{https://deap.readthedocs.io/en/master/})
+        \item \textbf{Documentación Oficial de PySwarms:} (\url{https://pyswarms.readthedocs.io/en/latest/})
+        \item \textbf{SciPy Optimization:} Compara con métodos basados en gradiente y otros algoritmos globales. (\url{https://docs.scipy.org/doc/scipy/reference/optimize.html})
+        \item \textbf{Colección de Funciones de Referencia de Optimización:} Para probar tus implementaciones. (Buscar "Optimization test functions")
+        \item \textbf{Libros y Cursos sobre Computación Evolutiva y Optimización por Enjambre.}
+    \end{itemize}
+\end{frame}
+
+\section*{Conclusión}
+
+\begin{frame}{Resumen y Próximos Pasos}
+    \begin{itemize}
+        \item Python, con librerías como DEAP y PySwarms, es una plataforma robusta para implementar y experimentar con Algoritmos Evolutivos y PSO.
+        \item DEAP es flexible para crear una variedad de EAs; PySwarms es directo para PSO.
+        \item Las funciones de referencia como Ackley son herramientas estándar para validar y entender el comportamiento de estos algoritmos.
+        \item La clave está en comprender los parámetros de cada algoritmo y cómo influyen en la búsqueda.
+        \item ¡Experimenta con diferentes funciones, parámetros y tamaños de problema!
+    \end{itemize}
+\end{frame}
+
+
+
+\end{document}

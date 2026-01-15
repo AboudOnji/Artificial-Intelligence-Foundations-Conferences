@@ -1,0 +1,40 @@
+\frametitle{Simulated Annealing Algorithm}
+
+
+\begin{algorithm}[H]
+\caption{Algoritmo de Recocido Simulado (Simulated Annealing)}
+\label{alg:recocido_simulado}
+\begin{tiny}
+\begin{algorithmic}
+    \Require Funci\'on objetivo $f(x)$, soluci\'on inicial $x_0$, temperatura inicial $T_0 > 0$, factor de enfriamiento $\alpha \in (0, 1)$, temperatura m\'inima $T_{\min}$.
+    \Ensure La mejor soluci\'on encontrada $x_{\text{best}}$.
+
+    \State \textbf{Inicializaci\'on:}
+    \State $T \gets T_0$ \Comment{Establecer la temperatura actual}
+    \State $x_k \gets x_0$ \Comment{Establecer la soluci\'on actual}
+    \State $x_{\text{best}} \gets x_0$ \Comment{Inicializar la mejor soluci\'on encontrada}
+
+    \While{$T > T_{\min}$}
+        \State Generar una soluci\'on vecina $x_{\text{new}} \in N(x_k)$.
+        \State Calcular $\Delta f = f(x_{\text{new}}) - f(x_k)$.
+
+        \If{$\Delta f < 0$} \Comment{Si la nueva soluci\'on es mejor}
+            \State $x_k \gets x_{\text{new}}$ \Comment{Aceptar la nueva soluci\'on}
+            \If{$f(x_k) < f(x_{\text{best}})$}
+                \State $x_{\text{best}} \gets x_k$ \Comment{Actualizar la mejor soluci\'on global}
+            \EndIf
+        \Else \Comment{Si la nueva soluci\'on es peor}
+            \State Generar un n\'umero aleatorio $r \in [0, 1]$.
+            \If{$r < \exp(-\Delta f / T)$} \Comment{Aceptar con probabilidad de Boltzmann}
+                \State $x_k \gets x_{\text{new}}$
+            \EndIf
+        \EndIf
+
+        \State $T \gets \alpha \cdot T$ \Comment{Disminuir la temperatura (enfriamiento)}
+    \EndWhile
+
+    \State \Return $x_{\text{best}}$
+\end{algorithmic}
+\end{tiny}
+\end{algorithm}
+

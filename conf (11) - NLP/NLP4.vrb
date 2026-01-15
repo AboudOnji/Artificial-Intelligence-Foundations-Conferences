@@ -1,0 +1,18 @@
+\frametitle{Paso 6: Evaluar el Rendimiento}
+\begin{block}{Objetivo}
+    Comparar las \texttt{predicciones} del modelo con las \texttt{categoriasPrueba} (las respuestas correctas) para medir su rendimiento.
+    \end{block}
+\begin{lstlisting}[language=Matlab]
+% Comparamos las predicciones con las etiquetas reales
+correctas = sum(predicciones == categoriasPrueba);
+total = numel(categoriasPrueba);
+exactitud = correctas / total;
+
+fprintf('La exactitud (accuracy) del modelo es: %.2f%%\n', exactitud * 100);
+
+% Creamos una matriz de confusion para un analisis mas detallado
+figure;
+confusionchart(categoriasPrueba, predicciones);
+title('Matriz de Confusion');
+\end{lstlisting}
+    La \textbf{exactitud} (accuracy) nos dice el porcentaje de veces que el modelo acertó.

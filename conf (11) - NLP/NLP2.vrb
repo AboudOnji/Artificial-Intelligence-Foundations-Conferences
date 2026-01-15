@@ -1,0 +1,13 @@
+\frametitle{Análisis del Resultado}
+\begin{alertblock}{Paso 2: La Matriz Numérica Final}
+    La función `tfidf` genera la matriz, donde cada fila es un comentario y cada columna es una palabra del vocabulario.
+\begin{lstlisting}[language=Matlab]
+>> disp(full(matrizTfidf))
+
+%       bateri   buen    camar    dur    ...
+ans =
+   0.2588     0      0    0.2588   ...  (Comentario 1)
+        0  0.3536 0.3536       0   ...  (Comentario 2)
+   0.2182     0      0    0.2182   ...  (Comentario 3)
+\end{lstlisting}
+    \end{alertblock}

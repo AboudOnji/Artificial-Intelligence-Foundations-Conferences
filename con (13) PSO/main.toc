@@ -1,0 +1,8 @@
+\babel@toc {spanish}{}\relax 
+\beamer@sectionintoc {1}{Introduction}{3}{0}{1}
+\beamer@sectionintoc {2}{Basic PSO Algorithm}{4}{0}{2}
+\beamer@sectionintoc {3}{PSO Dynamics}{10}{0}{3}
+\beamer@sectionintoc {4}{PSO Parameters and Termination}{13}{0}{4}
+\beamer@sectionintoc {5}{PSO Variants and Enhancements}{15}{0}{5}
+\beamer@sectionintoc {6}{PSO in Matlab}{18}{0}{6}
+\beamer@sectionintoc {7}{Conclusion}{27}{0}{7}

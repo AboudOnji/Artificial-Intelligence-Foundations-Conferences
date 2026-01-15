@@ -1,0 +1,16 @@
+\babel@toc {spanish}{}\relax 
+\beamer@sectionintoc {1}{¿Qué es un algoritmo de búsqueda?}{2}{0}{1}
+\beamer@sectionintoc {2}{Clasificación de los Algoritmos de Búsqueda}{9}{0}{2}
+\beamer@sectionintoc {3}{Evaluación de los Algoritmos de Búsqueda}{11}{0}{3}
+\beamer@subsectionintoc {3}{1}{Análisis de Complejidad Algorítmica}{13}{0}{3}
+\beamer@sectionintoc {4}{Búsqueda Ciega (No Informada)}{17}{0}{4}
+\beamer@subsectionintoc {4}{1}{Búsqueda en Anchura vs. Búsqueda en Profundidad}{20}{0}{4}
+\beamer@subsectionintoc {4}{2}{Otras Estrategias de Búsqueda Ciega}{23}{0}{4}
+\beamer@subsectionintoc {4}{3}{Comparación entre estrategias de búsqueda ciega}{24}{0}{4}
+\beamer@sectionintoc {5}{Búsqueda Heurística}{25}{0}{5}
+\beamer@subsectionintoc {5}{1}{¿Qués es la búsqueda heurística?}{26}{0}{5}
+\beamer@subsectionintoc {5}{2}{Tipos de búsqueda heurística}{33}{0}{5}
+\beamer@subsectionintoc {5}{3}{Algoritmos de Búsqueda Informada}{34}{0}{5}
+\beamer@sectionintoc {6}{Hill Climbing}{38}{0}{6}
+\beamer@sectionintoc {7}{Simulated Annealing}{41}{0}{7}
+\beamer@sectionintoc {8}{Ejemplo: Ackley's function}{49}{0}{8}

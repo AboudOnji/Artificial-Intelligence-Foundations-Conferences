@@ -1,0 +1,311 @@
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND THEMES
+%----------------------------------------------------------------------------------------
+
+\documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
+\usetheme{SimpleDarkBlue}
+
+\usepackage[spanish]{babel}
+\usepackage{hyperref}
+\usepackage{graphicx} % Allows including images
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+\usepackage{amsmath}
+\usepackage{lettrine}
+\setbeamertemplate{caption}[numbered]
+\usepackage[dvipsnames,svgnames,x11names]{xcolor}% Para definir y usar colores (ej. en hipervínculos)
+\usepackage{xurl}
+\usepackage{hyperref}       % Para crear hipervínculos internos y externos
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\hypersetup{
+    colorlinks=true,        % Colorear los enlaces en lugar de usar recuadros
+    linkcolor=blue,     % Color para enlaces internos (índice, referencias cruzadas)
+    filecolor=blue, % Color para enlaces a archivos locales
+    urlcolor=blue,      % Color para URLs
+    citecolor=blue,     % Color para citas bibliográficas
+}
+%----------------------------------------------------------------------------------------
+
+\usepackage{listings}
+\usepackage{xcolor} % Para colores en listings
+ \definecolor{codegreen}{rgb}{0,0.6,0}
+ \definecolor{codegray}{rgb}{0.5,0.5,0.5}
+ \definecolor{codepurple}{rgb}{0.58,0,0.82}
+ \definecolor{backcolour}{rgb}{0.97,0.97,0.99}
+
+\lstdefinestyle{MATLABStyle}{
+  language=Matlab,
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{blue}\bfseries,
+  commentstyle=\color{codegreen},
+  stringstyle=\color{violet},
+  numberstyle=\tiny\color{gray},
+  breakatwhitespace=false,
+  breaklines=true,
+  captionpos=b,
+  keepspaces=true,
+  numbers=left,
+  numbersep=5pt,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  tabsize=2,
+  frame=lines, % Añade un marco alrededor del código
+  framerule=0.4pt, % Grosor del marco
+  backgroundcolor=\color{backcolour} % Color de fondo suave
+}
+\lstset{style=MATLABStyle}
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title{Optimización práctica usando Algoritmo Genético}
+\subtitle{Práctica en MATLAB}
+
+\author{Prof. D.Sc. BARSEKH-ONJI Aboud}
+
+\institute
+{
+    Facultad de Ingeniería \\
+    Universidad Anáhuac México % Your institution for the title page
+}
+\date{\today} % Date, can be changed to a custom date
+
+%----------------------------------------------------------------------------------------
+%	PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+% Poner esto en el preámbulo
+\AtBeginSection[]
+{
+  \begin{frame}{Agenda}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+\begin{document}
+
+\begin{frame}
+    % Print the title page as the first slide
+    \titlepage
+\end{frame}
+
+%------------------------------------------------
+\section{Introducción}
+%------------------------------------------------
+
+\begin{frame}{La Función 'ga' de MATLAB}
+    \begin{block}{Global Optimization Toolbox}
+    MATLAB, a través de su Global Optimization Toolbox, proporciona una función potente y flexible llamada \texttt{ga} para resolver problemas de optimización utilizando algoritmos genéticos.
+    \end{block}
+    
+    \begin{alertblock}{Sintaxis General}
+    Su diseño es altamente flexible, permitiendo abordar una amplia gama de problemas mediante una sintaxis que se adapta a la complejidad del problema, incorporando restricciones, límites y opciones personalizadas.
+    \end{alertblock}
+\end{frame}
+
+\section{Sintaxis Básica}
+
+
+\begin{frame}{Sintaxis \texttt{ga()}}
+    \includegraphics[width=0.9\textwidth]{1.png}
+\end{frame}
+
+\begin{frame}{Sintaxis \texttt{ga()}}
+    \includegraphics[width=0.9\textwidth]{2.png}
+\end{frame}
+
+\begin{frame}{Sintaxis \texttt{ga()}}
+    \includegraphics[width=0.9\textwidth]{3.png}
+\end{frame}
+
+\begin{frame}{Sintaxis \texttt{ga()}}
+    \includegraphics[width=0.9\textwidth]{4.png}
+\end{frame}
+
+\begin{frame}{Sintaxis \texttt{ga()}}
+    \includegraphics[width=0.9\textwidth]{5.png}
+\end{frame}
+
+\begin{frame}{Sintaxis \texttt{ga()}}
+    \includegraphics[width=0.9\textwidth]{6.png}
+\end{frame}
+
+\begin{frame}{Sintaxis \texttt{ga()}}
+    \includegraphics[width=0.9\textwidth]{7.png}
+\end{frame}
+
+\begin{frame}{Sintaxis \texttt{ga()}}
+    \includegraphics[width=0.9\textwidth]{8.png}
+\end{frame}
+
+\begin{frame}{Sintaxis \texttt{ga()}}
+    \includegraphics[width=0.9\textwidth]{9.png}
+\end{frame}
+\begin{frame}[fragile]
+
+
+    \frametitle{Sintaxis y Argumentos de la Función \texttt{ga}}
+
+            \begin{block}{Argumentos de Entrada (Inputs)}
+                La estructura de la llamada a la función \texttt{ga} se expande para incorporar diferentes tipos de restricciones y configuraciones:
+                \begin{itemize}
+                    \item \texttt{ga(fun, nvars)}: La forma más simple.
+                    \item \texttt{..., A, b}: Añade restricciones de desigualdad lineal ($A \cdot x \le b$).
+                    \item \texttt{..., Aeq, beq}: Añade restricciones de igualdad lineal ($A_{eq} \cdot x = b_{eq}$).
+                    \item \texttt{..., lb, ub}: Define límites (cotas) inferiores y superiores para las variables.
+                    \item \texttt{..., nonlcon}: Añade restricciones no lineales.
+                    \item \texttt{..., intcon}: Especifica variables enteras.
+                    \item \texttt{..., options}: Permite personalizar el comportamiento del algoritmo.
+                \end{itemize}
+            \end{block}
+\end{frame}
+\begin{frame}[fragile]
+    \frametitle{Sintaxis y Argumentos de la Función \texttt{ga}}
+\begin{alertblock}{Argumentos de Salida (Outputs)}
+                 Además de la solución \texttt{x}, la función puede devolver:
+                 \begin{itemize}
+                    \item \texttt{fval}: El valor de la función objetivo en la solución \texttt{x}.
+                    \item \texttt{exitflag}: Un código que indica por qué terminó el algoritmo.
+                    \item \texttt{output}: Una estructura con estadísticas detalladas del proceso.
+                    \item \texttt{population}: La población final completa.
+                    \item \texttt{scores}: Las puntuaciones de aptitud de la población final.
+                \end{itemize}
+            \end{alertblock}
+\end{frame}
+%------------------------------------------------
+\section{Minimización sin Restricciones}
+%------------------------------------------------
+\begin{frame}[fragile]
+    \frametitle{Minimización sin Restricciones}
+    \begin{columns}[c]
+        \column{0.5\textwidth}
+
+\begin{block}{Uso Básico}
+            El uso más simple de \texttt{ga} es encontrar el mínimo de una función sin ninguna restricción. La sintaxis es:
+            \begin{center}
+            \texttt{x = ga(@nombre\_funcion, nvars)}
+            \end{center}
+            \begin{itemize}
+                \item \texttt{@nombre\_funcion}: Un manejador a la función objetivo.
+                \item \texttt{nvars}: El número de variables de la función.
+            \end{itemize}
+            \end{block}
+ \column{0.5\textwidth}
+            \begin{figure}
+                \includegraphics[width=\linewidth]{Figuras/Cap7/figqq.png}
+                \caption{Visualización de la función objetivo \texttt{ps\_example(x)} a minimizar.}
+                \label{fig:ps_example_plot}
+            \end{figure}
+    \end{columns}
+\end{frame}
+            
+\begin{frame}[fragile]
+    \frametitle{Minimización sin Restricciones}
+    \begin{columns}[c]
+        \column{0.5\textwidth}
+            
+            \begin{alertblock}{Ejemplo}
+            \begin{lstlisting}
+% Para reproducibilidad
+rng default 
+
+% Llamada a la funcion ga
+x = ga(@ps_example, 2)
+            \end{lstlisting}
+            \end{alertblock}
+
+        \column{0.5\textwidth}
+            \begin{figure}
+                \includegraphics[width=\linewidth]{Figuras/Cap7/figqq.png}
+                \caption{Visualización de la función objetivo \texttt{ps\_example(x)} a minimizar.}
+                \label{fig:ps_example_plot}
+            \end{figure}
+    \end{columns}
+\end{frame}
+%------------------------------------------------
+\section{Minimización con Restricciones Lineales}
+%------------------------------------------------
+
+\begin{frame}[fragile]
+    \frametitle{Minimización con Restricciones Lineales}
+    \begin{block}{Sintaxis}
+    La función \texttt{ga} puede manejar restricciones lineales de desigualdad ($A \cdot x \le b$) y de igualdad ($A_{eq} \cdot x = b_{eq}$).
+    \end{block}
+    
+    \begin{alertblock}{Ejemplo}
+    Minimizar \texttt{ps\_example(x)} sujeto a:
+    \begin{itemize}
+        \item $-x_1 - x_2 \le -1$ \quad (desigualdad)
+        \item $-x_1 + x_2 = 5$ \quad (igualdad)
+    \end{itemize}
+  \end{alertblock}  
+  \end{frame}
+
+  \begin{frame}[fragile]
+    \frametitle{Minimización con Restricciones Lineales}
+    \begin{block}{Implementación en MATLAB:}
+    \begin{lstlisting}
+% Restriccion de desigualdad: [-1, -1] * [x1; x2] <= -1
+A = [-1, -1];
+b = -1;
+
+% Restriccion de igualdad: [-1, 1] * [x1; x2] = 5
+Aeq = [-1, 1];
+beq = 5;
+
+% Llamada a la funcion ga
+rng default
+x = ga(@ps_example, 2, A, b, Aeq, beq);
+    \end{lstlisting}
+    \end{block}
+\end{frame}
+
+%------------------------------------------------
+\section{Límites y Restricciones No Lineales}
+%------------------------------------------------
+
+\begin{frame}[fragile]
+    \frametitle{Límites y Restricciones No Lineales}
+
+            \begin{block}{Límites (Cotas) para las Variables}
+                Se pueden definir límites inferiores (\texttt{lb}) y superiores (\texttt{ub}) para cada variable de decisión.
+                \begin{lstlisting}
+% Definir limites: 1 <= x1 <= 6, -3 <= x2 <= 8
+lb = [1, -3];
+ub = [6, 8];
+
+% Llamada a ga incluyendo los limites
+x = ga(fun, 2, A, b, Aeq, beq, lb, ub);
+                \end{lstlisting}
+            \end{block}
+\end{frame}
+\begin{frame}[fragile]
+    \frametitle{Límites y Restricciones No Lineales}
+
+            \begin{alertblock}{Restricciones No Lineales}
+                 Para restricciones complejas no lineales, se debe crear una función aparte.
+                \begin{lstlisting}
+% Funcion que define las restricciones
+function [c, ceq] = ellipsecons(x)
+    % Desigualdad: c(x) <= 0
+    c = 2*x(1)^2 + x(2)^2 - 3;
+    % Igualdad: ceq(x) = 0
+    ceq = (x(1)+1)^2 - (x(2)/2)^4;
+end
+
+% Llamada a ga con el manejador @ellipsecons
+nonlcon = @ellipsecons;
+x = ga(fun, 2, [],[],[],[],[],[], nonlcon);
+                \end{lstlisting}
+            \end{alertblock}
+\end{frame}
+
+\begin{frame}{Ejemplos}
+    \begin{block}{Optimización de la función $f(x,y)=x^2+y^2+2\sin(x)\sin(y)$}
+\url{https://github.com/AboudOnji/Ex_Fund_IC/blob/main/Cap7/Exmple_GA_Opt.m}
+    \end{block}
+    \begin{block}{Optimización de la función \texttt{ps_example(x)}}
+\url{https://github.com/AboudOnji/Ex_Fund_IC/blob/main/Cap7/Example_GA2.m}
+    \end{block}
+\end{frame}
+\end{document}

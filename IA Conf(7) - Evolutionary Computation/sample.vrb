@@ -1,0 +1,9 @@
+\frametitle{Operador de Macromutación: Gallina sin Cabeza}
+\begin{block}{Concepto}
+    Este operador, propuesto por Jones, introduce una gran cantidad de diversidad en la población. Consiste en crear un descendiente recombinando un individuo padre con un \textbf{individuo completamente nuevo y generado al azar}.
+    \end{block}
+
+    \begin{alertblock}{Propósito}
+    Es una forma de \textbf{mutación drástica} que puede ayudar al algoritmo a \textbf{escapar de óptimos locales} al introducir material genético totalmente nuevo en la población.
+    \end{alertblock}
+

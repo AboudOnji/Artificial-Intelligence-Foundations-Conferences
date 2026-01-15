@@ -1,0 +1,621 @@
+\documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
+\usetheme{Berlin}
+
+\usepackage[spanish]{babel} % Cambiado a español para acentos y textos automáticos
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{lettrine}
+\setbeamertemplate{caption}[numbered]
+\usepackage[dvipsnames,svgnames,x11names]{xcolor}
+\usepackage{xurl}
+\usepackage{hyperref}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{adjustbox}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=cyan, % Color más visible en temas oscuros
+    filecolor=blue,
+    urlcolor=blue,
+    citecolor=blue,
+}
+%----------------------------------------------------------------------------------------
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.97,0.97,0.99}
+
+\lstdefinestyle{MATLABStyle}{
+  language=Matlab,
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{blue}\bfseries,
+  commentstyle=\color{codegreen},
+  stringstyle=\color{violet},
+  numberstyle=\tiny\color{gray},
+  breakatwhitespace=false,
+  breaklines=true,
+  captionpos=b,
+  keepspaces=true,
+  numbers=left,
+  numbersep=5pt,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  tabsize=2,
+  frame=lines,
+  framerule=0.4pt,
+  backgroundcolor=\color{backcolour}
+}
+\lstset{style=MATLABStyle}
+%----------------------------------------------------------------------------------------
+%   TITLE PAGE
+%----------------------------------------------------------------------------------------
+\title{Sistemas Inmunes Artificiales (AIS)}
+\subtitle{\textit{Artificial Immune Systems}}
+
+\author{Prof. D.Sc. BARSEKH-ONJI Aboud}
+\institute
+{
+    Facultad de Ingeniería \\
+    Universidad Anáhuac México
+}
+\date{\today}
+
+%----------------------------------------------------------------------------------------
+%   CONTENIDO DE LA PRESENTACIÓN
+%----------------------------------------------------------------------------------------
+
+% --- Agenda automática al inicio de cada sección ---
+\AtBeginSection[]
+{
+  \begin{frame}{Agenda}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+
+\begin{document}
+
+\begin{frame}
+    \titlepage
+\end{frame}
+
+%------------------------------------------------
+\section{Fundamentos Biológicos del Sistema Inmune Natural (NIS)}
+%------------------------------------------------
+
+\begin{frame}
+    \frametitle{De la Biología a la Computación}
+    
+    \begin{block}{La Inspiración: El Sistema Inmune Natural (NIS)}
+    Para comprender los Sistemas Inmunes Artificiales (AIS), primero debemos analizar el sistema biológico que les sirve de inspiración: el \textbf{Sistema Inmune Natural (NIS)}.
+    \end{block}
+\end{frame}
+
+\begin{frame}
+    \frametitle{De la Biología a la Computación}
+    \begin{alertblock}{¿Qué es el NIS?}
+    Es un sistema de defensa de una complejidad asombrosa, caracterizado por su capacidad de:
+    \begin{itemize}
+        \item Aprendizaje
+        \item Memoria
+        \item Reconocimiento de patrones
+        \item Descentralización
+    \end{itemize}
+    \end{alertblock}
+\end{frame}
+\begin{frame}
+    \frametitle{De la Biología a la Computación} 
+    \begin{exampleblock}{La Metáfora Computacional}
+    Los algoritmos de AIS son, en esencia, metáforas computacionales de los procesos biológicos del NIS.
+    \end{exampleblock}
+
+\end{frame}
+
+%------------------------------------------------
+\subsection{Arquitectura de la Defensa: Innata vs. Adaptativa}
+%------------------------------------------------
+
+\begin{frame}
+    \frametitle{Arquitectura de Defensa de Dos Velocidades}
+    
+            \begin{block}{Inmunidad Innata (Rápida)}
+                \begin{itemize}
+                    \item \textbf{Primera línea de defensa.}
+                    \item Es una respuesta \textbf{rápida} y \textbf{no específica}.
+                    \item Está preconfigurada para reaccionar a patrones comunes de patógenos.
+                    \item Su función es contener la infección y \textit{'proporcionar el tiempo necesario para activar el sistema adaptativo'}.
+                \end{itemize}
+            \end{block}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Arquitectura de Defensa de Dos Velocidades}
+            \begin{alertblock}{Inmunidad Adquirida (Adaptativa)}
+                \begin{itemize}
+                    \item Es la respuesta \textbf{especializada}.
+                    \item Es más lenta de activar, pero genera una defensa \textbf{a medida} y con \textbf{memoria}.
+                    \item \textbf{Humoral (Células B):} Secretan Anticuerpos para neutralizar invasores \textit{fuera} de las células.
+                    \item \textbf{Celular (Células T):} Identifican y destruyen las \textit{propias células} del cuerpo que han sido infectadas.
+                \end{itemize}
+            \end{alertblock}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Arquitectura de Defensa de Dos Velocidades}
+            \begin{figure}
+                \centering
+                \includegraphics[width=0.5\textwidth]{fig1.png}
+                \caption{Diferentes etapas de la respuesta inmune.}
+            \end{figure}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Arquitectura de Defensa de Dos Velocidades}
+            \begin{figure}
+                \centering
+                \includegraphics[width=0.5\textwidth]{fig2.png}
+                \caption{LA respuesta de los anticuerpos.}
+            \end{figure}
+
+\end{frame}
+%------------------------------------------------
+
+\begin{frame}
+    \frametitle{Abstracción: Defensa de 'Dos Velocidades'}
+    
+    \begin{block}{La Implicación Computacional}
+    Esta arquitectura biológica de 'dos velocidades' sugiere un modelo computacional óptimo para problemas complejos, como la ciberseguridad. Los AIS no tienen por qué ser monolíticos.
+    \end{block}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Abstracción: Defensa de 'Dos Velocidades'}
+    
+    \begin{alertblock}{Modelo Híbrido}
+    Un diseño computacional fiel a la biología podría ser un sistema híbrido:
+    \begin{enumerate}
+        \item Un algoritmo de detección de anomalías de \textbf{bajo coste} (inspirado en la \textbf{inmunidad innata}) maneja la primera línea.
+        \item Al detectar una amenaza, \textbf{activa} un algoritmo más robusto y costoso (inspirado en la \textbf{inmunidad adaptativa}).
+        \item Este segundo algoritmo caracteriza la amenaza y genera una respuesta específica con memoria.
+    \end{enumerate}
+    \end{alertblock}
+
+\end{frame}
+
+%------------------------------------------------
+\subsection{Actores Celulares Clave: El Mapeo para la Computación}
+%------------------------------------------------
+
+\begin{frame}
+    \frametitle{Actores Clave (1/2): Antígenos y Células B}
+    
+    \begin{columns}[t]
+        \column{.48\textwidth}
+            \begin{block}{Antígenos (Ag)}
+                \begin{itemize}
+                    \item \textbf{Bio:} Las moléculas 'invasoras' (generalmente proteínas) que el sistema reconoce como 'no-propias'.
+                    \item \textbf{IC:} Son los \textbf{datos a clasificar}, optimizar o reconocer (ej. un patrón de tráfico de red anómalo, un virus informático).
+                \end{itemize}
+            \end{block}
+
+        \column{.48\textwidth}
+            \begin{alertblock}{Linfocitos B (Células B)}
+                \begin{itemize}
+                    \item \textbf{Bio:} Producen \textbf{Anticuerpos (Ab)}, que son las moléculas de reconocimiento de patrones por excelencia.
+                    \item \textbf{IC:} La interacción Antígeno-Anticuerpo es la inspiración directa del \textbf{Algoritmo de Selección Clonal (CLONALG)}.
+                \end{itemize}
+            \end{alertblock}
+    \end{columns}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+    \frametitle{Actores Clave (2/2): Células T y Células Dendríticas}
+    
+            \begin{block}{Linfocitos T (Células T)}
+                \begin{itemize}
+                    \item \textbf{Bio:} Maduran en el Timo. Durante su maduración, aprenden a \textbf{no} atacar a las células 'propias' del cuerpo. Este proceso se llama \textbf{auto-tolerancia}.
+                    \item \textbf{IC:} Este mecanismo es la inspiración directa del \textbf{Algoritmo de Selección Negativa (NSA)}.
+                \end{itemize}
+            \end{block}
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Actores Clave (2/2): Células T y Células Dendríticas}
+
+            \begin{alertblock}{Células Dendríticas (CD)}
+                \begin{itemize}
+                    \item \textbf{Bio:} Son las 'centinelas' y el puente entre la inmunidad innata y la adaptativa.
+                    \item \textbf{Bio:} Detectan un patógeno, lo procesan y lo 'presentan' a las Células T, activando la respuesta adaptativa.
+                    \item \textbf{IC:} Esta función de fusión de señales y activación contextual es la inspiración del \textbf{Algoritmo de Células Dendríticas (DCA)}.
+                \end{itemize}
+            \end{alertblock}
+
+\end{frame}
+
+%------------------------------------------------
+\subsection{Principios Fundamentales para la Abstracción Computacional}
+%------------------------------------------------
+
+\begin{frame}
+    \frametitle{Principios Computacionales (1/4)}
+    
+    \begin{block}{Principio 1: Discriminación Propio/No-Propio}
+    \begin{itemize}
+        \item \textbf{Biología:} El sistema debe distinguir entre componentes del cuerpo ('propio' o \textit{self}) e invasores ('no-propio' o \textit{non-self}).
+        \item \textbf{Abstracción (IC):} Es el problema de la \textbf{detección de anomalías} (one-class classification).
+    \end{itemize}
+    \end{block}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Principios Computacionales (2/4)}
+    \begin{alertblock}{Principio 2: Selección Clonal y Maduración de la Afinidad}
+    \begin{itemize}
+        \item \textbf{Biología:} Cuando un Linfocito B reconoce un antígeno, prolifera (clones). Estos clones sufren una hipermutación. Los clones que 'mejoran' su afinidad (capacidad de enlace) son seleccionados para sobrevivir. Es un proceso darwiniano.
+        \item \textbf{Abstracción (IC):} Es la base de los algoritmos de \textbf{optimización} de AIS.
+    \end{itemize}
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+    \frametitle{Principios Computacionales (3/4)}
+    
+    \begin{block}{Principio 3: Memoria Inmunológica}
+    \begin{itemize}
+        \item \textbf{Biología:} Tras una infección, células de alta afinidad se convierten en células de memoria de larga duración, permitiendo una respuesta futura 'rápida, enérgica y específica'.
+        \item \textbf{Abstracción (IC):} Es el mecanismo de \textbf{aprendizaje} y adaptación del sistema.
+    \end{itemize}
+    \end{block}
+
+    \end{frame} 
+    \begin{frame}
+    \frametitle{Principios Computacionales (4/4)}
+    \begin{alertblock}{Principio 4: Teorías Alternativas (Red y Peligro)}
+    \begin{itemize}
+        \item \textbf{Teoría de la Red Idiopática:} El sistema inmune se reconoce a sí mismo, creando una red interna de regulación y supresión.
+        \item \textit{Inspiración IC:} \textbf{Redes Inmunes Artificiales (aiNet)}.
+        \pause
+        \item \textbf{Teoría del Peligro:} El sistema inmune no responde a lo 'no-propio', sino al \textbf{'peligro'}. Las Células Dendríticas actúan como 'fusionadoras de datos', combinando la detección de un antígeno con señales de estrés celular.
+        \item \textit{Inspiración IC:} \textbf{Algoritmo de Células Dendríticas (DCA)}.
+    \end{itemize}
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+    \frametitle{Abstracción: Del 'Propio' al 'Contexto'}
+    
+    \begin{block}{La Evolución de la Abstracción}
+    El modelo simplista 'Propio/No-Propio' (Principio 1) es frágil. Computacionalmente, un algoritmo simple de Selección Negativa (NSA) basado en una definición estática de 'propio' fracasa en entornos dinámicos (como un sistema informático), generando una avalancha de falsos positivos.
+    \end{block}
+\end{frame}
+\begin{frame}
+    \frametitle{Abstracción: Del 'Propio' al 'Contexto'}
+    \begin{alertblock}{La Solución del DCA: Cambiar la Pregunta}
+    El Algoritmo de Células Dendríticas (DCA) resuelve esto cambiando la pregunta fundamental:
+    \begin{itemize}
+        \item \textbf{Pregunta del NSA:} \textit{¿Es esto 'propio'?} (Coincidencia de patrones).
+        \pause
+        \item \textbf{Pregunta del DCA:} \textit{¿Está este patrón ocurriendo en un \textbf{contexto} de 'peligro'?} (Fusión y correlación de datos).
+    \end{itemize}
+    \end{alertblock}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Abstracción: Del 'Propio' al 'Contexto'}
+    \begin{exampleblock}{El Paradigma Moderno}
+    Por esto, el DCA se centra en la 'fusión y correlación de datos' de múltiples señales de entrada, un paradigma mucho más robusto para la detección de anomalías en el mundo real.
+    \end{exampleblock}
+
+\end{frame}
+
+%------------------------------------------------
+\section{Paradigmas de los Sistemas Inmunes Artificiales (AIS)}
+%------------------------------------------------
+
+\begin{frame}
+    \frametitle{De la Biología a la Computación}
+    
+    \begin{block}{El Proceso de Abstracción}
+    Los Sistemas Inmunes Artificiales (AIS) son una familia de algoritmos dentro de la Inteligencia Computacional (IC).
+    \begin{itemize}
+        \item A diferencia de otros métodos de IC, los AIS se centran en metáforas de:
+        \begin{itemize}
+            \item Evolución Darwiniana (selección clonal)
+            \item Aprendizaje (memoria)
+            \item Reconocimiento de Patrones (afinidad antígeno-anticuerpo)
+        \end{itemize}
+    \end{itemize}
+    \end{block}
+\end{frame}
+\begin{frame}
+    \frametitle{De la Biología a la Computación} 
+    \begin{alertblock}{Los 4 Paradigmas Principales}
+    No existe un único 'algoritmo AIS', sino cuatro familias o paradigmas principales, cada uno inspirado en un principio biológico diferente:
+    \begin{enumerate}
+        \item Algoritmos de Selección Negativa (NSA)
+        \item Algoritmos de Selección Clonal (CSA / CLONALG)
+        \item Redes Inmunes Artificiales (INA / aiNet)
+        \item Algoritmos de Células Dendríticas (DTA / DCA)
+    \end{enumerate}
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}[fragile]
+    \frametitle{Mapeo: Biología $\to$ Computación (La 'Piedra Roseta')}
+    
+    \begin{block}{Conectando Conceptos}
+    La siguiente tabla actúa como una 'piedra roseta', conectando los conceptos biológicos de la Sección 1 con los paradigmas algorítmicos que estudiaremos.
+    \end{block}
+\end{frame}
+\begin{frame}[fragile]
+    \frametitle{Mapeo: Biología $\to$ Computación (La 'Piedra Roseta')}
+    \begin{table}
+    \centering
+    \begin{adjustbox}{width=\textwidth} % Ajustamos el ancho al de la diapositiva
+    \begin{tabular}{l p{4cm} p{4.5cm} p{3.5cm}}
+        \toprule
+        \textbf{Principio Biológico} & \textbf{Proceso/Célula Clave} & \textbf{Abstracción Computacional (El Problema)} & \textbf{Algoritmo AIS} \\
+        \midrule
+        \textbf{Auto-Tolerancia} & Maduración de Células T en el Timo & \textbf{Detección de Anomalías (One-Class):} Definir datos 'propios' y generar detectores para todo lo 'no-propio'. & \textbf{NSA} (Algoritmo de Selección Negativa) \\
+        \addlinespace
+        \textbf{Maduración de la Afinidad} & Selección y proliferación de Células B & \textbf{Optimización de Funciones:} Usar la afinidad (fitness) para clonar (explotar) y mutar (explorar) soluciones candidatas. & \textbf{CLONALG} (Algoritmo de Selección Clonal) \\
+        \bottomrule
+        
+    \end{tabular}
+    \end{adjustbox}
+    \end{table}
+
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Mapeo: Biología $\to$ Computación (La 'Piedra Roseta')}
+    \begin{table}
+    \centering
+    \begin{adjustbox}{width=\textwidth} % Ajustamos el ancho al de la diapositiva
+    \begin{tabular}{l p{4cm} p{4.5cm} p{3.5cm}}
+        \toprule
+        \textbf{Red Idiopática} & Interacción y supresión mutua de Anticuerpos & \textbf{Clustering y Compresión de Datos:} Crear una red de 'prototipos' (anticuerpos) que se auto-suprimen para cubrir el espacio de datos. & \textbf{aiNet} (Red Inmune Artificial) \\
+        \addlinespace
+        \textbf{Teoría del Peligro} & Fusión de señales por Células Dendríticas & \textbf{Detección de Anomalías Contextual:} Correlacionar múltiples flujos de datos para determinar si un evento es anómalo \textit{dado su contexto}. & \textbf{DCA} (Algoritmo de Células Dendríticas) \\
+        \bottomrule
+    \end{tabular}
+    \end{adjustbox}
+    \end{table}
+
+\end{frame}
+
+%------------------------------------------------
+\section{Algoritmo de Selección Negativa (NSA) para Detección de Anomalías}
+%------------------------------------------------
+
+\begin{frame}
+    \frametitle{Inspiración y Objetivo 1/3}
+    
+    \begin{block}{Definición}
+    El Algoritmo de Selección Negativa (NSA) es uno de los paradigmas fundacionales de los AIS, diseñado específicamente para la \textbf{detección de anomalías} (one-class classification).
+    \end{block}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Inspiración y Objetivo 2/3}   
+    \begin{alertblock}{Inspiración Biológica: El Timo}
+    El NSA está inspirado en el proceso de maduración de las \textbf{Células T} en el timo:
+    \begin{enumerate}
+        \item Se generan 'detectores' (Células T) de forma aleatoria.
+        \item Estos detectores se prueban contra las células 'propias' (\textit{self}) del cuerpo.
+        \item Si un detector reacciona (coincide) con una célula 'propia', es eliminado (selección negativa).
+        \item Solo los detectores que \textbf{no} reaccionan contra lo 'propio' son liberados al cuerpo para monitorear invasores 'no-propios' (\textit{non-self}).
+    \end{enumerate}
+    \end{alertblock}
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Inspiración y Objetivo 3/3}
+    
+    \begin{exampleblock}{Objetivo Computacional}
+    El objetivo es idéntico: crear un conjunto de 'detectores' que puedan discriminar entre 'propio' (comportamiento normal del sistema) y 'no-propio' (comportamiento anómalo).
+    \end{exampleblock}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}[fragile]
+    \frametitle{El Algoritmo Formal (Pseudocódigo Canónico) 1/2}
+    
+            \begin{block}{Fase 1: Censura (Entrenamiento): Genera el conjunto de detectores.}
+                
+                \begin{algorithm}[H] % [H] para 'colocar aqui'
+                \caption{Generar Detectores}
+                \small
+                \begin{algorithmic}[1]
+                    \State Definir \textbf{S} (conjunto de patrones 'propios').
+                    \State Generar \textbf{D} (conjunto vacío de detectores).
+                    \While{$|D| < \text{n\_detectores\_deseados}$}
+                        \State $d \gets \text{generar\_detector\_aleatorio()}$
+                        \If{$d$ \textbf{no} coincide con \textbf{ningún} $s$ \textbf{en} \textbf{S}}
+                            \State Añadir $d$ a \textbf{D}
+                        \EndIf
+                    \EndWhile
+                    \State \Return \textbf{D}
+                \end{algorithmic}
+                \end{algorithm}
+            \end{block}
+
+\end{frame}
+\begin{frame}[fragile]
+    \frametitle{El Algoritmo Formal (Pseudocódigo Canónico) 2/2}
+            \begin{alertblock}{Fase 2: Monitorización (Clasificación): Usa los detectores para clasificar nuevos datos.}
+                
+                \begin{algorithm}[H] % [H] para 'colocar aqui'
+                \caption{Monitorear Datos}
+                \tiny
+                \begin{algorithmic}[1]
+                    \State Recibir \textbf{D} (de la Fase 1).
+                    \ForAll{nuevo patrón $m$ a monitorear}
+                        \State $\text{anomalia} \gets \text{False}$
+                        \ForAll{detector $d$ \textbf{en} \textbf{D}}
+                            \If{$m$ coincide con $d$}
+                                \State $\text{anomalia} \gets \text{True}$
+                                \State \textbf{break}
+                            \EndIf
+                        \EndFor
+                        \If{$\text{anomalia}$}
+                            \State \Return 'Anomalía (No-Propio)'
+                        \Else
+                            \State \Return 'Normal (Propio)'
+                        \EndIf
+                    \EndFor
+                \end{algorithmic}
+                \end{algorithm}
+            \end{alertblock}
+
+\end{frame}
+
+\begin{frame}{Algoritmo de Selección Negativa (NSA): Ejemplo de aplicación}
+    
+    \begin{block}{Aplicación en MATLAB}
+        Archivo adjunto a la presentación de esta clase.
+    \end{block}
+\end{frame}
+
+%------------------------------------------------
+\section{Algoritmo de Selección Clonal (CLONALG) para Optimización}
+%------------------------------------------------
+
+\begin{frame}
+    \frametitle{Inspiración y Objetivo 1/2}
+    
+    \begin{block}{Inspiración Biológica: Maduración de la Afinidad}
+    La inspiración es el \textbf{Principio de Selección Clonal} y la \textbf{Maduración de la Afinidad} de las Células B.
+    \begin{itemize}
+        \item Cuando una Célula B se une a un antígeno, es \textbf{seleccionada}.
+        \item La célula seleccionada prolifera (se \textbf{clona}) y sus clones sufren \textbf{mutaciones}.
+        \item Los clones que, por azar, mejoran su afinidad (capacidad de enlace) son seleccionados para sobrevivir. Es un proceso de optimización darwiniano.
+    \end{itemize}
+    \end{block}
+    
+\end{frame}
+
+\begin{frame}
+    \frametitle{Inspiración y Objetivo 2/2}
+    \begin{alertblock}{La Metáfora Computacional}
+    El objetivo es encontrar soluciones óptimas a un problema (usualmente optimización multimodal).
+    \begin{itemize}
+        \item \textbf{Antígeno:} El problema a resolver (o la función de fitness).
+        \item \textbf{Anticuerpo:} Una solución candidata al problema (ej. un vector de parámetros).
+        \item \textbf{Afinidad:} El \textit{fitness} de la solución (qué tan buena es).
+    \end{itemize}
+    \end{alertblock}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}[fragile]
+    \frametitle{El Algoritmo Formal (CLONALG)}
+    
+    \begin{block}{Algoritmo de Aprendizaje CLONALG}
+    El algoritmo combina la selección darwiniana con una tasa de mutación dinámica.
+    \end{block}
+\end{frame}
+\begin{frame}[fragile]
+    \frametitle{El Algoritmo Formal (CLONALG)}
+
+    \begin{algorithm}[H]
+    \caption{Pseudocódigo de CLONALG}
+    \tiny
+    \begin{algorithmic}[1]
+        \State Inicializar una población \textbf{Ab} de anticuerpos (soluciones) aleatorios.
+        \While{no se cumpla la condición de parada}
+            \State Presentar Antígeno (Problema).
+            \State \textbf{Evaluar Afinidad (Fitness)} de todos los anticuerpos en \textbf{Ab}.
+            \State \textbf{Seleccionar} los $n$ anticuerpos con mayor afinidad.
+            \State \textbf{Clonar} los $n$ mejores anticuerpos.
+                \begin{itemize}
+                    \item $\text{Nº de Clones} \propto \text{Afinidad}$ (los mejores se clonan más).
+                \end{itemize}
+            \State \textbf{Hipermutar} los clones.
+                \begin{itemize}
+                    \item $\text{Tasa de Mutación} \propto \frac{1}{\text{Afinidad}}$ (los mejores mutan menos).
+                \end{itemize}
+            \State \textbf{Re-seleccionar} los mejores clones y guardarlos como 'memoria' si superan a sus padres.
+            \State \textbf{Reemplazar} los $d$ peores anticuerpos por nuevas soluciones aleatorias (para mantener la diversidad).
+        \EndWhile
+        \State \Return El mejor anticuerpo (solución) encontrado.
+    \end{algorithmic}
+    \end{algorithm}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+    \frametitle{El Núcleo de CLONALG: Exploración vs. Explotación 1/3}
+    
+    \begin{block}{El Balance Dinámico}
+    El núcleo intelectual de CLONALG reside en la interacción de los pasos de clonación y mutación, que balancean la búsqueda de soluciones nuevas vs. el perfeccionamiento de las existentes.
+    \end{block}
+\end{frame}
+\begin{frame}
+    \frametitle{El Núcleo de CLONALG: Exploración vs. Explotación 2/3}
+    \begin{columns}[t]
+        \column{.48\textwidth}
+            \begin{alertblock}{Explotación (Afinar Soluciones)}
+                Soluciones de \textbf{alta afinidad} (buenas):
+                \begin{itemize}
+                    \item $\rightarrow$ \textbf{Mucha} Clonación.
+                    \item $\rightarrow$ \textbf{Poca} Mutación.
+                \end{itemize}
+                \textbf{Resultado:} Permite un ajuste fino (como \textit{hill climbing}) en la vecindad de una buena solución.
+            \end{alertblock}
+
+        \column{.48\textwidth}
+            \begin{exampleblock}{Exploración (Buscar Soluciones)}
+                Soluciones de \textbf{baja afinidad} (malas):
+                \begin{itemize}
+                    \item $\rightarrow$ \textbf{Poca} Clonación.
+                    \item $\rightarrow$ \textbf{Mucha} Mutación.
+                \end{itemize}
+                \textbf{Resultado:} 'Lanza' la solución a regiones completamente nuevas del espacio de búsqueda para encontrar otros óptimos locales.
+            \end{exampleblock}
+    \end{columns}
+\end{frame}
+
+    \begin{frame}
+    \frametitle{El Núcleo de CLONALG: Exploración vs. Explotación 3/3}
+    
+    \begin{block}{Diferencia con Algoritmos Genéticos}
+    La principal diferencia es que la tasa de mutación es \textbf{dinámica} y depende del fitness de la solución, a diferencia de la tasa de mutación usualmente estática en un AG simple.
+    \end{block}
+
+\end{frame}
+
+\begin{frame}{Algoritmo CLONALG: Ejemplo de aplicación}
+    
+    \begin{block}{Aplicación en MATLAB}
+        \url{https://www.mathworks.com/matlabcentral/fileexchange/67010-clonalg-clonal-selection-algorithm-for-optimization-problems}
+    \end{block}
+\end{frame}
+
+\end{document}

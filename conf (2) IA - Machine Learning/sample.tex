@@ -1,0 +1,410 @@
+\documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
+\usetheme{Berlin}
+
+\usepackage[spanish]{babel} % Cambiado a español para acentos y textos automáticos
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{lettrine}
+\setbeamertemplate{caption}[numbered]
+\usepackage[dvipsnames,svgnames,x11names]{xcolor}
+\usepackage{xurl}
+\usepackage{hyperref}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{adjustbox}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=cyan, % Color más visible en temas oscuros
+    filecolor=blue,
+    urlcolor=blue,
+    citecolor=blue,
+}
+%----------------------------------------------------------------------------------------
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.97,0.97,0.99}
+
+\lstdefinestyle{MATLABStyle}{
+  language=Matlab,
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{blue}\bfseries,
+  commentstyle=\color{codegreen},
+  stringstyle=\color{violet},
+  numberstyle=\tiny\color{gray},
+  breakatwhitespace=false,
+  breaklines=true,
+  captionpos=b,
+  keepspaces=true,
+  numbers=left,
+  numbersep=5pt,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  tabsize=2,
+  frame=lines,
+  framerule=0.4pt,
+  backgroundcolor=\color{backcolour}
+}
+\lstset{style=MATLABStyle}
+
+\title{Principios de Machine Learning}
+\subtitle{Materia: Fundamentos de Inteligencia Artificial}
+
+
+\author{Prof. D.Sc. BARSEKH-ONJI Aboud}
+
+\institute
+{
+    Facultad de Ingeniería \\
+    Universidad Anáhuac México % Your institution for the title page
+}
+\date{\today} % Date, can be changed to a custom date
+\lstset{
+language=MATLAB, % Cambiado a MATLAB
+basicstyle=\small\ttfamily, % Fuente y tamaño del código
+keywordstyle=\color{blue}\bfseries, % Estilo de las palabras clave
+commentstyle=\color{codegreen}\itshape, % Estilo de los comentarios
+stringstyle=\color{red}, % Estilo de las cadenas
+showspaces=false, % No mostrar espacios como caracteres especiales
+showtabs=false, % No mostrar tabulaciones como caracteres especiales
+ breaklines=true, % Habilitar saltos de línea automáticos
+numbers=left, % Mostrar números de línea a la izquierda
+numberstyle=\tiny\color{gray}, % Estilo de los números de línea
+frame=topbot, % Poner un marco alrededor del código (otras opciones: leftline, topbot, etc.)
+framesep=5pt, % Espacio entre el marco y el código
+rulesep=5pt, % Espacio entre los números de línea y el código
+backgroundcolor=\color{blue!10}, % Color de fondo (requiere xcolor)
+rulecolor=\color{black} % Color del marco
+}
+
+%----------------------------------------------------------------------------------------
+%	PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+% Poner esto en el preámbulo
+% Poner esto en el preámbulo
+\AtBeginSection[]
+{
+  \begin{frame}{Agenda}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+\begin{document}
+
+\begin{frame}
+    % Print the title page as the first slide
+    \titlepage
+\end{frame}
+
+%------------------------------------------------
+\section{Introducción al Aprendizaje Automático}
+%------------------------------------------------
+
+\begin{frame}{¿Qué es el Aprendizaje Automático (Machine Learning)?}
+    \begin{block}{Definición}
+    Es una rama de la Inteligencia Artificial que se enfoca en el desarrollo de sistemas capaces de \textbf{aprender y mejorar a partir de la experiencia}, sin ser programados explícitamente para cada tarea.
+    \end{block}
+    
+    \begin{alertblock}{El Proceso de Aprendizaje}
+    En lugar de seguir instrucciones fijas, los algoritmos de ML construyen un \textbf{modelo matemático} basado en \textbf{datos de entrenamiento} para realizar predicciones o tomar decisiones.
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{El Objetivo Clave: Generalización}
+    \begin{block}{Generalización}
+    Se dice que un modelo \textbf{generaliza} bien si, después de aprender de un conjunto de datos, es capaz de realizar \textbf{predicciones correctas sobre datos nuevos y no vistos}.
+    \end{block}
+    
+    \begin{alertblock}{La Ciencia del Aprendizaje Automático}
+    El objetivo fundamental no es crear un modelo que memorice los datos de entrenamiento, sino aprender un modelo que \textbf{generalice bien}.
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Principales Categorías del Aprendizaje Automático}
+    \begin{itemize}
+        \item<1-> \textbf{Aprendizaje Supervisado:}
+            \begin{itemize}
+                \item El modelo aprende de datos \textbf{etiquetados} (cada entrada tiene una salida correcta conocida).
+                \item \textbf{Objetivo:} Predecir una salida.
+            \end{itemize}
+        \pause
+        \item<2-> \textbf{Aprendizaje No Supervisado:}
+            \begin{itemize}
+                \item El modelo aprende de datos \textbf{sin etiquetar}.
+                \item \textbf{Objetivo:} Encontrar patrones o estructuras ocultas en los datos.
+            \end{itemize}
+        \pause
+        \item<3-> \textbf{Aprendizaje por Refuerzo:}
+            \begin{itemize}
+                \item Un \textbf{agente} aprende interactuando con un \textbf{entorno}.
+                \item \textbf{Objetivo:} Aprender una estrategia para maximizar una \textbf{recompensa} a largo plazo.
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}{Principales Categorías del Aprendizaje Automático}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{figg1.png}
+\end{figure}
+\end{frame}
+%------------------------------------------------
+\section{Aprendizaje Supervisado}
+%------------------------------------------------
+
+\begin{frame}{Aprendizaje Supervisado: Aprender de Ejemplos Etiquetados}
+    \begin{block}{Definición}
+    En el aprendizaje supervisado, el algoritmo aprende a partir de un conjunto de datos de entrenamiento que consiste en pares de entrada-salida. Cada ejemplo de entrenamiento $(\mathbf{x}_i, y_i)$ incluye un vector de características de entrada y una \textbf{etiqueta de salida o valor objetivo conocido}.
+    \end{block}
+    
+    \begin{alertblock}{Objetivo}
+    Aprender una función de mapeo $f: X \to Y$ tal que $f(\mathbf{x}) \approx y$. Una vez entrenado, el modelo puede \textbf{predecir la salida} para nuevas entradas para las cuales la salida es desconocida.
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Tareas del Aprendizaje Supervisado: Regresión vs. Clasificación}
+    \begin{columns}[t]
+        \column{.48\textwidth}
+            \begin{block}{Regresión}
+                \begin{itemize}
+                    \item La variable de salida $y$ es un valor \textbf{continuo} o \textbf{cuantitativo}.
+                    \item El objetivo es predecir un valor numérico.
+                    \item \textbf{Ejemplos:}
+                        \begin{itemize}
+                            \item Predecir el precio de una casa.
+                            \item Estimar la temperatura de mañana.
+                        \end{itemize}
+                \end{itemize}
+            \end{block}
+
+        \column{.48\textwidth}
+            \begin{alertblock}{Clasificación}
+                 \begin{itemize}
+                    \item La variable de salida $y$ es una etiqueta \textbf{categórica} o \textbf{cualitativa}.
+                    \item El objetivo es asignar una etiqueta de clase.
+                    \item \textbf{Ejemplos:}
+                        \begin{itemize}
+                            \item Clasificar un correo como 'spam' o 'no spam'.
+                            \item Identificar si una imagen contiene un gato, un perro o un pájaro.
+                        \end{itemize}
+                \end{itemize}
+            \end{alertblock}
+    \end{columns}
+\end{frame}
+
+%------------------------------------------------
+\section{Aprendizaje No Supervisado}
+%------------------------------------------------
+
+\begin{frame}{Aprendizaje No Supervisado}
+    \frametitle{Encontrando Patrones en Datos sin Etiquetar}
+    \begin{block}{Definición}
+    A diferencia del aprendizaje supervisado, en el aprendizaje no supervisado el algoritmo recibe datos de entrada $\mathbf{x}_i$ \textbf{sin ninguna etiqueta de salida} explícita $y_i$.
+    \end{block}
+    
+    \begin{alertblock}{Objetivo}
+    Descubrir patrones, estructura o conocimiento inherente directamente de los datos no etiquetados. El modelo debe encontrar por sí mismo las relaciones en los datos.
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Tareas Comunes del Aprendizaje No Supervisado}
+    \begin{itemize}
+        \item<1-> \textbf{Agrupamiento (Clustering):}
+            \begin{itemize}
+                \item Consiste en agrupar los datos en clústeres, de modo que los puntos dentro de un mismo clúster sean muy similares entre sí.
+                \item \textit{Ejemplo:} Segmentar clientes en grupos con comportamientos de compra parecidos.
+            \end{itemize}
+        \pause
+        \item<2-> \textbf{Reducción de Dimensionalidad:}
+            \begin{itemize}
+                \item Busca reducir el número de variables (características) de un conjunto de datos, conservando la mayor cantidad de información relevante posible.
+                \item \textit{Ejemplo:} Simplificar un modelo o facilitar la visualización de datos complejos.
+            \end{itemize}
+        \pause
+        \item<3-> \textbf{Aprendizaje de Reglas de Asociación:}
+             \begin{itemize}
+                \item Descubre relaciones interesantes entre variables en grandes conjuntos de datos.
+                \item \textit{Ejemplo:} "Los clientes que compran pañales también tienden a comprar cerveza".
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+
+%------------------------------------------------
+\section{Aprendizaje por Refuerzo}
+%------------------------------------------------
+
+\begin{frame}{Aprendizaje por Refuerzo (Reinforcement Learning)}
+    \frametitle{Aprender a través de la Interacción ��}
+    \begin{block}{Definición}
+    Es un paradigma donde un \textbf{agente} aprende a tomar una secuencia de \textbf{acciones} en un \textbf{entorno} para maximizar una noción de \textbf{recompensa} acumulada a lo largo del tiempo.
+    \end{block}
+    
+    \begin{alertblock}{Aprendizaje por Prueba y Error}
+    El agente no recibe ejemplos de "entrada-salida correcta". En su lugar, aprende a través de la interacción y la retroalimentación (recompensas o castigos) de sus acciones para desarrollar una estrategia ganadora.
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Componentes Clave del Aprendizaje por Refuerzo}
+    \begin{itemize}
+        \item \textbf{Agente:} La entidad que aprende y toma decisiones. \pause
+        \item \textbf{Entorno:} El mundo (real o simulado) con el que interactúa el agente. \pause
+        \item \textbf{Estado ($s$):} Una descripción de la situación actual del entorno. \pause
+        \item \textbf{Acción ($a$):} Una elección que el agente puede tomar en un estado dado. \pause
+        \item \textbf{Recompensa ($r$):} Una señal numérica que el entorno proporciona al agente después de cada acción. \pause
+        \item \textbf{Política ($\pi$):} La estrategia que utiliza el agente para seleccionar acciones. \textbf{El objetivo del RL es aprender una política óptima.}
+    \end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{El Dilema Central: Exploración vs. Explotación}
+    \begin{columns}[t]
+        \column{.48\textwidth}
+            \begin{block}{Exploración}
+                \begin{itemize}
+                    \item Consiste en probar nuevas acciones para descubrir qué tan efectivas son.
+                    \item Es necesario para encontrar mejores estrategias y no quedarse atascado en una solución subóptima.
+                    \item Implica un riesgo a corto plazo con la esperanza de una mayor recompensa a largo plazo.
+                \end{itemize}
+            \end{block}
+
+        \column{.48\textwidth}
+            \begin{alertblock}{Explotación}
+                 \begin{itemize}
+                    \item Consiste en utilizar el conocimiento actual para tomar las acciones que se sabe que son las mejores.
+                    \item Maximiza la recompensa a corto plazo basándose en la experiencia pasada.
+                    \item Si se explota demasiado pronto, el agente podría nunca descubrir acciones mucho mejores.
+                \end{itemize}
+            \end{alertblock}
+    \end{columns}
+    
+    
+\end{frame}
+
+\begin{frame}{El Dilema Central: Exploración vs. Explotación}
+
+\begin{block}{El Equilibrio}
+    Un agente de RL exitoso debe encontrar un equilibrio inteligente entre explorar su entorno para adquirir nuevo conocimiento y explotar su conocimiento actual para obtener recompensas.
+    \end{block}
+    \end{frame}
+
+%------------------------------------------------
+\section{Tratamiento de Datos}
+%------------------------------------------------
+
+\begin{frame}{Tratamiento de Datos: La Base del Éxito}
+    \begin{block}{División de los Datos}
+    La calidad y la gestión adecuada de los datos son fundamentales para el éxito. Un paso crítico es dividir el conjunto de datos total en tres subconjuntos independientes:
+    \end{block}
+    
+    \begin{alertblock}{Entrenamiento, Validación y Prueba}
+    \begin{center}
+    \begin{tabular}{|c|c|c|}
+    \hline
+    \textbf{Datos de Entrenamiento} & \textbf{Datos de Validación} & \textbf{Datos de Prueba} \\
+    (p.ej., 60\%-70\%) & (p.ej., 15\%-20\%) & (p.ej., 15\%-20\%) \\ \hline
+    \end{tabular}
+    \end{center}
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+\subsection{Datos de Entrenamiento, Validación y Prueba}
+%------------------------------------------------
+
+\begin{frame}{Definición de los Conjuntos de Datos}
+    \begin{columns}[t]
+        \column{.48\textwidth}
+            \begin{block}{Datos de Entrenamiento (Training)}
+                \begin{itemize}
+                    \item Es la porción de datos que se utiliza para "enseñar" o ajustar los parámetros del modelo.
+                    \item El modelo aprende los patrones y relaciones subyacentes presentes en estos datos.
+                \end{itemize}
+            \end{block}
+
+        \column{.48\textwidth}
+            \begin{alertblock}{Datos de Validación (Validation)}
+                 \begin{itemize}
+                    \item Se utiliza para el \textbf{ajuste de hiperparámetros} (e.g., el número de vecinos $k$ en k-NN).
+                    \item Sirve para la \textbf{selección de modelos} (comparar un árbol de decisión vs. una SVM).
+                    \item Ayuda a detectar el \textbf{sobreajuste} (overfitting).
+                \end{itemize}
+            \end{alertblock}
+    \end{columns}
+    
+    \begin{examples}{Datos de Prueba (Testing)}
+    Se mantiene completamente separado y se utiliza \textbf{una sola vez} al final del proceso para proporcionar una evaluación final e \textbf{insesgada} del rendimiento del modelo en datos del mundo real.
+    \end{examples}
+\end{frame}
+
+%------------------------------------------------
+\subsection{Validación Cruzada}
+%------------------------------------------------
+
+\begin{frame}{Técnica Robusta: Validación Cruzada (k-Fold CV)}
+    \begin{block}{¿Qué es la Validación Cruzada?}
+    Es una técnica para obtener una estimación más estable del rendimiento del modelo. En lugar de una única división, los datos se dividen en $k$ "pliegues" (folds), y el modelo se entrena y valida $k$ veces.
+    \end{block}
+\end{frame}
+\begin{frame}{Técnica Robusta: Validación Cruzada (k-Fold CV)}
+
+    \begin{alertblock}{Proceso de k-Fold Cross-Validation}
+        \begin{itemize}
+            \item Dividir los datos de entrenamiento en $k$ subconjuntos (pliegues).
+            \item En cada una de las $k$ iteraciones:
+                \begin{itemize}
+                    \item Se utiliza un pliegue diferente para la \textbf{validación}.
+                    \item Se utilizan los $k-1$ pliegues restantes para el \textbf{entrenamiento}.
+                \end{itemize}
+            \item Se promedian los $k$ resultados de validación para obtener la estimación final del rendimiento.
+        \end{itemize}
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}[fragile]{Ejemplo de Código: División de Datos}
+    \begin{columns}[t]
+        \column{.48\textwidth}
+            \begin{block}{Python (Scikit-learn)}
+                \begin{lstlisting}
+from sklearn.model_selection import train_test_split
+
+# Dividir en 80% entrenamiento y 20% prueba
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.20, random_state=42
+)
+                \end{lstlisting}
+            \end{block}
+
+        \column{.48\textwidth}
+            \begin{alertblock}{MATLAB}
+                 \begin{lstlisting}
+% Crear una particion para 80% entrenamiento y 20% prueba
+cvp = cvpartition(Y, 'Holdout', 0.20);
+
+X_train = X(cvp.training,:);
+Y_train = Y(cvp.training);
+X_test = X(cvp.test,:);
+Y_test = Y(cvp.test);
+                \end{lstlisting}
+            \end{alertblock}
+    \end{columns}
+\end{frame}
+\end{document}

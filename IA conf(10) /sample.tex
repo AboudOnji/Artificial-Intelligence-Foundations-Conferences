@@ -1,0 +1,312 @@
+
+\documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
+\usetheme{SimpleDarkBlue}
+
+\usepackage[english]{babel}
+\usepackage{hyperref}
+\usepackage{graphicx} % Allows including images
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+\usepackage{amsmath}
+\usepackage{lettrine}
+\setbeamertemplate{caption}[numbered]
+\usepackage[dvipsnames,svgnames,x11names]{xcolor}% Para definir y usar colores (ej. en hipervínculos)
+\usepackage{xurl}
+\usepackage{hyperref}       % Para crear hipervínculos internos y externos
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{adjustbox}
+\hypersetup{
+    colorlinks=true,        % Colorear los enlaces en lugar de usar recuadros
+    linkcolor=blue,     % Color para enlaces internos (índice, referencias cruzadas)
+    filecolor=blue, % Color para enlaces a archivos locales
+    urlcolor=blue,      % Color para URLs
+    citecolor=blue,     % Color para citas bibliográficas
+}
+%----------------------------------------------------------------------------------------
+
+\usepackage{listings}
+\usepackage{xcolor} % Para colores en listings
+ \definecolor{codegreen}{rgb}{0,0.6,0}
+ \definecolor{codegray}{rgb}{0.5,0.5,0.5}
+ \definecolor{codepurple}{rgb}{0.58,0,0.82}
+ \definecolor{backcolour}{rgb}{0.97,0.97,0.99}
+
+\lstdefinestyle{MATLABStyle}{
+  language=Matlab,
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{blue}\bfseries,
+  commentstyle=\color{codegreen},
+  stringstyle=\color{violet},
+  numberstyle=\tiny\color{gray},
+  breakatwhitespace=false,
+  breaklines=true,
+  captionpos=b,
+  keepspaces=true,
+  numbers=left,
+  numbersep=5pt,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  tabsize=2,
+  frame=lines, % Añade un marco alrededor del código
+  framerule=0.4pt, % Grosor del marco
+  backgroundcolor=\color{backcolour} % Color de fondo suave
+}
+\lstset{style=MATLABStyle}
+
+\title{Data-Driven Design of a Tree Fuzzy Inference System}
+\subtitle{A Case Study in Mortgage Approval}
+
+\author{Prof. D.Sc. BARSEKH-ONJI Aboud}
+
+\institute
+{
+    Faculty of Engineering \\
+    Universidad Anáhuac México Sur % Your institution for the title page
+}
+\date{\today} % Date, can be changed to a custom date
+
+%----------------------------------------------------------------------------------------
+%   PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+\AtBeginSection[]
+{
+  \begin{frame}{Agenda}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+\begin{document}
+
+\begin{frame}
+    % Print the title page as the first slide
+    \titlepage
+\end{frame}
+
+\begin{frame}{Agenda}
+    \tableofcontents
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\section{Project Overview}
+%----------------------------------------------------------------------------------------
+
+\begin{frame}{The Challenge: Complex, Human-like Decisions}
+    \begin{block}{The Problem}
+        How can we model a complex decision-making process, like mortgage approval, that relies on imprecise information and expert knowledge?
+    \end{block}
+
+    \begin{columns}[T]
+        \begin{column}{0.48\textwidth}
+            \textbf{Inputs are often "fuzzy":}
+            \begin{itemize}
+                \item What is a "good" credit score?
+                \item What constitutes a "high" income?
+                \item When is a down payment "adequate"?
+            \end{itemize}
+            
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \begin{alertblock}{The Problem with Single FIS}
+                A single FIS with many inputs becomes unmanageable. The number of rules can grow exponentially! ($3^4 = 81$ rules for our case).
+            \end{alertblock}
+            
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{The Challenge: Complex, Human-like Decisions}
+    \begin{block}{The Problem}
+        How can we model a complex decision-making process, like mortgage approval, that relies on imprecise information and expert knowledge?
+    \end{block}
+
+    \begin{columns}[T]
+        \begin{column}{0.48\textwidth}
+           
+            \textbf{Solution: Fuzzy Inference Systems (FIS)}
+            \begin{itemize}
+                \item Use linguistic variables and IF-THEN rules.
+                \item Manage uncertainty and complexity.
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \begin{exampleblock}{The FIS Tree Approach}
+                Break the problem down into smaller, interconnected modules. This is a modular, hierarchical approach that is easier to design and understand.
+            \end{exampleblock}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{System Architecture: A Two-Level FIS Tree}
+    \begin{figure}
+        \centering
+    \includegraphics[width=0.9\textwidth]{CreditFIS_Tree.png} % Replace with a diagram of your FIS tree
+    \caption{FIS Tree for Mortgage Approval}
+    \end{figure}
+    
+    % The hierarchical structure of the mortgage approval system.
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\section{System Design & Data Generation}
+%----------------------------------------------------------------------------------------
+
+\begin{frame}{Building the Initial FIS Tree}
+    \begin{block}{Goal}
+        Programmatically create the initial FIS tree structure in MATLAB based on expert knowledge. This serves as our baseline model.
+    \end{block}
+    
+    The project includes three main scripts:
+    \begin{enumerate}
+        \item \textbf{generateData.m}: Creates a synthetic dataset for training and validation.
+        \item \textbf{buildFisTree.m}: Constructs the initial tree structure shown previously.
+        \item \textbf{learnFis.m}: Uses the data to automatically learn rules.
+        \item \textbf{tueFis.m}: Uses the data to automatically tune parameters of the learned system.
+    \end{enumerate}
+    \begin{exampleblock}{GitHub Repository}
+        \url{https://github.com/AboudOnji/FUZZY-LOGIC-CREDIT-APPROVAL-SYSTEM}
+    \end{exampleblock}
+\end{frame}
+
+\begin{frame}{Data Generation: `generateData.m`}
+    \begin{block}{Why Generate Data?}
+        Machine learning requires data. We create a synthetic dataset that mimics real-world scenarios to train and validate our system.
+    \end{block}
+
+    \begin{itemize}
+        \item \textbf{Method:} We define 5 "applicant archetypes" (e.g., Ideal Applicant, High-Risk, Young Professional) to create realistic and diverse data points.
+        \item \textbf{Output:} A matrix named \texttt{trainingData} with 200 samples and 5 columns:
+    \end{itemize}
+
+    \begin{center}
+    \begin{tabular}{lllll}
+        \toprule
+        \textbf{Col 1} & \textbf{Col 2} & \textbf{Col 3} & \textbf{Col 4} & \textbf{Col 5} \\
+        \midrule
+        MonthlyIncome & CreditScore & PropertyValue & DownPayment\% & ExpectedDecision \\
+        \bottomrule
+    \end{tabular}
+    \end{center}
+    
+    \begin{alertblock}{Key Idea}
+        The first four columns are the system's inputs. The fifth column is the "correct answer" or target output we want the system to learn.
+    \end{alertblock}
+\end{frame}
+
+
+\begin{frame}[fragile]{Building the Tree: \texttt{buildFisTree.m}}
+    \begin{block}{Process}
+    We create the three FIS components (\texttt{fis1\_Health}, \texttt{fis2\_Risk}, \texttt{fis3\_FinalDecision}) and connect them using the modern \texttt{fistree} function.
+    \end{block}
+    
+    This approach ensures a clear, modular, and verifiable structure.
+    
+    
+\end{frame}
+
+
+%----------------------------------------------------------------------------------------
+\section{Automated Learning and Tuning}
+%----------------------------------------------------------------------------------------
+
+\begin{frame}{Why Automate? From Expert Knowledge to Data-Driven Design}
+    \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+        \begin{alertblock}{Limitations of Manual Design}
+            \begin{itemize}
+                \item Rules can be subjective.
+                \item Tedious to define and tune.
+                \item May not be optimal.
+            \end{itemize}
+        \end{alertblock}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+        \begin{exampleblock}{The Data-Driven Solution}
+            \begin{itemize}
+                \item Use algorithms to \textbf{learn} the best rules from data.
+                \item Automatically \textbf{tune} membership function parameters to minimize error.
+            \end{itemize}
+        \end{exampleblock}
+    \end{column}
+    \end{columns}
+    \vspace{1cm}
+    \begin{block}{Our Tools}
+        We use the \texttt{tunefis} function in MATLAB with Particle Swarm Optimization for both learning and tuning.
+    \end{block}
+\end{frame}
+
+
+\begin{frame}[fragile]{Stage 1: Learning the Rules (`learnFisTree.m`)}
+    \begin{block}{Goal}
+    Automatically generate a small, effective set of fuzzy rules from the data, replacing our initial manual rules.
+    \end{block}
+
+    
+\end{frame}
+
+\begin{frame}{Stage 2: Tuning the Parameters (`tuneFisTree.m`)}
+    \begin{block}{Goal}
+    Take the system with the newly learned rules and fine-tune all of its parameters (membership functions) to maximize accuracy.
+    \end{block}
+
+   
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\section{Results and Conclusion}
+%----------------------------------------------------------------------------------------
+
+\begin{frame}{Evaluating Performance: Root Mean Squared Error (RMSE)}
+    \begin{block}{How do we measure success?}
+    We calculate the Root Mean Squared Error (RMSE) between the system's predictions and the expected outputs from our dataset. \textbf{A lower RMSE is better.}
+    \end{block}
+    \begin{center}
+    \begin{tabular}{lc}
+        \toprule
+        \textbf{System Stage} & \textbf{RMSE} \\
+        \midrule
+        Initial Manual FIS & $\sim 15.8$ \\
+        After Rule Learning & $\sim 9.2$ \\
+        \textbf{After Full Tuning} & \textbf{$\sim 4.5$} \\
+        \bottomrule
+    \end{tabular}
+    \end{center}
+    \begin{alertblock}{Result}
+    The fully automated, data-driven approach significantly improved the model's accuracy compared to the initial manual design.
+    \end{alertblock}
+\end{frame}
+
+\begin{frame}{Visualizing the Tuning Process}
+    \begin{block}{What does "tuning" look like?}
+        The optimization algorithm physically shifts and reshapes the membership functions to better fit the patterns in the data.
+    \end{block}
+\end{frame}
+
+
+
+\begin{frame}{Conclusion and Key Takeaways}
+    \begin{exampleblock}{What We Accomplished}
+        \begin{itemize}
+            \item We modeled a complex problem using a modular FIS Tree.
+            \item We created a synthetic dataset to train and validate our model.
+            \item We used modern MATLAB tools (\texttt{fistree}, \texttt{tunefis}) to automatically learn rules and tune parameters from data.
+            \item The data-driven approach resulted in a significantly more accurate system.
+        \end{itemize}
+    \end{exampleblock}
+\end{frame}
+\begin{frame}{Conclusion and Key Takeaways}
+
+    \begin{alertblock}{Broader Applications}
+        This workflow of combining expert knowledge (initial structure) with data-driven optimization can be applied to many other fields, including:
+        \begin{itemize}
+            \item Medical diagnosis
+            \item Financial risk analysis
+            \item Process control and automation
+            \item Customer churn prediction
+        \end{itemize}
+    \end{alertblock}
+\end{frame}
+
+
+\end{document}
+

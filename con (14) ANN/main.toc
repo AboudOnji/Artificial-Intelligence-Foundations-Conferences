@@ -1,0 +1,11 @@
+\babel@toc {spanish}{}\relax 
+\beamer@sectionintoc {1}{Introducción}{3}{0}{1}
+\beamer@sectionintoc {2}{La Neurona Artificial}{6}{0}{2}
+\beamer@sectionintoc {3}{Arquitectura de ANN}{10}{0}{3}
+\beamer@sectionintoc {4}{Entrenamiento de ANN}{14}{0}{4}
+\beamer@subsectionintoc {4}{1}{Descenso de Gradiente: El Motor del Aprendizaje}{15}{0}{4}
+\beamer@subsectionintoc {4}{2}{Backpropagation: Calculando los Gradientes}{17}{0}{4}
+\beamer@subsectionintoc {4}{3}{Hiperparámetros Importantes}{18}{0}{4}
+\beamer@sectionintoc {5}{Aplicaciones de las ANNs}{20}{0}{5}
+\beamer@sectionintoc {6}{Ventajas y Desventajas de las ANNs}{24}{0}{6}
+\beamer@sectionintoc {7}{Conclusiones y futuro de las ANN}{25}{0}{7}

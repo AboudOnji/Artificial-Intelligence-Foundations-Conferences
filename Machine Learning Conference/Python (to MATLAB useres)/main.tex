@@ -1,0 +1,507 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{amsmath} % Para fórmulas matemáticas
+\usepackage{amssymb} % Para símbolos matemáticos
+\usepackage{listings}
+\usepackage{xcolor} % Necesario para usar colores
+% Para MATLAB, también puedes considerar matlab-prettifier
+\usepackage{matlab-prettifier}
+% No cargamos listings ni verbatim, ni paquetes complejos para cajas
+
+% Theme - puedes elegir otro si prefieres
+\usetheme{Berkeley}
+\usecolortheme{default}
+
+\title{Introducción Python (for Matlab users)}
+\author{Prof. DSc. BARSEKH-ONJI Aboud}
+\institute{{Universidad Anáhuac México}\\{Facultad de Ingeniería}}
+\date{\today}
+
+\lstset{
+    language=Python, % O language=MATLAB si no usas matlab-prettifier
+    basicstyle=\small\ttfamily, % Fuente y tamaño del código
+    keywordstyle=\color{blue}\bfseries, % Estilo de las palabras clave
+    commentstyle=\color{green}\itshape, % Estilo de los comentarios
+    stringstyle=\color{red}, % Estilo de las cadenas
+    showspaces=false, % No mostrar espacios como caracteres especiales
+    showtabs=false, % No mostrar tabulaciones como caracteres especiales
+    breaklines=true, % Habilitar saltos de línea automáticos
+    numbers=left, % Mostrar números de línea a la izquierda
+    numberstyle=\tiny\color{gray}, % Estilo de los números de línea
+    frame=topbot, % Poner un marco alrededor del código (otras opciones: leftline, topbot, etc.)
+    framesep=5pt, % Espacio entre el marco y el código
+    rulesep=5pt, % Espacio entre los números de línea y el código
+    backgroundcolor=\color{blue!10}, % Color de fondo (requiere xcolor)
+    rulecolor=\color{black} % Color del marco
+}
+\begin{document}
+
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\section*{Introducción}
+\begin{frame}[fragile]
+    \frametitle{Ejemplo de Código Python}
+    \begin{lstlisting}
+import numpy as np
+
+def factorial(n):
+    if n == 0:
+        return 1
+    else:
+        return n * factorial(n-1)
+
+# Calcular el factorial de 5
+num = 5
+resultado = factorial(num)
+print(f"El factorial de {num} es {resultado}")
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Ejemplo de Código MATLAB}
+    \begin{lstlisting}[style=Matlab-editor] % Otros estilos: Matlab-bw, Matlab-Pyglike
+% Este es un comentario en MATLAB
+a = 10;
+b = 20;
+c = a + b;
+disp(['La suma es: ', num2str(c)]);
+
+if c > 25
+    fprintf('La suma es mayor que 25\n');
+else
+    fprintf('La suma es menor o igual a 25\n');
+end
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}{¿Por qué considerar Python?}
+    \begin{itemize}
+        \item \textbf{Gratuito y Código Abierto:} A diferencia de MATLAB, Python y la mayoría de sus librerías científicas son de uso libre.
+        \item \textbf{Versatilidad:} Python es un lenguaje de propósito general utilizado en desarrollo web, automatización, machine learning, etc., no solo computación numérica.
+        \item \textbf{Gran Comunidad y Ecosistema:} Amplia disponibilidad de librerías (NumPy, SciPy, Matplotlib, Pandas, etc.) y soporte en línea.
+        \item \textbf{Legibilidad:} Sintaxis a menudo considerada más clara y fácil de leer.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Objetivo de esta Presentación}
+    \begin{itemize}
+        \item Identificar las principales diferencias de sintaxis y estructura de código entre MATLAB y Python.
+        \item Mostrar equivalencias de operaciones y funciones comunes.
+        \item Facilitar la transición y el aprendizaje de Python para quienes ya programan en MATLAB.
+    \end{itemize}
+\end{frame}
+
+\section*{Diferencias Clave de Sintaxis}
+
+\begin{frame}[fragile]{Comentarios}
+    \begin{columns}
+        \column{0.5\textwidth}
+        \textbf{MATLAB}
+        \begin{block}{}
+            \texttt{\% Esto es un comentario en MATLAB}
+        \end{block}
+        \column{0.5\textwidth}
+        \textbf{Python}
+        \begin{block}{}
+        \begin{lstlisting}[language=Python]
+print("Hola, mundo!")
+        \end{lstlisting}
+        \end{block}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Fin de Sentencia}
+    \begin{columns}
+        \column{0.5\textwidth}
+        \textbf{MATLAB}
+        \begin{block}{}
+            \texttt{a = 10; \% El punto y coma suprime la salida}\\
+            \texttt{b = 20  \% Sin punto y coma, muestra la salida}
+        \end{block}
+        \column{0.5\textwidth}
+        \textbf{Python}
+        \begin{block}{}
+            \texttt{\# No se usa punto y coma para}\\
+            \texttt{\# finalizar sentencias.}\\
+            \texttt{\# La salida se controla con print()}\\
+            \texttt{a = 10}\\
+            \texttt{b = 20}\\
+            \texttt{print(b)}
+        \end{block}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Bloques de Código}
+    \begin{columns}
+        \column{0.5\textwidth}
+        \textbf{MATLAB}
+        \begin{block}{}
+            \texttt{if (condicion)}\\
+            \texttt{    \% Código si es verdadero}\\
+            \texttt{end}\\
+            \texttt{}\\
+            \texttt{for i = 1:10}\\
+            \texttt{    \% Código del bucle}\\
+            \texttt{end}
+        \end{block}
+        \column{0.5\textwidth}
+        \textbf{Python}
+        \begin{block}{}
+            \texttt{\# Se usan dos puntos (:) e INDENTACIÓN}\\
+            \texttt{if condicion:}\\
+            \texttt{    \# Código si es verdadero}\\
+            \texttt{    pass \# Ejemplo de indentación}\\
+            \texttt{}\\
+            \texttt{for i in range(10):}\\
+            \texttt{    \# Código del bucle}\\
+            \texttt{    pass \# Ejemplo de indentación}
+        \end{block}
+    \end{columns}
+    \textbf{¡Importante!} La indentación define los bloques de código en Python.
+\end{frame}
+
+\begin{frame}{Definición de Funciones}
+    \begin{columns}
+        \column{0.5\textwidth}
+        \textbf{MATLAB}
+        \begin{block}{}
+            \texttt{function [output1, output2] = myFunction(input1, input2)}\\
+            \texttt{    \% Cuerpo de la función}\\
+            \texttt{    output1 = input1 + input2;}\\
+            \texttt{    output2 = input1 * input2;}\\
+            \texttt{end}
+        \end{block}
+        \column{0.5\textwidth}
+        \textbf{Python}
+        \begin{block}{}
+            \texttt{\# Se usa 'def' y dos puntos (:)}\\
+            \texttt{def my\_function(input1, input2):}\\
+            \texttt{    \# Cuerpo de la función}\\
+            \texttt{    output1 = input1 + input2}\\
+            \texttt{    output2 = input1 * input2}\\
+            \texttt{    return output1, output2 \# Retorna una tupla}
+        \end{block}
+    \end{columns}
+\end{frame}
+
+\section*{Tipos de Datos y Estructuras}
+
+\begin{frame}{Arrays vs NumPy Arrays}
+    \begin{columns}
+        \column{0.5\textwidth}
+        \textbf{MATLAB (Arrays)}
+        \begin{itemize}
+            \item El tipo de dato fundamental es la matriz.
+            \item Indexación basada en 1.
+        \end{itemize}
+        \begin{block}{}
+            \texttt{A = [1 2; 3 4];}\\
+            \texttt{elemento = A(2, 1); \% Elemento en fila 2, columna 1}
+        \end{block}
+        \column{0.5\textwidth}
+        \textbf{Python (NumPy)}
+        \begin{itemize}
+            \item Se usa la librería NumPy para trabajar con arrays eficientemente.
+            \item Indexación basada en 0.
+        \end{itemize}
+        \begin{block}{}
+            \texttt{import numpy as np}\\
+            \texttt{A = np.array([[1, 2], [3, 4]])}\\
+            \texttt{elemento = A[1, 0] \# Elemento en fila 2, columna 1}
+        \end{block}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Indexación y Slicing}
+    \begin{columns}
+        \column{0.5\textwidth}
+        \textbf{MATLAB}
+        \begin{block}{}
+            \texttt{v = [10 20 30 40 50];}\\
+            \texttt{primer\_elemento = v(1);}\\
+            \texttt{slice = v(2:4); \% Elementos 2, 3, 4}
+        \end{block}
+        \column{0.5\textwidth}
+        \textbf{Python (NumPy)}
+        \begin{block}{}
+            \texttt{import numpy as np}\\
+            \texttt{v = np.array([10, 20, 30, 40, 50])}\\
+            \texttt{primer\_elemento = v[0] \# Índice 0}\\
+            \texttt{slice = v[1:4] \# Elementos en índices 1, 2, 3}
+        \end{block}
+    \end{columns}
+    \textbf{¡Ojo con la indexación base 0 en Python!} El slice \texttt{a[inicio:fin]} incluye el \texttt{inicio} pero excluye el \texttt{fin}.
+\end{frame}
+
+\begin{frame}{Otras Estructuras de Datos en Python}
+    \begin{itemize}
+        \item \textbf{Listas:} Colecciones ordenadas y mutables (ej: \texttt{[1, 'hola', 3.14]}). Similares a los cell arrays de MATLAB, pero más flexibles.
+        \item \textbf{Tuplas:} Colecciones ordenadas e inmutables (ej: \texttt{(1, 2, 3)}). Útiles para agrupar datos relacionados.
+        \item \textbf{Diccionarios:} Colecciones desordenadas de pares clave-valor (ej: \texttt{\{'nombre': 'Juan', 'edad': 30\}}). Similares a las estructuras de MATLAB.
+        \item \textbf{Sets:} Colecciones desordenadas de elementos únicos.
+    \end{itemize}
+\end{frame}
+
+\section*{Operaciones Comunes: Equivalencias}
+
+\begin{frame}{Operaciones Elemento a Elemento}
+    \begin{columns}
+        \column{0.5\textwidth}
+      
+        \begin{block}{MATLAB}
+            \texttt{A = [1 2; 3 4];}\\
+            \texttt{B = [5 6; 7 8];}\\
+            \texttt{C = A .* B; \% Multiplicación elemento a elemento}\\
+            \texttt{D = A ./ B; \% División elemento a elemento}\\
+            \texttt{E = A .^ 2; \% Potencia elemento a elemento}
+        \end{block}
+        \column{0.5\textwidth}
+       
+        \begin{block}{Python (NumPy)}
+            \texttt{import numpy as np}\\
+            \texttt{A = np.array([[1, 2], [3, 4]])}\\
+            \texttt{B = np.array([[5, 6], [7, 8]])}\\
+            \texttt{C = A * B \# Multiplicación elemento a elemento}\\
+            \texttt{D = A / B \# División elemento a elemento}\\
+            \texttt{E = A ** 2 \# Potencia elemento a elemento}
+        \end{block}
+    \end{columns}
+    En NumPy, los operadores aritméticos estándar ($\texttt{*}$, $\texttt{/}$, $\texttt{**}$) realizan operaciones elemento a elemento en arrays.
+\end{frame}
+
+\begin{frame}{Multiplicación Matricial}
+    \begin{columns}
+        \column{0.5\textwidth}
+        \textbf{MATLAB}
+        \begin{block}{}
+            \texttt{A = [1 2; 3 4];}\\
+            \texttt{B = [5 6; 7 8];}\\
+            \texttt{C = A * B; \% Multiplicación matricial}
+        \end{block}
+        \column{0.5\textwidth}
+        \textbf{Python (NumPy)}
+        \begin{block}{}
+            \texttt{import numpy as np}\\
+            \texttt{A = np.array([[1, 2], [3, 4]])}\\
+            \texttt{B = np.array([[5, 6], [7, 8]])}\\
+            \texttt{C = A @ B \# O np.dot(A, B)}
+        \end{block}
+    \end{columns}
+    Python 3.5+ introdujo el operador \texttt{@} para multiplicación matricial. \texttt{np.dot()} también funciona y es compatible con versiones anteriores.
+\end{frame}
+
+\begin{frame}{Concatenación de Arrays}
+    \begin{columns}
+        \column{0.5\textwidth}
+        \textbf{MATLAB}
+        \footnotesize
+        \begin{block}{}
+            \texttt{A = [1 2];}\\
+            \texttt{B = [3 4];}\\
+            \texttt{C = [A B];    \% Concatenar horizontalmente}\\
+            \texttt{D = [A; B];   \% Concatenar verticalmente}
+        \end{block}
+        \column{0.5\textwidth}
+        \textbf{Python (NumPy)}
+        \footnotesize
+        \begin{exampleblock}{}
+            \texttt{import numpy as np}\\
+            \texttt{A = np.array([1, 2])}\\
+            \texttt{B = np.array([3, 4])}\\
+            \texttt{C = np.hstack((A, B)) \# Horizontal}\\
+            \texttt{D = np.vstack((A, B)) \# Vertical}\\
+            \texttt{\# O np.concatenate((A, B), axis=0) para vertical}\\
+            \texttt{\# O np.concatenate((A, B), axis=1) para horizontal (si son 2D)}
+        \end{exampleblock}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Funciones Matemáticas Comunes}
+    La mayoría de las funciones matemáticas de MATLAB tienen equivalentes en NumPy.
+    \footnotesize
+    \begin{itemize}
+        \item \texttt{sin(x)} $\rightarrow$ \texttt{np.sin(x)}
+        \item \texttt{cos(x)} $\rightarrow$ \texttt{np.cos(x)}
+        \item \texttt{sqrt(x)} $\rightarrow$ \texttt{np.sqrt(x)}
+        \item \texttt{exp(x)} $\rightarrow$ \texttt{np.exp(x)}
+        \item \texttt{log(x)} (base e) $\rightarrow$ \texttt{np.log(x)}
+        \item \texttt{log10(x)} $\rightarrow$ \texttt{np.log10(x)}
+        \item \texttt{abs(x)} $\rightarrow$ \texttt{np.abs(x)} o \texttt{abs(x)} (para escalares)
+        \item \texttt{sum(A)} $\rightarrow$ \texttt{np.sum(A)} (suma todos los elementos por defecto)
+        \item \texttt{sum(A, 1)} (suma por columnas en MATLAB) $\rightarrow$ \texttt{np.sum(A, axis=0)}
+        \item \texttt{sum(A, 2)} (suma por filas en MATLAB) $\rightarrow$ \texttt{np.sum(A, axis=1)}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Generación de Secuencias y Matrices Especiales}
+    \begin{columns}
+        \column{0.5\textwidth}
+        \textbf{MATLAB}
+        \footnotesize
+        \begin{block}{}
+            \texttt{x = 1:5; \% [1 2 3 4 5]}\\
+            \texttt{y = 1:2:10; \% [1 3 5 7 9]}\\
+            \texttt{zeros(2, 3);}\\
+            \texttt{ones(3, 1);}\\
+            \texttt{eye(4);}\\
+            \texttt{linspace(0, 10, 50);}\\
+            \texttt{logspace(1, 3, 10);}
+        \end{block}
+        \column{0.5\textwidth}
+        \textbf{Python (NumPy)}
+        \footnotesize
+        \begin{block}{}
+            \texttt{import numpy as np}\\
+            \texttt{x = np.arange(1, 6) \# [1 2 3 4 5]}\\
+            \texttt{y = np.arange(1, 11, 2) \# [1 3 5 7 9]}\\
+            \texttt{np.zeros((2, 3)) \# Nota: tupla para dimensiones}\\
+            \texttt{np.ones((3, 1))}\\
+            \texttt{np.eye(4)}\\
+            \texttt{np.linspace(0, 10, 50)}\\
+            \texttt{np.logspace(1, 3, 10)}
+        \end{block}
+    \end{columns}
+    \texttt{np.arange} es similar al operador \texttt{:} de MATLAB, pero el final es exclusivo.
+\end{frame}
+
+\section*{Gráficos (Matplotlib)}
+
+\begin{frame}{Gráficos Básicos}
+    MATLAB tiene funciones de graficado integradas, mientras que en Python se usa la librería Matplotlib (similar a la sintaxis de MATLAB).
+    \begin{columns}
+        \column{0.5\textwidth}
+        \textbf{MATLAB}
+        \footnotesize
+        \begin{block}{}
+            \texttt{x = 0:pi/10:2*pi;}\\
+            \texttt{y = sin(x);}\\
+            \texttt{plot(x, y);}\\
+            \texttt{title('Seno');}\\
+            \texttt{xlabel('x');}\\
+            \texttt{ylabel('sin(x)');}\\
+            \texttt{grid on;}
+        \end{block}
+        \column{0.5\textwidth}
+        \textbf{Python (Matplotlib)}
+        \footnotesize
+        \begin{block}{}
+            \texttt{import matplotlib.pyplot as plt}\\
+            \texttt{import numpy as np}\\
+            \texttt{x = np.arange(0, 2*np.pi, np.pi/10)}\\
+            \texttt{y = np.sin(x)}\\
+            \texttt{plt.plot(x, y)}\\
+            \texttt{plt.title('Seno')}\\
+            \texttt{plt.xlabel('x')}\\
+            \texttt{plt.ylabel('sin(x)')}\\
+            \texttt{plt.grid(True)}\\
+            \texttt{plt.show() \# Para mostrar la gráfica}
+        \end{block}
+    \end{columns}
+    Se recomienda importar \texttt{matplotlib.pyplot} como \texttt{plt}.
+\end{frame}
+
+\begin{frame}{Subplots}
+    \begin{columns}
+        \column{0.5\textwidth}
+        \textbf{MATLAB}
+        \footnotesize
+        \begin{block}{}
+            \texttt{t = 0:0.1:10;}\\
+            \texttt{y1 = sin(t);}\\
+            \texttt{y2 = cos(t);}\\
+            \texttt{subplot(2, 1, 1); \% Filas, Cols, Panel}\\
+            \texttt{plot(t, y1);}\\
+            \texttt{title('Seno');}\\
+            \texttt{subplot(2, 1, 2);}\\
+            \texttt{plot(t, y2);}\\
+            \texttt{title('Coseno');}
+        \end{block}
+        \column{0.5\textwidth}
+        \textbf{Python (Matplotlib)}
+        \footnotesize
+        \begin{block}{}
+            \texttt{import matplotlib.pyplot as plt}\\
+            \texttt{import numpy as np}\\
+            \texttt{t = np.arange(0, 10, 0.1)}\\
+            \texttt{y1 = np.sin(t)}\\
+            \texttt{y2 = np.cos(t)}\\
+            \texttt{plt.subplot(2, 1, 1) \# Filas, Cols, Panel (base 1)}\\
+            \texttt{plt.plot(t, y1)}\\
+            \texttt{plt.title('Seno')}\\
+            \texttt{plt.subplot(2, 1, 2)}\\
+            \texttt{plt.plot(t, y2)}\\
+            \texttt{plt.title('Coseno')}\\
+            \texttt{plt.tight\_layout() \# Ajusta el espacio}\\
+            \texttt{plt.show()}
+        \end{block}
+    \end{columns}
+    La función \texttt{subplot} en Matplotlib sigue la convención de MATLAB (base 1 para el número de panel).
+\end{frame}
+
+\section*{Consideraciones Adicionales}
+
+\begin{frame}{Entornos de Desarrollo Integrado (IDE)}
+    \begin{itemize}
+        \item \textbf{MATLAB:} Viene con su propio entorno robusto.
+        \item \textbf{Python:} Existen varias opciones populares:
+        \begin{itemize}
+            \item \textbf{Spyder:} Muy similar a MATLAB, ideal para la transición.
+            \item \textbf{Jupyter Notebook/Lab:} Excelente para análisis interactivo y documentación.
+            \item \textbf{VS Code, PyCharm:} IDEs más generales y potentes.
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Manejo de Archivos .m}
+    No hay una conversión automática perfecta de código MATLAB a Python. A menudo es necesario reescribir el código, aprovechando las capacidades y librerías de Python.
+\end{frame}
+
+\begin{frame}{Rendimiento}
+    \begin{itemize}
+        \item Para operaciones vectorizadas y matriciales, MATLAB a menudo es muy rápido debido a su optimización interna y el uso de librerías matemáticas de bajo nivel.
+        \item En Python, el uso eficiente de NumPy es crucial para obtener buen rendimiento en operaciones numéricas.
+        \item Para bucles explícitos, Python puro puede ser más lento que MATLAB, pero se pueden usar herramientas como Numba o Cython para acelerar secciones críticas.
+    \end{itemize}
+\end{frame}
+
+\section*{Recursos Adicionales}
+
+\begin{frame}{Recursos para la Transición}
+    \begin{itemize}
+        \item \textbf{Documentación de NumPy:} Excelente referencia para funciones matemáticas y manipulación de arrays.
+        \item \textbf{Documentación de Matplotlib:} Guías y ejemplos para crear visualizaciones.
+        \item \textbf{Guías de transición en línea:} Muchos sitios web ofrecen comparaciones detalladas y tutoriales (buscar "MATLAB to Python migration guide").
+        \item \textbf{Cursos en línea:} Plataformas como Coursera, edX, Codecademy, etc., ofrecen cursos de Python, NumPy y Matplotlib.
+        \item \textbf{Comunidades en línea:} Stack Overflow, foros de Python y comunidades de librerías específicas.
+    \end{itemize}
+\end{frame}
+
+\section*{Conclusión}
+
+\begin{frame}{Resumen}
+    \begin{itemize}
+        \item Python es una alternativa potente y versátil a MATLAB, con un gran ecosistema de librerías para computación científica.
+        \item Las principales diferencias radican en la sintaxis (indentación, fin de sentencia, definición de bloques) y la indexación (base 0 en Python).
+        \item NumPy proporciona la funcionalidad de arrays y operaciones numéricas similar a MATLAB.
+        \item Matplotlib permite crear gráficos de manera similar a MATLAB.
+        \item La transición requiere adaptarse a la sintaxis de Python y familiarizarse con las librerías clave.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{¡Gracias!}
+    \begin{center}
+        % Asegúrate de tener el logo en la misma carpeta o especifica la ruta
+        % \includegraphics[width=0.3\textwidth]{logo_anahuac.png}
+        % Si no tienes la imagen del logo, puedes quitar la línea anterior.
+    \end{center}
+    \begin{center}
+        Preguntas?
+    \end{center}
+\end{frame}
+
+\end{document}

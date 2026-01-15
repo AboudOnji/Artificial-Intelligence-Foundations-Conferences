@@ -1,0 +1,27 @@
+\frametitle{Ejemplo de Código: División de Datos}
+\begin{columns}[t]
+        \column{.48\textwidth}
+            \begin{block}{Python (Scikit-learn)}
+                \begin{lstlisting}
+from sklearn.model_selection import train_test_split
+
+# Dividir en 80% entrenamiento y 20% prueba
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.20, random_state=42
+)
+                \end{lstlisting}
+            \end{block}
+
+        \column{.48\textwidth}
+            \begin{alertblock}{MATLAB}
+                 \begin{lstlisting}
+% Crear una particion para 80% entrenamiento y 20% prueba
+cvp = cvpartition(Y, 'Holdout', 0.20);
+
+X_train = X(cvp.training,:);
+Y_train = Y(cvp.training);
+X_test = X(cvp.test,:);
+Y_test = Y(cvp.test);
+                \end{lstlisting}
+            \end{alertblock}
+    \end{columns}

@@ -1,0 +1,426 @@
+\documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
+\usetheme{SimpleDarkBlue}
+
+\usepackage[spanish]{babel} % Cambiado a español para acentos y textos automáticos
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{lettrine}
+\setbeamertemplate{caption}[numbered]
+\usepackage[dvipsnames,svgnames,x11names]{xcolor}
+\usepackage{xurl}
+\usepackage{hyperref}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{adjustbox}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue, % Color más visible en temas oscuros
+    filecolor=blue,
+    urlcolor=blue,
+    citecolor=blue,
+}
+%----------------------------------------------------------------------------------------
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.97,0.97,0.99}
+
+\lstdefinestyle{MATLABStyle}{
+  language=Matlab,
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{blue}\bfseries,
+  commentstyle=\color{codegreen},
+  stringstyle=\color{violet},
+  numberstyle=\tiny\color{gray},
+  breakatwhitespace=false,
+  breaklines=true,
+  captionpos=b,
+  keepspaces=true,
+  numbers=left,
+  numbersep=5pt,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  tabsize=2,
+  frame=lines,
+  framerule=0.4pt,
+  backgroundcolor=\color{backcolour}
+}
+\lstset{style=MATLABStyle}
+%----------------------------------------------------------------------------------------
+%   TITLE PAGE
+%----------------------------------------------------------------------------------------
+\title{Procesamiento de Lenguaje Natural (NLP)} 
+\subtitle{Clase 1: Introducción y Preprocesamiento de Texto} 
+\author{Prof. D.Sc. BARSEKH-ONJI Aboud}
+\institute{
+    Faculty of Engineering \\
+    Universidad Anáhuac México Sur
+}
+\date{\today}
+%----------------------------------------------------------------------------------------
+\AtBeginSection[]
+{
+  \begin{frame}{Agenda}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+%----------------------------------------------------------------------------------------
+\begin{document}
+
+%-------------------------------------------------
+% DIAPOSITIVA DE TÍTULO
+%-------------------------------------------------
+\begin{frame}[plain] % 'plain' para quitar encabezado y pie de página
+    \titlepage
+\end{frame}
+
+%-------------------------------------------------
+% DIAPOSITIVA DE AGENDA GENERAL
+%-------------------------------------------------
+\begin{frame}{Agenda de la Clase}
+    \tableofcontents
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\section{Introducción al NLP}
+%----------------------------------------------------------------------------------------
+
+\begin{frame}{¿Qué es el Procesamiento de Lenguaje Natural?}
+    \begin{block}{Definición}
+        Es un campo de la Inteligencia Artificial (IA) que permite a las computadoras \textbf{comprender, interpretar y manipular el lenguaje humano}.
+    \end{block}
+    
+    \begin{itemize}
+        \item Busca cerrar la brecha entre la comunicación humana y la comprensión de las computadoras.
+        \item No se trata solo de palabras, sino de entender el \textbf{contexto}, la \textbf{intención} y el \textbf{sentimiento}.
+    \end{itemize}
+    
+    \vfill
+    \begin{center}
+        \LARGE
+        Lenguaje Humano \quad $\Longleftrightarrow$ \quad Lenguaje de Máquina
+    \end{center}
+\end{frame}
+
+%-------------------------------------------------
+\begin{frame}{Aplicaciones en el Mundo Real}
+    \begin{columns}[T] % 'T' para alinear por arriba
+        \begin{column}{0.5\textwidth}
+            \begin{itemize}
+                \item \textbf{Traductores Automáticos:}\\ Google Translate, DeepL.
+                \vfill
+                \item \textbf{Asistentes Virtuales:}\\ Siri, Alexa, Google Assistant.
+                \vfill
+                \item \textbf{Análisis de Sentimientos:}\\ ¿Qué opinan los clientes de un producto en redes sociales?
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{itemize}
+                \item \textbf{Chatbots:}\\ Atención al cliente automatizada.
+                \vfill
+                \item \textbf{Clasificación de Texto:}\\ Organizar correos en spam/no spam.
+                \vfill
+                \item \textbf{Resumen de Textos:}\\ Crear un resumen de un largo artículo de noticias.
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\section{El Desafío del Lenguaje}
+%----------------------------------------------------------------------------------------
+
+\begin{frame}{¿Por qué es tan difícil para una máquina?}
+    El lenguaje humano es inherentemente complejo y ambiguo.
+    
+    \begin{alertblock}{El gran problema: La Ambigüedad}
+        Consideremos la frase: \textit{''Vi a un hombre en la colina con un telescopio.''}
+    \end{alertblock}
+    
+    \begin{itemize}
+        \item ¿Quién tiene el telescopio?
+        \begin{itemize}
+            \item ¿Lo estaba usando yo para ver al hombre?
+            \item ¿El hombre en la colina tenía el telescopio?
+        \end{itemize}
+        \vfill
+        \item Los humanos usamos el \textbf{contexto} para resolver esto. Las máquinas necesitan ser entrenadas para hacerlo.
+    \end{itemize}
+    
+    Otros desafíos incluyen la ironía, el sarcasmo, las jergas y la evolución constante del lenguaje.
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\section{Preprocesamiento de Texto: La Limpieza de Datos}
+%----------------------------------------------------------------------------------------
+
+\begin{frame}{La Base de Todo Proyecto de NLP}
+    \begin{block}{Analogía}
+        El preprocesamiento de texto es como la \textit{mise en place} en la cocina: antes de poder cocinar, debes lavar, pelar y cortar los ingredientes.
+    \end{block}
+    
+    \begin{itemize}
+        \item El texto del mundo real es ''sucio'': contiene mayúsculas, puntuación, palabras irrelevantes, etc.
+        \item Nuestro objetivo es \textbf{estandarizar y limpiar} el texto para que los algoritmos de IA puedan procesarlo de manera eficiente.
+    \end{itemize}
+    \vfill
+    \begin{center}
+        \textbf{Texto Crudo $\rightarrow$ Limpieza $\rightarrow$ Texto Procesado}
+    \end{center}
+\end{frame}
+
+%-------------------------------------------------
+\begin{frame}{Pasos Clave del Preprocesamiento}
+    \begin{enumerate}
+        \item \textbf{Tokenización:} Dividir el texto en unidades más pequeñas (palabras o ''tokens'').
+        \pause
+        \item \textbf{Normalización:} Convertir todo a minúsculas.
+        \pause
+        \item \textbf{Eliminación de \textit{Stop Words}:} Quitar palabras comunes sin significado (ej. ''el'', ''y'', ''un'').
+        \pause
+        \item \textbf{\textit{Stemming} (Derivación):} Reducir las palabras a su raíz.
+    \end{enumerate}
+    
+    \vfill
+    \begin{alertblock}{}
+        Veremos cada uno de estos pasos en detalle y luego los aplicaremos en MATLAB.
+    \end{alertblock}
+\end{frame}
+
+%-------------------------------------------------
+\begin{frame}{1. Tokenización}
+    \begin{block}{Objetivo}
+        Segmentar un texto en sus componentes básicos, llamados \textbf{tokens}. Generalmente, un token es una palabra.
+    \end{block}
+    
+    \textbf{Ejemplo:}
+    \vfill
+    \begin{center}
+        \large
+        ''El NLP es fascinante.''
+        \vspace{1cm}
+        $\downarrow$
+        \vspace{1cm}
+        \fbox{El} \quad \fbox{NLP} \quad \fbox{es} \quad \fbox{fascinante} \quad \fbox{.}
+    \end{center}
+ \begin{alertblock}{En MATLAB..}
+    La función \texttt{'tokenizedDocument'} se encarga de esto y mucho más.
+ \end{alertblock}
+\end{frame}
+
+%-------------------------------------------------
+\begin{frame}{2. Normalización (a Minúsculas)}
+    \begin{block}{Objetivo}
+        Asegurar que la misma palabra se trate de igual forma, sin importar si está en mayúsculas o minúsculas.
+    \end{block}
+    
+    \textbf{Ejemplo:}
+    \begin{itemize}
+        \item El algoritmo vería ''Hola'', ''hola'' y ''HOLA'' como tres palabras diferentes.
+        \item Al convertir todo a minúsculas, las tres se convierten en \textbf{''hola''}.
+    \end{itemize}
+    \vfill
+    \begin{center}
+        \large
+        \textbf{Hola} mundo $\rightarrow$ \textbf{hola} mundo
+    \end{center}
+\begin{alertblock}{En MATLAB..}
+    usamos la función \texttt{'lower()'}
+\end{alertblock}
+    
+\end{frame}
+
+%-------------------------------------------------
+\begin{frame}{3. Eliminación de \textit{Stop Words}}
+    \begin{block}{Objetivo}
+        Eliminar palabras extremadamente comunes que no aportan un significado semántico relevante al texto.
+    \end{block}
+    
+    \begin{itemize}
+        \item Ejemplos en español: \textit{el, la, y, a, un, pero, por, para...}
+        \item Estas palabras son útiles para la gramática humana, pero a menudo son ''ruido'' para los modelos de IA.
+    \end{itemize}
+    
+    \textbf{Ejemplo:}
+    \vfill
+    \begin{center}
+        \large
+        ''el perro \textbf{y} el gato corren \textbf{en} el parque''
+        \vspace{0.5cm}
+        $\downarrow$
+        \vspace{0.5cm}
+        ''perro gato corren parque''
+    \end{center}
+\begin{alertblock}{En MATLAB..}
+    Usamos la función \texttt{'removeWords()'}.
+\end{alertblock}
+\end{frame}
+
+%-------------------------------------------------
+
+
+\begin{frame}{4. \textit{Stemming} (Derivación)}
+    \begin{block}{Objetivo}
+        Reducir una palabra a su raíz o ''stem'', aunque el resultado no sea siempre una palabra real. Es un método rápido y heurístico.
+    \end{block}
+    
+    \begin{itemize}
+        \item Ayuda a agrupar diferentes formas de una misma palabra.
+        \item Por ejemplo, queremos que el modelo entienda que ''correr'', ''corriendo'' y ''corrió'' se refieren al mismo concepto.
+    \end{itemize}
+    
+    \textbf{Ejemplo:}
+    \vfill
+    \begin{center}
+        \large
+        \begin{tabular}{l l}
+             \textbf{aprend}iendo & $\rightarrow$ \textbf{aprend} \\
+             \textbf{aprend}er & $\rightarrow$ \textbf{aprend} \\
+        \end{tabular}
+    \end{center}
+\begin{alertblock}{En MATLAB..}
+    La función \texttt{'normalizeWords'} con el estilo \texttt{'stem'} realiza esta tarea.
+\end{alertblock}
+\end{frame}
+
+\begin{frame}{4. \textit{Stemming} (Derivación)}
+    
+    \begin{columns}[T]
+        \begin{column}{0.5\textwidth}
+            \begin{alertblock}{1. Stemming (Derivación)}
+                \begin{itemize}
+                    \item \textbf{Cómo funciona:} Corta el final de las palabras usando reglas. Es rápido y eficiente.
+                    \item \textbf{Resultado:} La "raíz" no siempre es una palabra real.
+                    \item \textbf{Ejemplo:}
+                        \begin{itemize}
+                            \item `aprendizaje` $\rightarrow$ `aprendizaj`
+                            \item `aprendiendo` $\rightarrow$ `aprend`
+                        \end{itemize}
+                    \item \textbf{Uso:} \texttt{normalizeWords(doc, 'Style', 'stem')}
+                \end{itemize}
+            \end{alertblock}
+        \end{column}
+        
+        \begin{column}{0.5\textwidth}
+            \begin{block}{2. Lemmatization (Lematización)}
+                \begin{itemize}
+                    \item \textbf{Cómo funciona:} Usa un diccionario para encontrar la palabra raíz (lema). Es más preciso pero más lento.
+                    \item \textbf{Resultado:} Siempre es una palabra real.
+                    \item \textbf{Ejemplo:}
+                        \begin{itemize}
+                            \item `mejores` $\rightarrow$ `bueno`
+                            \item `fui` $\rightarrow$ `ir`
+                        \end{itemize}
+                    \item \textbf{Uso:} \texttt{normalizeWords(doc, 'Style', 'lemma')}
+                \end{itemize}
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+\begin{frame}{4. \textit{Stemming} (Derivación)}
+
+    \begin{alertblock}{Nuestra Elección para la Clase}
+        Usaremos \textbf{Stemming} porque es ideal para tareas de clasificación: es muy rápido y efectivo para agrupar las palabras clave de un texto.
+    \end{alertblock}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\section{Ejemplo Práctico en MATLAB}
+%----------------------------------------------------------------------------------------
+
+\begin{frame}[fragile]{Limpiando un Comentario de Principio a Fin}
+    \begin{block}{Objetivo}
+    Aplicar todos los pasos de preprocesamiento a una oración real usando el Text Analytics Toolbox™ de MATLAB.
+    \end{block}
+\begin{lstlisting}[language=Matlab]
+textoOriginal = 'Los alumnos estan aprendiendo sobre el Procesamiento de Lenguaje Natural y están muy emocionados.';
+
+doc = tokenizedDocument(lower(textoOriginal));
+
+listaStopWords = ["y", "el", "la", "los", "las", "un", "una", "de", "sobre", "estan", "están", "."];
+documento = removeWords(doc, listaStopWords);
+
+documentoProcesado = normalizeWords(documento, 'Style', 'stem');
+
+palabrasFinales = string(documentoProcesado.tokenDetails.Token);
+\end{lstlisting}
+\end{frame}
+
+%-------------------------------------------------
+\begin{frame}[fragile]{Análisis del Resultado}
+    \begin{columns}[T]
+        \begin{column}{0.4\textwidth}
+            \textbf{Texto Original:}
+            \begin{itemize}
+                \item ''Los alumnos estan aprendiendo sobre el Procesamiento de Lenguaje Natural y estan muy emocionados.''
+            \end{itemize}
+        \end{column}
+        
+        \begin{column}{0.6\textwidth}
+            \begin{alertblock}{Tokens Finales (Salida del Código)}
+            \begin{verbatim}
+'alumn'
+'aprend'
+'procesamiento'
+'lenguaj'
+'natural'
+'muy'
+'emocion'
+            \end{verbatim}
+            \end{alertblock}
+        \end{column}
+    \end{columns}
+\end{frame}    
+
+\begin{frame}[fragile]{Análisis del Resultado}
+    \begin{block}{Observaciones}
+        \begin{itemize}
+            \item El texto se ha reducido a sus palabras más significativas.
+            \item Las palabras están en su forma raíz, lo que facilita el análisis posterior.
+            \item ¡Este texto ''limpio'' ya está listo para ser convertido en números para un modelo de IA!
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\section{Conclusiones y Próximos Pasos}
+%----------------------------------------------------------------------------------------
+
+\begin{frame}{Resumen y Conclusiones}
+    \begin{itemize}
+        \item \textbf{¿Qué es el NLP?} Es el campo que enseña a las máquinas a entender el lenguaje humano.
+        \vfill
+        \item \textbf{El Preprocesamiento es Clave:} No podemos trabajar con texto ''crudo''. Limpiar y estandarizar los datos es el primer paso y el más importante.
+        \vfill
+        \item \textbf{Nuestra Caja de Herramientas:} Hemos aprendido 4 técnicas fundamentales:
+            \begin{enumerate}
+                \item Tokenización
+                \item Normalización a minúsculas
+                \item Eliminación de Stop Words
+                \item Stemming
+            \end{enumerate}
+    \end{itemize}
+\end{frame}
+
+%-------------------------------------------------
+\begin{frame}{Próximos Pasos}
+    
+    \begin{block}{La Próxima Frontera: De Palabras a Números}
+        Hemos limpiado nuestras palabras, pero los modelos de Machine Learning no entienden ''alumn'' o ''aprend''. Entienden números.
+        
+        En la próxima clase, aprenderemos a convertir nuestro texto procesado en \textbf{vectores numéricos} usando técnicas como \textbf{Bag-of-Words} y \textbf{TF-IDF}.
+    \end{block}
+    
+    \vfill
+    \begin{center}
+        \textit{¡Será el puente definitivo entre el lenguaje y las matemáticas!}
+    \end{center}
+\end{frame}
+
+\end{document}

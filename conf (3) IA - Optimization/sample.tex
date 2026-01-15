@@ -1,0 +1,447 @@
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND THEMES
+%----------------------------------------------------------------------------------------
+\documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
+\usetheme{SimpleDarkBlue}
+
+\usepackage[spanish]{babel}
+\usepackage{hyperref}
+\usepackage{graphicx} % Allows including images
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+\usepackage{amsmath}
+\usepackage{lettrine}
+\usepackage[dvipsnames,svgnames,x11names]{xcolor}% Para definir y usar colores (ej. en hipervínculos)
+\usepackage{xurl}
+\usepackage{hyperref}       % Para crear hipervínculos internos y externos
+\hypersetup{
+    colorlinks=true,        % Colorear los enlaces en lugar de usar recuadros
+    linkcolor=blue,     % Color para enlaces internos (índice, referencias cruzadas)
+    filecolor=blue, % Color para enlaces a archivos locales
+    urlcolor=blue,      % Color para URLs
+    citecolor=blue,     % Color para citas bibliográficas
+}
+
+% --- Añade esta línea aquí para numerar figuras ---
+\setbeamertemplate{caption}[numbered]
+% --------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%--------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title{Fundamentos Avanzados de Optimización}
+\subtitle{Materia: Fundamentos de Inteligencia Artificial}
+
+\author{Prof. D.Sc. BARSEKH-ONJI Aboud}
+
+\institute
+{
+    Facultad de Ingeniería \\
+    Universidad Anáhuac México % Your institution for the title page
+}
+\date{\today} % Date, can be changed to a custom date
+
+%----------------------------------------------------------------------------------------
+%	PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+% Poner esto en el preámbulo
+\AtBeginSection[]
+{
+  \begin{frame}{Agenda}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+\begin{document}
+
+\begin{frame}
+    % Print the title page as the first slide
+    \titlepage
+\end{frame}
+
+%------------------------------------------------
+
+%------------------------------------------------
+
+\begin{frame}{Introducción a la Optimización}
+    \begin{block}{Objetivo de la Sección}
+    Para aplicar y evaluar eficazmente los algoritmos de búsqueda, es fundamental entender los principios de los problemas de optimización. Esta sección examina la naturaleza de estos problemas, su clasificación y los fundamentos matemáticos que definen la optimalidad.
+    \end{block}
+\end{frame}
+
+%------------------------------------------------
+\section{Terminología de los Problemas de Optimización}
+%------------------------------------------------
+
+\begin{frame}{Terminología de los Problemas de Optimización (Parte 1)}
+    \begin{description}
+        \item[\textbf{Función Objetivo (o de Costo/Aptitud):}] Es la función $f(x)$ que se desea minimizar o maximizar. \pause
+        \item[\textbf{Variables de Decisión:}] Son las variables $x = (x_1, \dots, x_n)$ cuyos valores se buscan para optimizar la función objetivo. \pause
+        \item[\textbf{Espacio de Búsqueda:}] El conjunto de todos los posibles valores que pueden tomar las variables de decisión. \pause
+        \item[\textbf{Restricciones (Constraints):}] Condiciones que deben satisfacer las variables de decisión y que limitan el espacio de búsqueda a una \textbf{región factible}.
+    \end{description}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Terminología de los Problemas de Optimización (Parte 2)}
+    \begin{description}
+        \item[\textbf{Solución Factible:}] Un conjunto de valores para las variables de decisión que satisface todas las restricciones. \pause
+        \item[\textbf{Solución Óptima:}] Una solución factible que produce el valor óptimo (mínimo o máximo) de la función objetivo. \pause
+        \item[\textbf{Óptimo Local vs. Óptimo Global:}] Un \textbf{óptimo local} es una solución mejor que sus vecinas. Un \textbf{óptimo global} es la mejor solución en toda la región factible.
+    \end{description}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Visualización de un Problema de Optimización}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.9\textwidth]{Figuras/Cap5/fig5-2.png}
+        \caption{Ilustración de un problema simple con su función objetivo (líneas de contorno), restricciones (líneas de colores) y región factible (área sombreada).}
+        \label{fig:simple_opt_problem}
+    \end{figure}
+\end{frame}
+
+%------------------------------------------------
+\section{Tipos de Restricciones y Área Factible de Soluciones}
+%------------------------------------------------
+
+\begin{frame}{Tipos de Restricciones y Área Factible}
+    \begin{block}{Tipos de Restricciones}
+    Las restricciones definen la región del espacio de búsqueda donde se encuentran las soluciones válidas.
+        \begin{itemize}
+            \item \textbf{Restricciones de Igualdad:} De la forma $h_j(x) = 0$.
+            \item \textbf{Restricciones de Desigualdad:} De la forma $g_i(x) \le 0$.
+            \item \textbf{Restricciones de Límite (Box Constraints):} Especifican rangos para las variables individuales, $x_k^{min} \le x_k \le x_k^{max}$.
+        \end{itemize}
+    \end{block}
+    
+    \begin{alertblock}{Área Factible de Soluciones}
+    Es el subconjunto del espacio de búsqueda que satisface todas las restricciones.
+        \begin{itemize}
+            \item Puede ser un conjunto convexo o no convexo, continuo o discreto.
+            \item El manejo de restricciones (e.g., mediante funciones de penalización) es un aspecto crucial en muchos problemas de optimización.
+        \end{itemize}
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+\section{Exploración y Explotación en un Espacio de Búsqueda}
+%------------------------------------------------
+
+\begin{frame}{El Dilema Central: Exploración vs. Explotación}
+    \begin{block}{Un Desafío Fundamental en la Optimización Heurística}
+    Lograr un equilibrio adecuado entre la exploración y la explotación es clave para el éxito de un algoritmo de búsqueda.
+    \end{block}
+    
+    \begin{columns}[t]
+        \column{.48\textwidth}
+            \begin{alertblock}{Exploración (Exploration)}
+                \begin{itemize}
+                    \item Proceso de visitar regiones \textbf{nuevas y diversas} del espacio de búsqueda.
+                    \item \textbf{Objetivo:} Descubrir áreas potencialmente prometedoras y evitar quedar atrapado en óptimos locales.
+                    \item Implica una búsqueda más \textbf{global}.
+                \end{itemize}
+            \end{alertblock}
+
+        \column{.48\textwidth}
+            \begin{alertblock}{Explotación (Exploitation)}
+                 \begin{itemize}
+                    \item Proceso de \textbf{refinar las soluciones} ya encontradas en regiones prometedoras.
+                    \item \textbf{Objetivo:} Mejorar incrementalmente las buenas soluciones actuales.
+                    \item Implica una búsqueda más \textbf{local}.
+                \end{itemize}
+            \end{alertblock}
+    \end{columns}
+\end{frame}
+
+%------------------------------------------------
+\section{Clasificación Detallada de Problemas de Optimización}
+%------------------------------------------------
+
+\begin{frame}{Clasificación de Problemas de Optimización}
+    \begin{block}{Criterios de Clasificación}
+    Los problemas de optimización se clasifican según las propiedades de su función objetivo, sus restricciones y sus variables.
+    \end{block}
+    
+    \begin{itemize}
+        \item \textbf{Por Linealidad:}
+            \begin{itemize}
+                \item Programas Lineales (LP) vs. Programas No Lineales (NLP).
+            \end{itemize} \pause
+        \item \textbf{Por Tipo de Variables:}
+            \begin{itemize}
+                \item Continuos, Enteros (IP) o Mixtos (MIP).
+            \end{itemize} \pause
+        \item \textbf{Por Dependencia del Tiempo:}
+            \begin{itemize}
+                \item Estáticos vs. Dinámicos (Control Óptimo).
+            \end{itemize} \pause
+        \item \textbf{Por Incertidumbre:}
+            \begin{itemize}
+                \item Deterministas vs. Estocásticos.
+            \end{itemize} \pause
+        \item \textbf{Por Número de Objetivos:}
+            \begin{itemize}
+                \item Objetivo único vs. Multiobjetivo.
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Diagrama de Clasificación}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.8\textwidth]{Figuras/Cap5/fig5-3.png}
+        \caption{Clasificación jerárquica de los diferentes tipos de problemas de optimización.}
+        \label{fig:clasificacion_optimizacion_diagrama}
+    \end{figure}
+\end{frame}
+
+%------------------------------------------------
+\section{Formulación General y Soluciones Óptimas para NLP}
+%------------------------------------------------
+
+\begin{frame}{Formulación General de un Problema No Lineal (NLP)}
+    \begin{block}{Formulación Matemática}
+    Un Problema de Optimización No Lineal (NLP) se formula generalmente como:
+    
+    \textbf{Minimizar:} $f(\mathbf{x})$
+    
+    \textbf{Sujeto a:}
+    \begin{align*}
+        c_i(\mathbf{x}) &= 0, \quad \forall i \in E \quad \text{(restricciones de igualdad)} \\
+        c_i(\mathbf{x}) &\le 0, \quad \forall i \in I \quad \text{(restricciones de desigualdad)}
+    \end{align*}
+    \end{block}
+    
+    \begin{alertblock}{Conjunto Factible ($\Omega$)}
+    Las restricciones definen el \textbf{conjunto factible} $\Omega$, que es el universo de todas las soluciones posibles. El problema es, entonces, encontrar el punto $\mathbf{x}$ dentro de $\Omega$ que minimice $f(\mathbf{x})$.
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Tipos de Soluciones Óptimas}
+    \begin{itemize}
+        \item \textbf{Solución local:} Un punto $\mathbf{x}^*$ es un mínimo local si es mejor que todos sus puntos \textbf{vecinos} inmediatos. \pause
+        \item \textbf{Solución global:} Un punto $\mathbf{x}^*$ es un mínimo global si es la \textbf{mejor solución en todo el conjunto factible}.
+    \end{itemize}
+    
+    
+\end{frame}
+\begin{frame}{Tipos de Soluciones Óptimas}
+
+\begin{figure}
+        \centering
+        \includegraphics[width=0.9\textwidth]{Figuras/Cap5/fig5-4.png}
+        \caption{Ilustraciones de (a) mínimo global, (b) dos mínimos locales (uno global), (c) un mínimo local sin mínimo global, y (d) un intervalo de mínimos no estrictos.}
+        \label{fig:ejemplos_sol_optimas}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Tipos de Soluciones Óptimas}
+
+\begin{figure}
+        \centering
+        \includegraphics[width=0.7\textwidth]{cresta.png}
+        \caption{Espacio de Estados unidimensionales y tridimensionales}
+        \label{fig:ejemplos_sol_optimas}
+    \end{figure}
+\end{frame}
+
+%------------------------------------------------
+\section{Herramientas Matemáticas: Gradiente y Hessiana}
+%------------------------------------------------
+
+\begin{frame}{Herramientas Matemáticas Clave}
+    \begin{columns}[t]
+        \column{.48\textwidth}
+            \begin{block}{Gradiente (Primera Derivada)}
+                El \textbf{gradiente} de una función $f$ en un punto $\mathbf{x}$ es el vector de sus primeras derivadas parciales.
+                $$ \nabla f(\mathbf{x}) = \begin{bmatrix} \partial f / \partial x_1 \\ \vdots \\ \partial f / \partial x_n \end{bmatrix}_{\mathbf{x}} $$
+                \vspace{1em}
+                \textbf{Intuición:} El gradiente apunta en la dirección de máximo crecimiento de la función en ese punto.
+            \end{block}
+
+        \column{.48\textwidth}
+            \begin{alertblock}{Matriz Hessiana (Segunda Derivada)}
+                 La \textbf{Matriz Hessiana}, $H(\mathbf{x})$, es la matriz de las segundas derivadas parciales de la función $f$.
+                 $$ H(\mathbf{x}) = \begin{bmatrix} \frac{\partial^2 f}{\partial x_1^2} & \cdots & \frac{\partial^2 f}{\partial x_1 \partial x_n} \\ \vdots & \ddots & \vdots \\ \frac{\partial^2 f}{\partial x_n \partial x_1} & \cdots & \frac{\partial^2 f}{\partial x_n^2} \end{bmatrix}_{\mathbf{x}} $$
+                 \vspace{1em}
+                 \textbf{Intuición:} La Hessiana describe la curvatura local de la función (si se parece a un cuenco hacia arriba o hacia abajo).
+            \end{alertblock}
+    \end{columns}
+\end{frame}
+%------------------------------------------------
+\section{Condiciones de Optimalidad para Optimización sin Restricciones}
+%------------------------------------------------
+
+\begin{frame}{Condiciones de Optimalidad para Mínimos Locales}
+    \begin{columns}[t]
+        \column{.48\textwidth}
+            \begin{block}{Condiciones Necesarias de 1er Orden (CNPO)}
+                \textbf{Teorema:} Si $\mathbf{x}^*$ es un minimizador local de $f$, entonces el gradiente en ese punto debe ser cero.
+                $$ \nabla f(\mathbf{x}^*) = \mathbf{0} $$
+                \textbf{Intuición:} En un mínimo, la función es 'plana'; no está ni aumentando ni disminuyendo.
+            \end{block}
+
+        \column{.48\textwidth}
+            \begin{alertblock}{Condiciones Necesarias de 2º Orden (CNSO)}
+                 \textbf{Teorema:} Si $\mathbf{x}^*$ es un minimizador local, entonces:
+                 \begin{enumerate}
+                    \item $\nabla f(\mathbf{x}^*) = \mathbf{0}$.
+                    \item La Hessiana, $\nabla^2 f(\mathbf{x}^*)$, es \textbf{semidefinida positiva}.
+                 \end{enumerate}
+                 \textbf{Intuición:} La curvatura en el punto es como un 'cuenco' hacia arriba (o plano).
+            \end{alertblock}
+    \end{columns}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Condiciones Suficientes de Optimalidad (CSO)}
+    \begin{block}{Garantizando un Mínimo Local Estricto}
+    \textbf{Teorema:} Si en un punto $\mathbf{x}^*$ se cumple que:
+        \begin{enumerate}
+            \item El gradiente es cero: $\nabla f(\mathbf{x}^*) = \mathbf{0}$.
+            \item La Hessiana es \textbf{definida positiva}.
+        \end{enumerate}
+    Entonces, podemos asegurar que $\mathbf{x}^*$ es un \textbf{minimizador local estricto} de $f$.
+    \end{block}
+    
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.3\textwidth]{Figuras/Cap5/fig5-5.png}
+        \caption{Relación entre las diferentes condiciones de optimalidad.}
+        \label{fig:cond_opt_smooth}
+    \end{figure}
+\end{frame}
+%------------------------------------------------
+\section{Convexidad en Problemas de Optimización}
+%------------------------------------------------
+
+\begin{frame}{¿Qué es la Convexidad?}
+    \begin{alertblock}{La Propiedad Clave de la Convexidad}
+    La convexidad es una propiedad muy importante en optimización porque para problemas convexos, se garantiza que \textbf{cualquier mínimo local es también un mínimo global}.
+    \end{alertblock}
+    
+    \begin{columns}[t]
+        \column{.48\textwidth}
+            \begin{block}{Conjunto Convexo}
+                Un conjunto es convexo si el segmento de línea que une dos puntos cualesquiera del conjunto está completamente contenido en el conjunto.
+                
+                \vspace{1em}
+                
+                
+            \end{block}
+
+        \column{.48\textwidth}
+            \begin{block}{Función Convexa}
+                Una función es convexa si el segmento de línea que une dos puntos cualesquiera de su gráfica se encuentra por encima de la gráfica. Intuitivamente, tiene forma de "cuenco".
+                 $$ f(\alpha \mathbf{x}_1 + (1-\alpha)\mathbf{x}_2) \le \alpha f(\mathbf{x}_1) + (1-\alpha)f(\mathbf{x}_2) $$
+            \end{block}
+    \end{columns}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Convexidad y la Matriz Hessiana}
+    \begin{block}{Condición para Funciones Diferenciables}
+    Podemos determinar si una función es convexa analizando su Matriz Hessiana (la matriz de sus segundas derivadas):
+    \begin{itemize}
+        \item Una función $f$ es \textbf{convexa} si y sólo si su matriz Hessiana $H(\mathbf{x})$ es \textbf{semidefinida positiva}.
+        \item Si $H(\mathbf{x})$ es \textbf{definida positiva}, entonces $f$ es estrictamente convexa.
+    \end{itemize}
+    \end{block}
+    
+    \begin{alertblock}{Problema de Optimización Convexa}
+    Un problema de optimización se considera convexo si se cumplen dos condiciones:
+    \begin{enumerate}
+        \item La función objetivo $f$ es convexa.
+        \item El conjunto factible $\Omega$ es un conjunto convexo.
+    \end{enumerate}
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+\section{Métodos de Solución para Optimización sin Restricciones}
+%------------------------------------------------
+
+\begin{frame}{Métodos de Solución para Optimización sin Restricciones}
+    \begin{columns}[t]
+        \column{.55\textwidth}
+            \begin{block}{Métodos Directos (Descenso Iterativo)}
+                Estos métodos comienzan en un punto y se mueven iterativamente hacia una mejor solución. Los enfoques principales son:
+                \begin{itemize}
+                    \item \textbf{Búsqueda Lineal (Line-Search):} En cada paso, se elige una dirección de descenso y se determina qué tan largo dar el paso en esa dirección.
+                    \item \textbf{Región de Confianza (Trust-Region):} Se aproxima la función con un modelo más simple en una pequeña región y se minimiza ese modelo.
+                \end{itemize}
+            \end{block}
+
+        \column{.45\textwidth}
+            \begin{alertblock}{Métodos Indirectos}
+                 Estos métodos intentan encontrar la solución óptima resolviendo directamente el sistema de ecuaciones que surge de las condiciones de optimalidad.
+                 
+                 \vspace{1em}
+                 El objetivo es encontrar el punto $\mathbf{x}$ que satisface:
+                 $$ \nabla f(\mathbf{x}) = \mathbf{0} $$
+            \end{alertblock}
+    \end{columns}
+\end{frame}
+\begin{frame}{Métodos de Solución para Optimización sin Restricciones}
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Figuras/Cap5/fig5-7.png}
+    \caption{Los métodos directos e indirectos para resolver un problema de optimización}
+    \label{fig:placeholder}
+\end{figure}
+\end{frame}
+%------------------------------------------------
+\section{Optimización de Caja Negra}
+%------------------------------------------------
+
+\begin{frame}{Optimización de Caja Negra (Black-Box)}
+    \begin{block}{Definición}
+    Se refiere a problemas donde \textbf{no se tiene información de los gradientes} (primera derivada) de la función objetivo. Solo se pueden obtener evaluaciones numéricas de la función (se le da una entrada $\mathbf{x}$ y devuelve una salida $f(\mathbf{x})$).
+    \end{block}
+    
+    \begin{alertblock}{Enfoque de Solución}
+    El algoritmo de optimización trata la función objetivo como una "caja negra". Debe encontrar la solución óptima basándose únicamente en el muestreo de diferentes puntos de entrada y observando sus correspondientes valores de salida. Las \textbf{metaheurísticas}, como los algoritmas evolutivos, son comunes para este tipo de problemas.
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+\section{Optimización en el Contexto del Aprendizaje Automático}
+%------------------------------------------------
+
+\begin{frame}{Optimización en el Aprendizaje Automático}
+    \begin{block}{El Corazón del Aprendizaje}
+    Muchos problemas de aprendizaje automático son, en esencia, problemas de optimización. Por ejemplo, el entrenamiento de una red neuronal implica \textbf{minimizar una función de error (o pérdida)} ajustando los pesos y sesgos de las neuronas.
+    \end{block}
+    
+            \begin{alertblock}{Terminología Cruzada}
+                \begin{itemize}
+                    \item Entrenamiento $\leftrightarrow$ Ajuste de modelo
+                    \item Función de pérdida $\leftrightarrow$ Función objetivo
+                    \item Pesos, sesgos $\leftrightarrow$ Variables de decisión
+                    \item Retropropagación $\leftrightarrow$ Método basado en gradiente
+                \end{itemize}
+            \end{alertblock}
+        
+        
+          
+\end{frame}
+\begin{frame}{Optimización en el Aprendizaje Automático}
+
+  \begin{figure}
+                \includegraphics[width=0.8\linewidth]{Figuras/Cap5/fig5-6.png}
+                \caption{Entrenamiento de una red neuronal como un problema de optimización.}
+                \label{fig:opt_en_ml_diagram}
+            \end{figure}
+     \end{frame}
+       
+\end{document}

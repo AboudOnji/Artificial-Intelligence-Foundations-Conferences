@@ -1,0 +1,12 @@
+\babel@toc {spanish}{}\relax 
+\beamer@sectionintoc {1}{Terminología de los Problemas de Optimización}{3}{0}{1}
+\beamer@sectionintoc {2}{Tipos de Restricciones y Área Factible de Soluciones}{12}{0}{2}
+\beamer@sectionintoc {3}{Exploración y Explotación en un Espacio de Búsqueda}{14}{0}{3}
+\beamer@sectionintoc {4}{Clasificación Detallada de Problemas de Optimización}{16}{0}{4}
+\beamer@sectionintoc {5}{Formulación General y Soluciones Óptimas para NLP}{23}{0}{5}
+\beamer@sectionintoc {6}{Herramientas Matemáticas: Gradiente y Hessiana}{29}{0}{6}
+\beamer@sectionintoc {7}{Condiciones de Optimalidad para Optimización sin Restricciones}{31}{0}{7}
+\beamer@sectionintoc {8}{Convexidad en Problemas de Optimización}{34}{0}{8}
+\beamer@sectionintoc {9}{Métodos de Solución para Optimización sin Restricciones}{37}{0}{9}
+\beamer@sectionintoc {10}{Optimización de Caja Negra}{40}{0}{10}
+\beamer@sectionintoc {11}{Optimización en el Contexto del Aprendizaje Automático}{42}{0}{11}

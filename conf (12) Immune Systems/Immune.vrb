@@ -1,0 +1,26 @@
+\frametitle{El Algoritmo Formal (CLONALG)}
+
+    \begin{algorithm}[H]
+    \caption{Pseudocódigo de CLONALG}
+    \tiny
+    \begin{algorithmic}[1]
+        \State Inicializar una población \textbf{Ab} de anticuerpos (soluciones) aleatorios.
+        \While{no se cumpla la condición de parada}
+            \State Presentar Antígeno (Problema).
+            \State \textbf{Evaluar Afinidad (Fitness)} de todos los anticuerpos en \textbf{Ab}.
+            \State \textbf{Seleccionar} los $n$ anticuerpos con mayor afinidad.
+            \State \textbf{Clonar} los $n$ mejores anticuerpos.
+                \begin{itemize}
+                    \item $\text{Nº de Clones} \propto \text{Afinidad}$ (los mejores se clonan más).
+                \end{itemize}
+            \State \textbf{Hipermutar} los clones.
+                \begin{itemize}
+                    \item $\text{Tasa de Mutación} \propto \frac{1}{\text{Afinidad}}$ (los mejores mutan menos).
+                \end{itemize}
+            \State \textbf{Re-seleccionar} los mejores clones y guardarlos como 'memoria' si superan a sus padres.
+            \State \textbf{Reemplazar} los $d$ peores anticuerpos por nuevas soluciones aleatorias (para mantener la diversidad).
+        \EndWhile
+        \State \Return El mejor anticuerpo (solución) encontrado.
+    \end{algorithmic}
+    \end{algorithm}
+

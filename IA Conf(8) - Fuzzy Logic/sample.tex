@@ -1,0 +1,610 @@
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND THEMES
+%----------------------------------------------------------------------------------------
+
+\documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
+\usetheme{SimpleDarkBlue}
+
+\usepackage[english]{babel}
+\usepackage{hyperref}
+\usepackage{graphicx} % Allows including images
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+\usepackage{amsmath}
+\usepackage{lettrine}
+\setbeamertemplate{caption}[numbered]
+\usepackage[dvipsnames,svgnames,x11names]{xcolor}% Para definir y usar colores (ej. en hipervínculos)
+\usepackage{xurl}
+\usepackage{hyperref}       % Para crear hipervínculos internos y externos
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{adjustbox}
+\hypersetup{
+    colorlinks=true,        % Colorear los enlaces en lugar de usar recuadros
+    linkcolor=blue,     % Color para enlaces internos (índice, referencias cruzadas)
+    filecolor=blue, % Color para enlaces a archivos locales
+    urlcolor=blue,      % Color para URLs
+    citecolor=blue,     % Color para citas bibliográficas
+}
+%----------------------------------------------------------------------------------------
+
+\usepackage{listings}
+\usepackage{xcolor} % Para colores en listings
+ \definecolor{codegreen}{rgb}{0,0.6,0}
+ \definecolor{codegray}{rgb}{0.5,0.5,0.5}
+ \definecolor{codepurple}{rgb}{0.58,0,0.82}
+ \definecolor{backcolour}{rgb}{0.97,0.97,0.99}
+
+\lstdefinestyle{MATLABStyle}{
+  language=Matlab,
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{blue}\bfseries,
+  commentstyle=\color{codegreen},
+  stringstyle=\color{violet},
+  numberstyle=\tiny\color{gray},
+  breakatwhitespace=false,
+  breaklines=true,
+  captionpos=b,
+  keepspaces=true,
+  numbers=left,
+  numbersep=5pt,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  tabsize=2,
+  frame=lines, % Añade un marco alrededor del código
+  framerule=0.4pt, % Grosor del marco
+  backgroundcolor=\color{backcolour} % Color de fondo suave
+}
+\lstset{style=MATLABStyle}
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title{Fuzzy Logic Foundations}
+\subtitle{Introduction to Fuzzy Intelligence Computation}
+
+\author{Prof. D.Sc. BARSEKH-ONJI Aboud}
+
+\institute
+{
+    Facultad de Ingeniería \\
+    Universidad Anáhuac México % Your institution for the title page
+}
+\date{\today} % Date, can be changed to a custom date
+
+%----------------------------------------------------------------------------------------
+%	PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+% Poner esto en el preámbulo
+\AtBeginSection[]
+{
+  \begin{frame}{Agenda}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+\begin{document}
+
+\begin{frame}
+    % Print the title page as the first slide
+    \titlepage
+\end{frame}
+
+%------------------------------------------------
+\section{Introduction}
+%------------------------------------------------
+\subsection{What is Fuzzy Logic?}
+\begin{frame}{What is Fuzzy Logic?}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.5\linewidth]{Figuras/Cap8/fig8_1.png}
+        \caption{Difference between Precision and significance in real world}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{What can Fuzzy Logic systems do?}
+    Fuzzy logic is a convenient way to map an input space to an output space. Consider the following examples.
+\begin{itemize}
+    \item With information about how good your service was at a restaurant, a fuzzy logic system can tell you what the tip should be.
+    \item With your specification of how hot you want the water, a fuzzy logic system can adjust the faucet valve to the right setting.
+    \item With information about how far away the subject of your photograph is, a fuzzy logic system can focus the lens for you.
+    \item With information about how fast the car is going and how hard the motor is working, a fuzzy logic system can shift gears for you.
+\end{itemize}
+
+\end{frame}
+
+\subsection{Why Use Fuzzy Logic?}
+\begin{frame}{Why Use Fuzzy Logic?}
+   \begin{block}{Fuzzy logic is conceptually easy to understand}
+    The mathematical concepts behind fuzzy reasoning are very simple. Fuzzy logic is a more intuitive approach without the far-reaching complexity.
+\end{block}
+\begin{alertblock}{Fuzzy logic is flexible}
+    With any given system, it is easy to layer on more functionality without starting again from scratch.
+\end{alertblock}
+\begin{block}{Fuzzy logic is tolerant of imprecise data.}
+    Everything is imprecise if you look closely enough, but more than that, most things are imprecise even on careful inspection. Fuzzy reasoning builds this understanding into the process rather than tacking it onto the end.
+\end{block} 
+\end{frame}
+
+
+\begin{frame}{Why Use Fuzzy Logic? (2)}
+   \begin{block}{Fuzzy logic can model nonlinear functions of arbitrary complexity}
+    You can create a fuzzy system to match any set of input-output data. This process is made particularly easy by adaptive techniques like Adaptive Neuro-Fuzzy Inference Systems (ANFIS), which are available in Fuzzy Logic Toolbox software.
+\end{block}
+\begin{alertblock}{Fuzzy logic can be built on top of the experience of experts}
+    In direct contrast to neural networks, which take training data and generate opaque, impenetrable models, fuzzy logic lets you rely on the experience of people who already understand your systems.
+\end{alertblock}
+\begin{block}{Fuzzy logic is based on natural language}
+   The basis for fuzzy logic is the basis for human communication. This observation underpins many of the other statements about fuzzy logic. Because fuzzy logic is built on the structures of qualitative description used in everyday language, fuzzy logic is easy to use.
+\end{block} 
+\end{frame}
+
+\subsection{Fuzzy Logic's Father: Lotfi Zadeh}
+
+\begin{frame}{Fuzzy Logic's Father: Lotfi Zadeh}
+    \begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{Figuras/Cap8/Lofti_Zadeh_format.jpg}
+\end{figure}
+Fuzzy logic is an extension of Boolean logic by Lotfi Zadeh in 1965 based on the mathematical theory of fuzzy sets, which is a generalization of the classical set theory. By introducing the notion of degree in the verification of a condition, thus enabling a condition to be in a state other than true or false, fuzzy logic provides a very valuable flexibility for reasoning, which makes it possible to take into account inaccuracies and uncertainties.
+\end{frame}
+
+%------------------------------------------------
+\section{Foundations of Fuzzy Logic}
+%------------------------------------------------
+
+\begin{frame}{Foundations of Fuzzy Logic}
+    \frametitle{Classical Sets vs. Fuzzy Sets}
+    \begin{columns}[t]
+        \column{.48\textwidth}
+            \begin{block}{Classical Sets}
+                \begin{itemize}
+                    \item Have a \textbf{crisp, clearly defined boundary}.
+                    \item An element either wholly belongs to the set or is wholly excluded.
+                    \item Follows the ''Law of the Excluded Middle'': an element is either in set A or in set not-A.
+                \end{itemize}
+            \end{block}
+
+        \column{.48\textwidth}
+            \begin{alertblock}{Fuzzy Sets}
+                 \begin{itemize}
+                    \item Do not have sharp boundaries.
+                    \item Allow elements to have a \textbf{partial degree of membership}.
+                    \item The transition from member to non-member is gradual, not abrupt.
+                \end{itemize}
+            \end{alertblock}
+    \end{columns}
+\end{frame}
+\begin{frame}{Foundations of Fuzzy Logic}
+    \frametitle{Classical Sets vs. Fuzzy Sets}
+
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.8\textwidth]{Figuras/Cap8/days_of_weekend.png} 
+        \caption{A classical set of ''Days of the week'' vs. a fuzzy set of ''Days of the weekend,'' where Friday has partial membership.}
+    \end{figure}
+\end{frame}
+
+%------------------------------------------------
+\subsection{Fuzzy Sets}
+%------------------------------------------------
+
+\begin{frame}{Defining a Fuzzy Set}
+    \begin{block}{Concept}
+    A fuzzy set allows its members to have different grades of membership, typically in the interval [0, 1]. It's a generalization of a classical set.
+    \end{block}
+    
+    \begin{alertblock}{Formal Definition}
+    A fuzzy set A in a universe of discourse X is defined as a set of ordered pairs:
+    $$ A = \{ (x, \mu_A(x)) \mid x \in X \} $$
+    \begin{itemize}
+        \item $x$ is an element of the universe of discourse.
+        \item $\mu_A(x)$ is the \textbf{membership function} (or grade) of $x$ in A, which maps each element to a membership value between 0 and 1.
+    \end{itemize}
+    \end{alertblock}
+\end{frame}
+%------------------------------------------------
+\subsection{Membership Functions}
+%------------------------------------------------
+
+\begin{frame}{What is a Membership Function (MF)?}
+    \begin{block}{Definition}
+    A \textbf{membership function (MF)} is a curve that defines how each point in the input space (universe of discourse) is mapped to a membership value between 0 and 1.
+    \end{block}
+    
+    \begin{alertblock}{Purpose}
+    Each fuzzy set is uniquely defined by one particular membership function. It mathematically represents a vague, linguistic concept like ''tall,'' ''hot,'' or ''fast.''
+    \end{alertblock}
+\end{frame}
+\begin{frame}{What is a Membership Function (MF)?}
+\begin{columns}[t]
+    \column{.38\textwidth}
+    \begin{block}{The Concept of ''Tall''}
+    It's unreasonable to say someone 5'11'' is ''not tall'' while someone 6'0'' is ''tall.'' A fuzzy approach uses a smooth curve to represent degrees of tallness.
+     \end{block}
+    \column{.58\textwidth}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.75\textwidth]{Figuras/Cap8/tall_mf_comparison.png}
+        \caption{A crisp MF for ''tall'' (top) vs. a fuzzy MF (bottom).}
+    \end{figure}
+\end{columns} 
+\end{frame}
+\begin{frame}{What is a Membership Function (MF)?}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\linewidth]{Figuras/Cap8/ss.png}
+    \caption{Classical set vs. Fuzzy set}
+    \label{fig:placeholder}
+\end{figure}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}{Common Membership Function Shapes}
+ \frametitle{Piecewise Linear Functions}
+    \begin{block}{Simple and Efficient}
+    The simplest membership functions are formed using straight lines. They have the advantage of simplicity and are easy to compute.
+    \end{block}
+    \begin{figure}
+                    \centering
+                    \includegraphics[height=2.5cm]{Figuras/Cap8/trimf.png}
+                 \end{figure}
+    \begin{columns}[t]
+        \column{.48\textwidth}
+            \begin{alertblock}{Triangular MF (`trimf`)}
+                 Defined by three points (a, b, c) forming a triangle.
+                 
+            \end{alertblock}
+
+        \column{.48\textwidth}
+            \begin{block}{Trapezoidal MF (`trapmf`)}
+                 Defined by four points (a, b, c, d) forming a trapezoid.
+            \end{block}
+    \end{columns}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}{Common Membership Function Shapes (Continued)}
+ \frametitle{Smooth and Nonlinear Functions}
+    \begin{block}{Continuous and Differentiable}
+    Gaussian and bell-shaped curves are popular methods for specifying fuzzy sets due to their smoothness and concise notation.
+    \end{block}
+    
+            \begin{alertblock}{Gaussian MF (`gaussmf`)}
+                 A symmetrical curve defined by a mean and standard deviation.
+                 \begin{figure}
+                    \centering
+                    \includegraphics[height=2.5cm]{Figuras/Cap8/gauss.png}
+                 \end{figure}
+            \end{alertblock}
+\end{frame}
+\begin{frame}{Common Membership Function Shapes (Continued)}
+ \frametitle{Smooth and Nonlinear Functions}
+
+            \begin{block}{Sigmoidal MF (`sigmf`)}
+                 An S-shaped curve open to the left or right, useful for representing concepts like ''very large'' or ''very small''.
+                 \begin{figure}
+                    \centering
+                    \includegraphics[height=2.5cm]{Figuras/Cap8/sigm.png}
+                 \end{figure}
+            \end{block}
+\end{frame}
+
+\begin{frame}{Modifying Membership Functions: Hedges}
+    \frametitle{Concentration and Dilation}
+    \begin{block}{Linguistic Hedges}
+    Hedges are operators that modify the meaning of a fuzzy set. They correspond to adjectives or adverbs like \textbf{very}, \textbf{fairly}, or \textbf{more or less}. They work by mathematically changing the shape of the membership function.
+    \end{block}
+\end{frame}
+\begin{frame}{Modifying Membership Functions: Hedges}
+    \frametitle{Concentration and Dilation}
+ \begin{columns}[c]
+        \column{0.5\textwidth}
+            \begin{alertblock}{Fuzzy Concentration (''very'')}
+                This operation \textbf{reduces} the membership values, making the fuzzy set more specific and concentrated around the core values. It is equivalent to raising the membership function to a power greater than 1 (e.g., squaring it).
+                \end{alertblock}
+                                    \column{0.5\textwidth}
+
+                \begin{figure}
+                    \centering
+                    \includegraphics[width=0.9\linewidth]{Figuras/Cap8/fig11_4.png}
+                \end{figure}
+\end{columns}
+\end{frame}
+\begin{frame}{Modifying Membership Functions: Hedges}
+    \frametitle{Concentration and Dilation}
+ \begin{columns}[c]
+        \column{0.5\textwidth}
+            \begin{block}{Fuzzy Dilation (''fairly'')}
+                This operation \textbf{increases} the membership values, making the fuzzy set less specific and more ''dilated'' or spread out. It is equivalent to raising the membership function to a power less than 1 (e.g., taking the square root)
+                \end{block}
+                    \column{0.5\textwidth}
+                 \begin{figure}
+                    \centering
+                    \includegraphics[width=0.9\linewidth]{Figuras/Cap8/fig11_5.png}
+                 \end{figure}
+
+            \end{columns}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Modifying Membership Functions (Continued)}
+	\frametitle{Fuzzy Intensification}
+    \begin{columns}[c]
+        \column{0.5\textwidth}
+            \begin{block}{Fuzzy Intensification}
+                This operation increases the contrast of a fuzzy set. It works by:
+                \begin{itemize}
+                    \item \textbf{Increasing} the membership values that are already above 0.5.
+                    \item \textbf{Decreasing} the membership values that are already below 0.5.
+                \end{itemize}
+                This makes the boundary between full members and non-members sharper.
+            \end{block}
+
+        \column{0.5\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=\linewidth]{Figuras/Cap8/fig11-6.png}
+                \caption{The effect of the intensification operator.}
+            \end{figure}
+    \end{columns}
+\end{frame}
+
+%------------------------------------------------
+\subsection{Logical Operations}
+%------------------------------------------------
+
+\begin{frame}{Logical Operations}
+    \frametitle{A Superset of Boolean Logic}
+    \begin{block}{The Foundation}
+    The most important thing to realize about fuzzy logical reasoning is that it is a \textbf{superset of standard Boolean logic}. This means that if you keep the fuzzy values at their extremes of 1 (completely true) and 0 (completely false), the standard logical operations hold perfectly.
+    \end{block}
+    
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.8\textwidth]{Figuras/Cap8/standardBoolean.png}
+        \caption{Standard Boolean truth tables.}
+    \end{figure}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{From Truth Tables to Functions}
+    \frametitle{Extending Logic to Fuzzy Values}
+    \begin{block}{The Question}
+    How can we alter the standard truth tables to work with truth values that are real numbers between 0 and 1? We need functions that preserve the results for 0 and 1, but also work for all the values in between.
+    \end{block}
+    
+            \begin{alertblock}{The Solution: Fuzzy Operators}
+                The standard answer is to replace the Boolean operations with specific functions:
+                \begin{itemize}
+                    \item \textbf{AND} becomes the \textbf{min()} function.
+                    \item \textbf{OR} becomes the \textbf{max()} function.
+                    \item \textbf{NOT} becomes the operation \textbf{1 - A}.
+                \end{itemize}
+            \end{alertblock}
+\end{frame}
+\begin{frame}{From Truth Tables to Functions}
+    \frametitle{Extending Logic to Fuzzy Values}        
+            \begin{block}{The Result}
+                With these functions, the truth tables for the extreme values of 0 and 1 remain identical to standard Boolean logic.
+                \begin{figure}
+                    \centering
+                    \includegraphics[width=0.8\linewidth]{Figuras/Cap8/logicbol.png}
+                    \caption{Fuzzy truth tables using min, max, and 1-A.}
+                \end{figure}
+            \end{block}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Visualizing Fuzzy Logical Operations}
+    \begin{block}{From Discrete to Continuous}
+    Because we are now using functions instead of static truth tables, we can visualize how the logical operations work over a continuously varying range of truth values, not just at the corners (0 and 1).
+    \end{block}
+\end{frame}
+\begin{frame}{Visualizing Fuzzy Logical Operations}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.85\textwidth]{Figuras/Cap8/compar.png}
+        \caption{Comparison of logical operations for two-valued (top) vs. multivalued/fuzzy (bottom) logic.}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Summary of Operations on Fuzzy Sets}
+    \begin{table}
+    \centering
+    \tiny % Use a very small font for this large table
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabular}{l l l}
+    \toprule
+    \textbf{Operation} & \textbf{Symbol} & \textbf{Formula} \\
+    \midrule
+    Intersection & $A \cap B$ & $\min(\mu_A(x), \mu_B(x))$ \\
+    Union & $A \cup B$ & $\max(\mu_A(x), \mu_B(x))$ \\
+    Absolute Complement & $\overline{A}$ & $1 - \mu_A(x)$ \\
+    Relative Complement & $B - A$ & $\mu_B(x) - \mu_A(x)$ \\
+    Concentration & CON(A) & $(\mu_A(x))^m$, if $m > 1$ \\
+    Dilation & DIL(A) & $(\mu_A(x))^m$, if $m < 1$ \\
+    Bounded Sum & $A \oplus B$ & $\min(1, \mu_A(x) + \mu_B(y))$ \\
+    Bounded Difference & $A \ominus B$ & $\max(0, \mu_A(x) - \mu_B(x))$ \\
+    Algebraic Sum & $A + B$ & $\mu_A(x) + \mu_B(x) - \mu_A(x)\mu_B(x)$ \\
+    Algebraic Product & $A \cdot B$ & $\mu_A(x) \mu_B(x)$ \\
+    Equality & $A = B$ & $\mu_A(x) = \mu_B(x)$ \\
+    \bottomrule
+    \end{tabular}
+    \caption{Adapted from Table 11.2 in Modeling using Fuzzy Logic.}
+    \end{table}
+\end{frame}
+
+%------------------------------------------------
+\subsection{If-Then Rules}
+%------------------------------------------------
+
+\begin{frame}{Fuzzy If-Then Rules}
+    \begin{block}{The Core of Fuzzy Logic}
+    Fuzzy sets and operators are the subjects and verbs of fuzzy logic. \textbf{If-then rule statements} are used to formulate the conditional statements that comprise fuzzy logic.
+    \end{block}
+    
+    \begin{alertblock}{Structure of a Fuzzy Rule}
+    A single fuzzy if-then rule takes the form: \textbf{If x is A, then y is B}.
+        \begin{itemize}
+            \item The \textbf{antecedent} (or premise) is the ''if'' part of the rule: `x is A`.
+            \item The \textbf{consequent} (or conclusion) is the ''then'' part of the rule: `y is B`.
+            \item A and B are linguistic values defined by fuzzy sets.
+        \end{itemize}
+    \end{alertblock}
+    
+    \begin{examples}{Example}
+    \texttt{If service is good, then tip is average}.
+    \end{examples}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Interpreting an If-Then Rule}
+    \begin{block}{A Three-Step Process}
+    Interpreting a single fuzzy rule is a three-part process that involves evaluating the antecedent and applying the result to the consequent.
+    \end{block}
+    
+    \begin{enumerate}
+        \item \textbf{Fuzzify Inputs:} First, resolve all fuzzy statements in the antecedent to a degree of membership between 0 and 1. This gives the degree of support for that part of the rule. \pause
+        
+        \item \textbf{Apply Fuzzy Operator:} If the antecedent has multiple parts (e.g., ''if service is excellent \textbf{or} food is delicious''), apply a fuzzy logic operator (like `max` for OR) to resolve the antecedent to a single number between 0 and 1. \pause
+        
+        \item \textbf{Apply Implication Method:} Use the single number from the antecedent (the degree of support) to shape the output fuzzy set. This is typically done by truncating the consequent's membership function using the `min` function or scaling it using the `prod` function.
+    \end{enumerate}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Visualizing the Implication Process}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.7\textwidth]{Figuras/Cap8/imp.png}
+        \caption{The full process for a single rule: 1. Inputs are fuzzified, 2. A fuzzy operator is applied, 3. The result reshapes the output fuzzy set through implication.}
+    \end{figure}
+\end{frame}
+
+%------------------------------------------------
+\section{Fuzzy Inference Process}
+%------------------------------------------------
+
+\begin{frame}{The Fuzzy Inference Process}
+    \begin{block}{Overview}
+    Fuzzy inference is the process of formulating the mapping from a given input to an output using fuzzy logic. The process involves all the pieces we have discussed: Membership Functions, Logical Operations, and If-Then Rules.
+    \end{block}
+\end{frame}
+
+\begin{frame}{The Fuzzy Inference Process}
+
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.8\textwidth]{Figuras/Cap8/dinner.png}
+        \caption{A high-level view of a two-input, one-output, three-rule fuzzy inference system.}
+    \end{figure}
+\end{frame}
+
+%------------------------------------------------
+\subsection{Step 1: Fuzzify Inputs}
+%------------------------------------------------
+\begin{frame}{Step 1: Fuzzify Inputs}
+    \begin{block}{Process}
+    The first step is to take the crisp inputs and determine the degree to which they belong to each of the appropriate fuzzy sets via membership functions. A crisp input is always a numerical value, and the output is a fuzzy degree of membership between 0 and 1.
+    \end{block}
+
+    \begin{figure}
+        \centering
+        
+        \includegraphics[width=0.45\textwidth]{Figuras/Cap8/fuzzify.png}
+        \caption{Example: An input rating of 8 for "food" corresponds to a membership value of 0.7 in the "delicious" fuzzy set.}
+    \end{figure}
+\end{frame}
+
+%------------------------------------------------
+\subsection{Step 2: Apply Fuzzy Operator}
+%------------------------------------------------
+\begin{frame}{Step 2: Apply Fuzzy Operator}
+    \begin{block}{Process}
+    After the inputs are fuzzified, if the antecedent of a rule has more than one part, a fuzzy operator (AND or OR) is applied to obtain one number that represents the result of the rule antecedent.
+    \end{block}
+   
+    \begin{figure}
+        \centering
+        
+        \includegraphics[width=0.65\textwidth]{Figuras/Cap8/operatror.png}
+        \caption{Example: For the rule "If service is excellent \textbf{or} food is delicious...", the fuzzy OR operator (`max`) takes the membership values (0.0 and 0.7) and returns a single value of 0.7.}
+    \end{figure}
+\end{frame}
+
+%------------------------------------------------
+\subsection{Step 3 \& 4: Imply and Aggregate}
+%------------------------------------------------
+\begin{frame}{Step 3 \& 4: Apply Implication and Aggregate Outputs}
+    \begin{block}{Process}
+        \begin{enumerate}
+            \item \textbf{Implication:} The result from the antecedent (the firing strength) is used to reshape the consequent's fuzzy set. This is usually done by truncating the output set with the `min` operator.
+            \item \textbf{Aggregation:} The output fuzzy sets for each rule are combined into a single fuzzy set. This is typically done using the `max` operator.
+        \end{enumerate}
+    \end{block}
+\end{frame}
+\begin{frame}{Step 3 \& 4: Apply Implication and Aggregate Outputs}
+    
+    \begin{figure}
+        \centering
+      
+        \includegraphics[width=0.7\textwidth]{Figuras/Cap8/aggregation.png}
+        \caption{The output of all three rules are aggregated into a single fuzzy set.}
+    \end{figure}
+\end{frame}
+
+%------------------------------------------------
+\subsection{Step 5: Defuzzify}
+%------------------------------------------------
+\begin{frame}{Step 5: Defuzzify}
+    \begin{block}{Process}
+    The final step is to \textbf{defuzzify} the aggregate output fuzzy set to obtain a single, crisp number. The most popular method is the \textbf{centroid} calculation, which returns the center of gravity of the area under the aggregate fuzzy set.
+    \end{block}
+    
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.45\textwidth]{Figuras/Cap8/Defyzy.png}
+        \caption{The centroid of the aggregated fuzzy set gives a final crisp output of 16.7\%.}
+    \end{figure}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}{The Complete Fuzzy Inference Diagram}
+    \begin{block}{Putting It All Together}
+    The fuzzy inference diagram is the composite of all the smaller diagrams. It simultaneously displays all parts of the fuzzy inference process, from the initial crisp inputs to the final defuzzified output.
+    \end{block}
+\end{frame}
+\begin{frame}{The Complete Fuzzy Inference application}
+
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.7\textwidth]{Figuras/Cap8/all.png}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{The Complete Fuzzy Inference Diagram}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.8\linewidth]{Figuras/Cap8/fuzzySys.png}
+        \caption{The Complete Fuzzy Inference Diagram}
+
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Classical logic vs. Fuzzy logic results}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.9\linewidth]{Figuras/Cap8/dd.png}
+        \caption{Classical logic vs. Fuzzy logic results}
+
+    \end{figure}
+\end{frame}
+\end{document}
+

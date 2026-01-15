@@ -1,0 +1,313 @@
+\documentclass{beamer}
+\usetheme{Berlin}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{hyperref}
+
+\title{Particle Swarm Optimization Algorithm}
+\author{Prof. DSc. BARSEKH-ONJI Aboud}
+\institute{Universidad Anáhuac México\\ Facultad de Ingeniería}
+\date{\today}
+
+\begin{document}
+
+\frame{\titlepage}
+
+% Índice
+\begin{frame}{Contenido}
+    \tableofcontents
+\end{frame}
+
+
+
+\section{Introduction}
+
+\begin{frame}{What is PSO?}
+    \begin{itemize}
+        \item PSO is a population-based stochastic optimization algorithm inspired by social behavior of bird flocking.
+        \item Each individual (called a particle) represents a potential solution.
+        \item Particles adjust their positions in the search space by learning from their own experience and that of their neighbors.
+        \item Developed originally to simulate the choreography of birds.
+    \end{itemize}
+\end{frame}
+
+\section{Basic PSO Algorithm}
+
+\begin{frame}{Particle Representation and Movement}
+    \begin{itemize}
+        \item A swarm is a collection of particles.
+        \item Each particle has a position $x_i$ and velocity $v_i$.
+        \item Position update:
+        \begin{equation*}
+            x_i(t+1) = x_i(t) + v_i(t+1)
+        \end{equation*}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Velocity Update (gbest model)}
+    \begin{equation*}
+        v_{ij}(t+1) =  v_{ij}(t) + c_1 r_1 (y_{ij}(t) - x_{ij}(t)) + c_2 r_2 (\hat{y}_j(t) - x_{ij}(t))
+    \end{equation*}
+    \begin{itemize}
+        \item $y_{ij}(t)$: personal best
+        \item $\hat{y}_j(t)$: global best
+        \item $r_1$, $r_2$: random numbers in $[0, 1]$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Global vs. Local Best}
+    \begin{itemize}
+        \item \textbf{gbest:} global best PSO, fast convergence, less diversity
+        \item \textbf{lbest:} local best PSO, slower convergence, more robust
+        \item Neighborhoods overlap to share information
+    \end{itemize}
+    
+\end{frame}
+
+\begin{frame}{Inertia Weight in PSO}
+    \begin{itemize}
+        \item Introduced by Shi and Eberhart to control the balance between exploration and exploitation.
+        \item Modifies the velocity equation:
+        \[
+            v_{ij}(t+1) = w v_{ij}(t) + c_1 r_1 (y_{ij}(t) - x_{ij}(t)) + c_2 r_2 (\hat{y}_j(t) - x_{ij}(t))
+        \]
+        \item $w$ is the inertia weight. High $w$ encourages exploration; low $w$ promotes exploitation.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Effects and Tuning of Inertia Weight}
+    \begin{itemize}
+        \item If $w \geq 1$: velocity may diverge, particles can overshoot.\newline
+        \item If $w < 1$: velocities decay over time, enabling convergence.\newline
+        \item Typically $w \in [0.4, 0.9]$.
+        \item Must be chosen in conjunction with $c_1$, $c_2$ to avoid divergence:
+        \[
+            w > \frac{1}{2}(c_1 + c_2) - 1
+        \]
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Dynamic Inertia Weight Strategies}
+    \begin{itemize}
+        \item \textbf{Linear Decrease}:
+        \[
+            w(t) = w_{\text{max}} - \left(\frac{w_{\text{max}} - w_{\text{min}}}{t_{\text{max}}}\right) t
+        \]
+        \item \textbf{Nonlinear Decay} (e.g., exponential):
+        \[
+            w(t) = \alpha w(t-1) \quad \text{with } \alpha \in (0, 1)
+        \]
+        \item \textbf{Fuzzy Adaptive} and \textbf{Stochastic} adjustments also explored.
+        \item Goal: allow wide exploration initially, focus on refinement in later iterations.
+    \end{itemize}
+\end{frame}
+
+
+\section{PSO Dynamics}
+
+\begin{frame}{Velocity Components}
+    \begin{itemize}
+        \item \textbf{Inertia:} memory of previous direction
+        \item \textbf{Cognitive:} tendency to return to personal best
+        \item \textbf{Social:} tendency to follow best in neighborhood
+    \end{itemize}
+    \centering\includegraphics[width=0.9\textwidth]{lbest_vs_gbest.png}
+\end{frame}
+
+\begin{frame}{Geometric Interpretation-gbest}
+    \begin{itemize}
+        \item Motion guided by vector components
+        \item Balance between exploration and exploitation
+    \end{itemize}
+    \centering \includegraphics[width=0.8\textwidth]{geometric.png}
+\end{frame}
+
+\begin{frame}{Geometric Interpretation-lbest}
+    \begin{itemize}
+        \item Motion guided by vector components
+        \item Balance between exploration and exploitation
+    \end{itemize}
+    \centering \includegraphics[width=0.8\textwidth]{lbest.png}
+\end{frame}
+
+\section{PSO Parameters and Termination}
+
+\begin{frame}{Key Parameters}
+    \begin{itemize}
+        \item Swarm size $n_s$
+        \item Cognitive and social coefficients $c_1$, $c_2$
+        \item Inertia weight $w$
+        \item Maximum velocity $v_{max}$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Termination Criteria}
+    \begin{itemize}
+        \item Maximum number of iterations
+        \item Acceptable fitness threshold
+        \item No improvement over iterations
+        \item Normalized swarm radius
+        \item Objective function slope \textasciitilde 0
+    \end{itemize}
+\end{frame}
+
+\section{PSO Variants and Enhancements}
+
+\begin{frame}{Common Variants}
+    \begin{itemize}
+        \item Inertia weight PSO
+        \item Constriction factor PSO
+        \item Barebones PSO
+        \item Fully Informed PSO (FIPS)
+        \item Charged PSO
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Hybrid PSO Models}
+    \begin{itemize}
+        \item PSO with mutation (Gaussian, Cauchy)
+        \item PSO with DE (Differential Evolution) crossover
+        \item PSO + local search (GCPSO)
+        \item PSO with genetic selection pressure
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Multi-Swarm and Niching PSOs}
+    \begin{itemize}
+        \item Multi-swarm: cooperative or competitive subgroups
+        \item Predator-prey PSO
+        \item Self-organizing and adaptive networks
+        \item Split dimension optimization
+    \end{itemize}
+\end{frame}
+
+
+
+\section{PSO in Matlab}
+\begin{frame}{PSO in Matlab}
+\begin{itemize}
+    \item \texttt{particleswarm} is a solver in MATLAB's Global Optimization Toolbox.
+    \item It implements Particle Swarm Optimization (PSO) for solving bound-constrained optimization problems.
+    \item Useful for problems where the objective function is non-differentiable, noisy, or has multiple local minima.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Basic Syntax}
+\begin{itemize}
+    \item \texttt{x = particleswarm(fun, nvars)} \\
+    Minimizes the objective function \texttt{fun} with \texttt{nvars} variables.
+    \item \texttt{x = particleswarm(fun, nvars, lb, ub)} \\
+    Adds lower (\texttt{lb}) and upper (\texttt{ub}) bounds to the variables.
+    \item \texttt{x = particleswarm(fun, nvars, lb, ub, options)} \\
+    Allows customization through the \texttt{options} structure.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Key Parameters (1/2)}
+\begin{itemize}
+    \item \textbf{SwarmSize} \\
+    Number of particles in the swarm. Default is \texttt{100}.
+    \item \textbf{MaxIterations} \\
+    Maximum number of iterations allowed. Default is \texttt{100}.
+    \item \textbf{FunctionTolerance} \\
+    Termination tolerance on the function value. Default is \texttt{1e-6}.
+    \item \textbf{InertiaRange} \\
+    Range for inertia weight. Controls exploration vs. exploitation.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Key Parameters (2/2)}
+\begin{itemize}
+    \item \textbf{SelfAdjustmentWeight} \\
+    Weight for the particle's own best position influence.
+    \item \textbf{SocialAdjustmentWeight} \\
+    Weight for the swarm's best position influence.
+    \item \textbf{HybridFcn} \\
+    Function handle for a hybrid function to refine the solution.
+    \item \textbf{Display} \\
+    Level of display output: \texttt{'off'}, \texttt{'iter'}, or \texttt{'final'}.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Velocity Update Equation}
+\begin{equation*}
+v = W \cdot v + y_1 \cdot u_1 \cdot (p - x) + y_2 \cdot u_2 \cdot (g - x)
+\end{equation*}
+\begin{itemize}
+    \item $v$: Current velocity
+    \item $W$: Inertia weight
+    \item $y_1$: SelfAdjustmentWeight
+    \item $y_2$: SocialAdjustmentWeight
+    \item $u_1$, $u_2$: Random vectors in [0,1]
+    \item $p$: Particle's best-known position
+    \item $g$: Global best-known position
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Termination Criteria}
+\begin{itemize}
+    \item Maximum number of iterations reached.
+    \item Change in the best function value is less than \texttt{FunctionTolerance}.
+    \item No improvement in the best function value for \texttt{MaxStallIterations}.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{PSO Parameters: Exploration vs. Exploitation}
+\begin{table}[ht]
+\centering
+\footnotesize
+\begin{tabular}{p{1.5cm}p{2cm}p{2.5cm}p{2cm}}
+\toprule
+\textbf{Parameter} & \textbf{Typical Range} & \textbf{Exploration} & \textbf{Exploitation} \\
+\midrule
+$w$ & 0.4 -- 0.9 & High $w$ (e.g., 0.9) & Low $w$ (e.g., 0.4) \\
+$c_1$ & 1.5 -- 2.5 & High $c_1$ & Low $c_1$ \\
+$c_2$ & 1.5 -- 2.5 & Low $c_2$ & High $c_2$ \\
+\bottomrule
+\end{tabular}
+\caption{Impact of PSO parameters on exploration and exploitation}
+\end{table}
+\end{frame}
+
+\begin{frame}{PSO Parameters: Exploration vs. Exploitation}
+\begin{itemize}
+    \item \textbf{Inertia Weight ($w$)}: Controls the momentum of particles. Higher values encourage global exploration, while lower values promote local exploitation.
+    \item \textbf{Cognitive Coefficient ($c_1$)}: Represents the particle's tendency to return to its own best position. Higher values increase individual exploration.
+    \item \textbf{Social Coefficient ($c_2$)}: Represents the particle's tendency to move towards the swarm's best position. Higher values increase convergence and exploitation.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Best Practices}
+\begin{itemize}
+    \item Start with default parameters; adjust based on problem complexity.
+    \item Use bounds (\texttt{lb}, \texttt{ub}) to confine the search space.
+    \item Consider using a hybrid function for fine-tuning the solution.
+    \item Monitor convergence using the \texttt{Display} option.
+\end{itemize}
+\end{frame}
+
+\section{Conclusion}
+
+\begin{frame}{Conclusion}
+    \begin{itemize}
+        \item PSO is an efficient population-based optimization algorithm
+        \item Many variants have improved its robustness and flexibility
+        \item Understanding social structure and velocity dynamics is key
+        \item Suitable for continuous, discrete, and dynamic environments
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{References}
+\begin{itemize}
+    \item MATLAB Documentation: \href{https://www.mathworks.com/help/gads/particleswarm.html}{particleswarm}
+    \item MATLAB Documentation: \href{https://www.mathworks.com/help/gads/particle-swarm-options.html}{Particle Swarm Options}
+    \item  Engelbrecht, A. P. (2007). \textit{Computational Intelligence: An Introduction}. John Wiley \& Sons
+\end{itemize}
+\end{frame}
+
+
+
+\end{document}

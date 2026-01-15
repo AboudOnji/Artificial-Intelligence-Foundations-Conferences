@@ -1,0 +1,785 @@
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND THEMES
+%----------------------------------------------------------------------------------------
+
+\documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
+\usetheme{SimpleDarkBlue}
+
+\usepackage[spanish]{babel}
+\usepackage{hyperref}
+\usepackage{graphicx} % Allows including images
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+\usepackage{amsmath}
+\usepackage{lettrine}
+\setbeamertemplate{caption}[numbered]
+\usepackage[dvipsnames,svgnames,x11names]{xcolor}% Para definir y usar colores (ej. en hipervínculos)
+\usepackage{xurl}
+\usepackage{hyperref}       % Para crear hipervínculos internos y externos
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\hypersetup{
+    colorlinks=true,        % Colorear los enlaces en lugar de usar recuadros
+    linkcolor=blue,     % Color para enlaces internos (índice, referencias cruzadas)
+    filecolor=blue, % Color para enlaces a archivos locales
+    urlcolor=blue,      % Color para URLs
+    citecolor=blue,     % Color para citas bibliográficas
+}
+%----------------------------------------------------------------------------------------
+
+\usepackage{listings}
+\usepackage{xcolor} % Para colores en listings
+ \definecolor{codegreen}{rgb}{0,0.6,0}
+ \definecolor{codegray}{rgb}{0.5,0.5,0.5}
+ \definecolor{codepurple}{rgb}{0.58,0,0.82}
+ \definecolor{backcolour}{rgb}{0.97,0.97,0.99}
+
+\lstdefinestyle{MATLABStyle}{
+  language=Matlab,
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{blue}\bfseries,
+  commentstyle=\color{codegreen},
+  stringstyle=\color{violet},
+  numberstyle=\tiny\color{gray},
+  breakatwhitespace=false,
+  breaklines=true,
+  captionpos=b,
+  keepspaces=true,
+  numbers=left,
+  numbersep=5pt,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  tabsize=2,
+  frame=lines, % Añade un marco alrededor del código
+  framerule=0.4pt, % Grosor del marco
+  backgroundcolor=\color{backcolour} % Color de fondo suave
+}
+\lstset{style=MATLABStyle}
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title{Inteligencia Computacional Evolutiva}
+\subtitle{Fundamentos de Inteligencia Computacional}
+
+\author{Prof. D.Sc. BARSEKH-ONJI Aboud}
+
+\institute
+{
+    Facultad de Ingeniería \\
+    Universidad Anáhuac México % Your institution for the title page
+}
+\date{\today} % Date, can be changed to a custom date
+
+%----------------------------------------------------------------------------------------
+%	PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+% Poner esto en el preámbulo
+\AtBeginSection[]
+{
+  \begin{frame}{Agenda}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+\begin{document}
+
+\begin{frame}
+    % Print the title page as the first slide
+    \titlepage
+\end{frame}
+
+%------------------------------------------------
+\section{Introducción a la Computación Evolutiva}
+%------------------------------------------------
+
+\begin{frame}{¿Qué es la Computación Evolutiva (CE)?}
+    \begin{block}{Inspiración: La Evolución Biológica}
+    La Computación Evolutiva (CE) es un subcampo de la Inteligencia Artificial que se inspira directamente en los principios de la evolución biológica para desarrollar algoritmos de búsqueda y optimización.
+    \end{block}
+    
+    \begin{alertblock}{Mecanismo General}
+    Los algoritmos evolutivos operan sobre una \textbf{población} de soluciones candidatas, aplicando procesos de \textbf{selección}, \textbf{reproducción} y \textbf{variación} para mejorar iterativamente la calidad de las soluciones a lo largo de \textbf{generaciones}.
+    \end{alertblock}
+\end{frame}
+
+
+\begin{frame}{Antes de empezar..}
+    \begin{block}{Evolutionary Computing for Problem Solving}
+        \url{https://youtu.be/D3zUmfDd79s?si=rXT-3SIH1oIoU_4Y}
+    \end{block}
+        \begin{block}{Evolutionary Computation vs. Deep Learning}
+        \url{https://youtu.be/bRuCZyu6kQ0?si=EtU57-h5wUptorRb}
+    \end{block}
+        \begin{block}{Evolutionary Computation: TEDx}
+        \url{https://youtu.be/D3zUmfDd79s?si=BA16nkCQ1D17mARY}
+    \end{block}
+\end{frame}
+%------------------------------------------------
+\subsection{Antecedentes Históricos y Fundamentos Biológicos}
+%------------------------------------------------
+
+\begin{frame}{Antecedentes Biológicos: Primeras Ideas}
+    \begin{columns}[t]
+        \column{.48\textwidth}
+            \begin{block}{Lamarckismo (Principios del s. XIX)}
+                \begin{itemize}
+                    \item Propuso el primer mecanismo coherente de evolución.
+                    \item Se basaba en la \textbf{'herencia de características adquiridas'}: los cambios en el entorno modificaban a los organismos, y estas modificaciones se transmitían a la descendencia.
+                    \item Aunque incorrecto, fue una idea revolucionaria sobre la adaptación gradual.
+                \end{itemize}
+            \end{block}
+
+        \column{.48\textwidth}
+            \begin{alertblock}{Selección Natural (Darwin y Wallace, 1859)}
+                 \begin{itemize}
+                    \item Dentro de una población existe \textbf{variación natural}.
+                    \item Los individuos con variaciones ventajosas tienen más probabilidades de sobrevivir y reproducirse (\textbf{'supervivencia del más apto'}).
+                    \item Con el tiempo, este proceso conduce a la adaptación de las poblaciones.
+                \end{itemize}
+            \end{alertblock}
+    \end{columns}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{La Pieza Faltante y la Síntesis Moderna}
+    \begin{block}{El Problema de la Herencia}
+    La principal debilidad de la teoría de Darwin era la falta de un mecanismo de herencia. La teoría de la 'herencia por mezcla' (que sugería que las características se promediaban) contradecía la selección natural.
+    \end{block}
+    
+    \begin{alertblock}{La Genética Mendeliana}
+    Sin que Darwin lo supiera, Gregor Mendel demostró que la herencia es \textbf{particulada}, no por mezcla. Los rasgos se heredan a través de 'factores' discretos (hoy llamados \textbf{genes}) que no se diluyen.
+    \end{alertblock}
+    
+   
+\end{frame}
+
+\begin{frame}{La Pieza Faltante y la Síntesis Moderna}
+
+    \begin{block}{La Síntesis Moderna (Neo-Darwinismo)}
+    Unificó la selección natural de Darwin con la genética mendeliana. La evolución es el resultado de la interacción de:
+    \begin{itemize}
+        \item \textbf{Variación Genética:} (Mutación y Recombinación).
+        \item \textbf{Herencia:} Transmisión de genes.
+        \item \textbf{Selección Natural:} Supervivencia diferencial.
+    \end{itemize}
+    \textbf{Este es el marco conceptual que inspira directamente a la Computación Evolutiva.}
+    \end{block}
+\end{frame}
+
+%------------------------------------------------
+\subsection{Pioneros y Paradigmas Computacionales}
+%------------------------------------------------
+
+\begin{frame}{Pioneros y Paradigmas Fundacionales}
+    \begin{block}{Primeros Vislumbres Computacionales}
+    La idea de simular la evolución en una computadora es casi tan antigua como la computación misma. Visionarios como \textbf{Alan Turing} ya lo sugerían en 1950. En las décadas de 1950 y 1960, pioneros como Barricelli, Fraser y Box realizaron las primeras simulaciones de procesos evolutivos.
+    \end{block}
+    
+    \begin{alertblock}{Los Tres Pilares de la Computación Evolutiva}
+    En la década de 1960, surgieron de forma independiente tres líneas de investigación que se convertirían en los pilares del campo, cada una con un enfoque y una motivación distintos.
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Los Tres Paradigmas Fundacionales}
+        \centering\includegraphics[width=0.2\textwidth]{Fogel.jpg}
+
+            \begin{block}{Programación Evolutiva (EP)}
+            \textbf{Lawrence J. Fogel (EE.UU.)}
+                \begin{itemize}
+                    \item \textbf{Motivación:} IA, crear sistemas que se adaptan y predicen.
+                    \item \textbf{Enfoque:} Evolucionar el \textbf{comportamiento} (fenotipo) de las soluciones.
+                    \item \textbf{Operador Clave:} \textbf{Mutación}.
+                \end{itemize}
+            \end{block}
+
+\end{frame}
+
+\begin{frame}{Los Tres Paradigmas Fundacionales}
+    \centering\includegraphics[width=0.2\textwidth]{rechenberg.jpeg}
+
+
+            \begin{alertblock}{Estrategias Evolutivas (ES)}
+            \textbf{Rechenberg y Schwefel (Alemania)}
+                 \begin{itemize}
+                    \item \textbf{Motivación:} Optimización de problemas de \textbf{ingeniería} con parámetros de valor real.
+                    \item \textbf{Concepto Clave:} \textbf{Auto-adaptación} (el algoritmo aprende y ajusta sus propios parámetros).
+                \end{itemize}
+            \end{alertblock}
+            
+
+\end{frame}
+
+\begin{frame}{Los Tres Paradigmas Fundacionales}
+        \centering\includegraphics[width=0.2\textwidth]{John_Henry_Holland.jpg}
+
+           
+            
+            \begin{block}{Algoritmos Genéticos (GA)}
+            \textbf{John H. Holland (EE.UU.)}
+                 \begin{itemize}
+                    \item \textbf{Motivación:} Entender teóricamente los principios de la \textbf{adaptación}.
+                    \item \textbf{Enfoque:} Énfasis en la \textbf{codificación} de la solución (genotipo).
+                    \item \textbf{Operador Clave:} \textbf{Cruce (Crossover)}.
+                \end{itemize}
+            \end{block}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Comparación de los Paradigmas Fundacionales}
+    \begin{table}
+    \centering
+    \footnotesize% Usamos una fuente muy pequeña para que la tabla quepa
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabular}{lp{3cm}p{3cm}p{3cm}}
+    \toprule
+    \textbf{Característica} & \textbf{Programación Evolutiva} & \textbf{Estrategias Evolutivas} & \textbf{Algoritmo Genético} \\
+    \midrule
+    \textbf{Representación} & Fenotípica (Real, Autómatas) & Fenotípica (Valores Reales) & Genotípica (Binaria tradic.) \\
+    \textbf{Operador Principal} & Mutación & Mutación & Cruce (Crossover) \\
+    \textbf{Auto-Adaptación} & Posible & Característica central & No es estándar \\
+    \textbf{Recombinación} & Ausente originalmente & Presente (discreta, intermedia) & Operador principal \\
+    \textbf{Selección} & Probabilística (Torneo) & Determinística & Probabilística (Ruleta) \\
+    \bottomrule
+    \end{tabular}
+    \end{table}
+\end{frame}
+
+%------------------------------------------------
+\section{Programación Evolutiva (EP)}
+%------------------------------------------------
+
+\begin{frame}{Programación Evolutiva (EP)}
+    \begin{block}{Origen y Premisa}
+    Propuesta por Lawrence J. Fogel, la EP se basa en la idea de que la \textbf{inteligencia es un comportamiento adaptativo}.
+    \end{block}
+    
+    \begin{alertblock}{Enfoque Principal}
+    La EP se centra en la evolución a nivel \textbf{fenotípico}, es decir, en el \textbf{comportamiento observable} de las soluciones, más que en su codificación genética subyacente.
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+\subsection{Algoritmo y Representación}
+%------------------------------------------------
+
+\begin{frame}{Algoritmo y Representación en EP}
+            \begin{block}{El Algoritmo}
+                \begin{itemize}
+                    \item Cada solución (padre) produce una descendencia a través de la \textbf{mutación}.
+                    \item La mutación es el \textbf{único} operador de variación; no se utiliza el cruce.
+                    \item Los mejores individuos de la combinación de padres e hijos son seleccionados para formar la siguiente generación.
+                \end{itemize}
+            \end{block}
+
+        
+\end{frame}
+
+\begin{frame}{Aplicaciones y Evolución del Paradigma}
+    \begin{block}{Evolución del Paradigma}
+    Con el tiempo, la Programación Evolutiva se extendió más allá de los autómatas para abordar la \textbf{optimización de funciones continuas}.
+        \begin{itemize}
+            \item En este contexto, los individuos son vectores de números reales.
+            \item Una característica clave de la EP moderna es la \textbf{auto-adaptación}: cada individuo evoluciona sus propios parámetros de mutación, permitiendo que el algoritmo ajuste dinámicamente su comportamiento de búsqueda.
+        \end{itemize}
+    \end{block}
+    
+   
+\end{frame}
+\begin{frame}{Aplicaciones y Evolución del Paradigma}
+
+ \begin{alertblock}{Aplicaciones}
+    Las aplicaciones de la Programación Evolutiva incluyen:
+        \begin{itemize}
+            \item Predicción y control automático.
+            \item Diseño y entrenamiento de redes neuronales.
+            \item Reconocimiento de patrones.
+            \item Optimización de problemas complejos como el del viajante de comercio (TSP).
+        \end{itemize}
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+\section{Estrategias Evolutivas (ES)}
+%------------------------------------------------
+
+\begin{frame}{Estrategias Evolutivas (ES)}
+    \begin{block}{Origen y Motivación}
+    Desarrolladas en Alemania, las Estrategias Evolutivas (ES) surgieron de la necesidad de resolver problemas de \textbf{optimización en ingeniería} que eran difíciles de abordar con métodos matemáticos tradicionales.
+    \end{block}
+    
+    \begin{alertblock}{Enfoque Principal}
+    Su principal aplicación siempre ha sido la optimización de \textbf{parámetros de valor real}.
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+\subsection{Evolución de las Estrategias}
+%------------------------------------------------
+
+\begin{frame}{Evolución de las Estrategias}
+    \begin{columns}[t]
+        \column{.48\textwidth}
+            \begin{block}{La Estrategia (1+1)-ES}
+                Es la versión más simple:
+                \begin{itemize}
+                    \item Un solo padre genera un solo hijo mediante mutación.
+                    \item Si el hijo es mejor que el padre, lo reemplaza; de lo contrario, se descarta.
+                    \item Es una selección determinista y elitista.
+                \end{itemize}
+            \end{block}
+
+        \column{.48\textwidth}
+            \begin{alertblock}{Estrategias Basadas en Poblaciones}
+                 Se introdujeron poblaciones más grandes, con dos esquemas de selección principales:
+                 \begin{itemize}
+                    \item \textbf{($\mu+\lambda$)-ES:} Los $\mu$ mejores de la \textbf{unión de padres e hijos} forman la siguiente generación. Es \textbf{elitista}.
+                    \item \textbf{($\mu,\lambda$)-ES:} Los $\mu$ mejores se seleccionan \textbf{únicamente de entre los hijos}. No es elitista, lo que le permite escapar de óptimos locales.
+                \end{itemize}
+            \end{alertblock}
+    \end{columns}
+\end{frame}
+%------------------------------------------------
+\subsection{Ejemplo de Aplicación: Optimización de Función}
+%------------------------------------------------
+
+\begin{frame}{Ejemplo: Paso a Paso de una Iteración (1+1)-ES}
+    \begin{block}{Problema}
+    Minimizar la función de Rosenbrock: $f(x_1, x_2) = 100(x_1^2 - x_2)^2 + (1-x_1)^2$
+    \end{block}
+    
+    \begin{enumerate}
+        \item \textbf{Inicialización (Padre):} Partimos de un punto inicial $\mathbf{x}^t = (-1.0 ; 1.0)$, con una aptitud (costo) de $f(\mathbf{x}^t) = 4.0$. \pause
+        
+        \item \textbf{Mutación:} Se genera un nuevo individuo (hijo) añadiendo ruido Gaussiano. \\
+        Supongamos que el resultado es $\mathbf{x}^{t+1} = (-0.39; 1.57)$. \pause
+        
+        \item \textbf{Evaluación:} Se calcula la aptitud del nuevo individuo. \\
+        $f(\mathbf{x}^{t+1}) = f(-0.39; 1.57) = 201.416$. \pause
+        
+        \item \textbf{Selección:} 
+        \begin{alertblock}{}
+        Como $f(\text{hijo}) > f(\text{padre})$, la nueva solución es peor. En una (1+1)-ES, el hijo se descarta y el padre sobrevive para la siguiente generación. El proceso se repite.
+        \end{alertblock}
+    \end{enumerate}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}[fragile]
+    \frametitle{Ejemplo de Código: (1+1)-ES para la Función de Rosenbrock}
+    \begin{block}{Ejemplo de la aplicació de (1+1)-ES en Python}
+        \url{https://github.com/AboudOnji/Ex_Fund_IC/blob/main/Cap7/listing7.1.py}
+    \end{block}
+    \begin{block}{Ejemplo de la aplicació de (1+1)-ES en MATLAB}
+        \url{https://github.com/AboudOnji/Ex_Fund_IC/blob/main/Cap7/listing7_2.m}
+    \end{block}
+\end{frame}
+
+%------------------------------------------------
+\section{Algoritmos Genéticos (AG)}
+%------------------------------------------------
+
+\begin{frame}{Algoritmos Genéticos (AG)}
+    \begin{block}{Concepto}
+    Popularizados por John H. Holland, los Algoritmos Genéticos (AG) son modelos que simulan la \textbf{evolución genética}. A diferencia de EP y ES, el énfasis está en el \textbf{genotipo} (la codificación de la solución).
+    \end{block}
+    
+    \begin{alertblock}{Operadores Principales}
+    El proceso evolutivo en un AG es impulsado principalmente por:
+        \begin{itemize}
+            \item \textbf{Selección:} Modela la supervivencia del más apto.
+            \item \textbf{Cruce (Crossover):} Modela la recombinación y la reproducción sexual. Es el operador de búsqueda principal.
+        \end{itemize}
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+\subsection{El Algoritmo Genético Canónico}
+%------------------------------------------------
+
+\begin{frame}{El Algoritmo Genético Canónico}
+    \begin{block}{La Propuesta Original de Holland}
+    El AG 'canónico' o clásico se define por las siguientes características específicas:
+    \end{block}
+    
+    \begin{itemize}
+        \item \textbf{Representación:} Se utiliza una \textbf{cadena de bits} (\textit{bitstring}) de longitud fija para codificar cada solución. \pause
+        
+        \item \textbf{Selección:} Se emplea la \textbf{selección proporcional a la aptitud} (a menudo implementada como una 'rueda de ruleta') para elegir a los padres. \pause
+        
+        \item \textbf{Cruce (Crossover):} El \textbf{cruce de un punto} se utiliza como el método principal para producir descendencia, combinando 'bloques de construcción' de los padres. \pause
+        
+        \item \textbf{Mutación:} La mutación (invertir un bit al azar) se considera un operador de fondo, de menor importancia, con el único fin de mantener la diversidad genética.
+    \end{itemize}
+\end{frame}
+
+%------------------------------------------------
+\subsection{Operadores de Cruce (Crossover)}
+%------------------------------------------------
+
+\begin{frame}{Operadores de Cruce (Crossover)}
+    \begin{block}{Concepto}
+    Los operadores de cruce (o recombinación) se utilizan para crear nueva descendencia combinando el material genético de los padres. Se aplican de forma probabilística, controlada por una \textbf{tasa de cruce ($p_c$)}, que generalmente es alta.
+    \end{block}
+    
+    \begin{alertblock}{Clasificación por Aridad (Número de Padres)}
+        \begin{itemize}
+            \item \textbf{Asexual:} Un descendiente se genera a partir de un solo padre.
+            \item \textbf{Sexual:} Se utilizan dos padres para producir uno o dos descendientes (el más común).
+            \item \textbf{Multirecombinación:} Se utilizan más de dos padres.
+        \end{itemize}
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+\subsubsection{Cruce para Representaciones Binarias}
+%------------------------------------------------
+\begin{frame}{Cruce para Representaciones Binarias}
+
+\begin{figure}
+        \centering
+        \includegraphics[width=0.4\textwidth]{Figuras/Cap7/fig7.53.png}
+        \caption{Visualización de los operadores de cruce para representaciones binarias.}
+        \label{fig:crossover_operators_cap7}
+    \end{figure}
+\end{frame}
+    
+\begin{frame}{Cruce para Representaciones Binarias}
+    \begin{columns}[t]
+        \column{.32\textwidth}
+            \begin{block}{Cruce de un Punto}
+                \begin{itemize}
+                    \item Se elige un punto de cruce al azar.
+                    \item Las cadenas de bits después de ese punto se intercambian entre los dos padres.
+                \end{itemize}
+            \end{block}
+
+        \column{.32\textwidth}
+            \begin{alertblock}{Cruce de Dos Puntos}
+                 \begin{itemize}
+                    \item Se eligen dos puntos de cruce al azar.
+                    \item La cadena de bits \textbf{entre} estos dos puntos se intercambia.
+                \end{itemize}
+            \end{alertblock}
+            
+        \column{.32\textwidth}
+            \begin{block}{Cruce Uniforme}
+                 \begin{itemize}
+                    \item Para cada posición de bit, se decide al azar (con una probabilidad) si se intercambian o no los bits de los padres.
+                \end{itemize}
+            \end{block}
+    \end{columns}
+    
+    
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Ejemplo de implementación}
+    Para ilustrar cómo funcionan estos operadores en la práctica, a continuación se presentan ejemplos de código en Python y MATLAB. En ambos casos, se definen funciones para el cruce de un punto, dos puntos y uniforme, y luego se aplican a un par de cromosomas padres de ejemplo para mostrar la descendencia resultante.
+    \begin{block}{Ejemplo de cruce en Python}
+        \url{https://github.com/AboudOnji/Ex_Fund_IC/blob/main/Cap7/listing7_3.py}
+    \end{block}
+    \begin{block}{Ejemplo de cruce en MATLAB}
+        \url{https://github.com/AboudOnji/Ex_Fund_IC/blob/main/Cap7/listing7_4.m}
+    \end{block}
+\end{frame}
+%------------------------------------------------
+\subsubsection{Cruce para Representaciones de Punto Flotante}
+%------------------------------------------------
+
+\begin{frame}{Cruce para Representaciones de Punto Flotante}
+    \begin{block}{Recombinación Intermedia}
+    A diferencia de los operadores discretos (que solo intercambian valores), los operadores de recombinación intermedia \textbf{mezclan} los componentes de los padres para crear nuevos valores que pueden no haber existido en la población.
+    \end{block}
+    
+    \begin{alertblock}{Operadores Comunes}
+        \begin{itemize}
+            \item \textbf{Cruce Lineal:} Genera tres descendientes candidatos (dos extrapolados y uno interpolado) y selecciona los dos mejores.
+            \pause
+            \item \textbf{Cruce Aritmético:} Crea un descendiente tomando un \textbf{promedio ponderado} de dos o más padres.
+            \pause
+            \item \textbf{Cruce de Mezcla (BLX-$\alpha$):} Elige aleatoriamente, para cada variable, un valor en un rango expandido alrededor de los padres.
+            \pause
+            \item \textbf{Cruce Binario Simulado (SBX):} Simula el comportamiento del cruce de un punto binario, pero para variables de valor real.
+        \end{itemize}
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+\subsubsection{Operadores de Cruce Multiparentales}
+%------------------------------------------------
+
+\begin{frame}{Operadores de Cruce Multiparentales}
+    \begin{columns}[c]
+        \column{0.5\textwidth}
+            \begin{block}{Objetivo Principal}
+            El objetivo de los operadores multiparentales es \textbf{intensificar la exploración} del espacio de búsqueda al agregar información de más de dos padres, logrando una mayor diversidad en la descendencia.
+            \end{block}
+
+           
+            
+        \column{0.5\textwidth}
+            \begin{figure}
+                \includegraphics[width=0.9\linewidth]{Figuras/Cap7/fig7.92.png}
+                \caption{Ilustración de operadores de cruce multiparentales.}
+                \label{fig:multiparent_crossover}
+            \end{figure}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Operadores de Cruce Multiparentales}
+    \begin{columns}[c]
+        \column{0.5\textwidth}
+
+
+            \begin{alertblock}{Enfoques Comunes}
+                \begin{itemize}
+                    \item \textbf{Basados en Centro de Masa (UNDX, SPX):} Generan descendencia en una región definida por el centro de masa de los padres seleccionados.
+                    \item \textbf{Centrados en los Padres (PCX):} Generan descendencia alrededor de los padres seleccionados, en lugar del centro de masa.
+                \end{itemize}
+            \end{alertblock}
+            
+        \column{0.5\textwidth}
+            \begin{figure}
+                \includegraphics[width=0.9\linewidth]{Figuras/Cap7/fig7.92.png}
+                \caption{Ilustración de operadores de cruce multiparentales.}
+                \label{fig:multiparent_crossover}
+            \end{figure}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Ejemplo de implementación}
+Para ilustrar los operadores de cruce más avanzados que utilizan múltiples padres, a continuación se presenta un ejemplo de código para el Cruce por Escaneo de Genes en Python.
+
+    \begin{block}{Ejemplo de cruce en Python}
+        \url{https://github.com/AboudOnji/Ex_Fund_IC/blob/main/Cap7/listing7_6.py}
+    \end{block}
+    
+\end{frame}
+
+\begin{frame}{Cruce diagonal}
+    El operador de cruce diagonal desarrollado por Eiben et al. 1994 es una generalización del cruce de n-puntos para más de dos padres. Se seleccionan $n \ge 1$ puntos de cruce y se aplican a todos los $n_\mu = n+1$ padres. Se pueden generar uno o $n+1$ descendientes seleccionando segmentos de los padres a lo largo de las diagonales, como se ilustra en la Figura.
+\end{frame}
+\begin{frame}{Cruce diagonal}
+
+    \begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Figuras/Cap7/fig7.93.png}
+    \caption[Operador de Cruce Diagonal]{Ilustración del operador de cruce diagonal para $n=2$ puntos de cruce y $n_\mu=3$ padres. Se pueden generar uno o múltiples descendientes.}
+    \label{fig:diagonal_crossover}
+\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Ejemplo de implementación}
+Para ilustrar los operadores de cruce más avanzados que utilizan múltiples padres, a continuación se presenta un ejemplo de código para el Cruce diagonal en MATLAB.
+
+    \begin{block}{Ejemplo de cruce diagonal en MATLAB}
+        \url{https://github.com/AboudOnji/Ex_Fund_IC/blob/main/Cap7/listing7_8.m}
+    \end{block}
+\end{frame}
+%------------------------------------------------
+\subsection{Operadores de Mutación}
+%------------------------------------------------
+
+\begin{frame}{Operadores de Mutación}
+    \begin{block}{Objetivo Principal}
+    El objetivo de la mutación es \textbf{introducir nuevo material genético} en un individuo, es decir, añadir \textbf{diversidad} a las características genéticas de la población. Actúa como un complemento del cruce para asegurar que todo el rango de posibles soluciones sea accesible.
+    \end{block}
+    
+    \begin{alertblock}{Tasa de Mutación ($p_m$)}
+    La mutación se aplica con una cierta probabilidad a cada gen del individuo. Esta probabilidad, conocida como tasa de mutación, suele ser un \textbf{valor pequeño} para asegurar que las buenas soluciones encontradas no se distorsionen demasiado.
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+\subsubsection{Mutación para Representaciones Binarias}
+%------------------------------------------------
+
+\begin{frame}{Mutación para Representaciones Binarias}
+    \begin{columns}[t]
+        \column{.48\textwidth}
+            \begin{block}{Mutación Uniforme (o Aleatoria)}
+                Cada bit del cromosoma tiene una probabilidad independiente ($p_m$) de ser invertido (cambiar de 0 a 1, o de 1 a 0).
+            \end{block}
+
+        \column{.48\textwidth}
+            \begin{alertblock}{Mutación en Orden (Inorder)}
+                 Se seleccionan dos puntos de mutación al azar y solo los bits \textbf{entre} estos dos puntos están sujetos a la mutación uniforme.
+            \end{alertblock}
+    \end{columns}
+    
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.7\textwidth]{Figuras/Cap7/fig7.95.png}
+        \label{fig:mutation_operators_binary}
+    \end{figure}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Mutación Uniforme}
+   \begin{algorithm}[H]
+\caption{Mutación Uniforme/Aleatoria}
+\label{alg:uniform_mutation}
+\begin{algorithmic}[1]
+\For{$j=1, \dots, n_x$}
+    \If{$U(0,1) \le p_m$}
+        \State $x'_{ij}(t) = \neg \tilde{x}_{ij}(t)$ \Comment{donde $\neg$ denota el operador booleano NOT}
+    \EndIf
+\EndFor
+\end{algorithmic}
+\end{algorithm} 
+\end{frame}
+
+\begin{frame}{Mutación en Orden}
+\begin{algorithm}[H]
+\caption{Mutación en Orden}
+\begin{algorithmic}[1]
+   \State Seleccionar puntos de mutación, $\xi_1, \xi_2 \sim U(1, \dots, n_x)$.
+\For{$j = \xi_1, \dots, \xi_2$}
+    \If{$U(0,1) \le p_m$}
+        \State $x'_{ij}(t) = \neg \tilde{x}_{ij}(t)$
+    \EndIf
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+\end{frame}
+\begin{frame}[fragile]
+    \frametitle{Ejemplo de Código: Mutación Binaria}
+   Para ilustrar estos operadores de mutación, a continuación se presentan ejemplos de código. El primer ejemplo, en Python, implementa la \textbf{mutación uniforme}, donde cada bit tiene una probabilidad independiente de ser invertido. El segundo ejemplo, en MATLAB, implementa la \textbf{mutación en orden}, que aplica la mutación solo a un segmento contiguo y aleatorio del cromosoma.
+
+ \begin{block}{Ejemplo de mutación uniforme en Python}
+        \url{https://github.com/AboudOnji/Ex_Fund_IC/blob/main/Cap7/listing7_9.py}
+    \end{block}
+    \begin{block}{Ejemplo de mutación en orden en MATLAB}
+        \url{https://github.com/AboudOnji/Ex_Fund_IC/blob/main/Cap7/listing7_10.m}
+    \end{block}
+   
+\end{frame}
+
+%------------------------------------------------
+\subsubsection{Mutación para Representaciones de Punto Flotante}
+%------------------------------------------------
+
+\begin{frame}[fragile]{Mutación para Representaciones de Punto Flotante}
+    \begin{block}{Enfoque Principal}
+    Cuando las variables de decisión son de valor real, es más eficiente aplicar operadores de mutación directamente sobre esa representación, en lugar de convertirla a binario.
+    \end{block}
+    
+    \begin{alertblock}{Mutación Gaussiana}
+    Es uno de los métodos más comunes. Consiste en perturbar cada variable (gen) del cromosoma añadiéndole un valor aleatorio extraído de una \textbf{distribución normal (Gaussiana)}. Este enfoque permite realizar pequeños ajustes finos a la solución, facilitando la explotación local.
+    \end{alertblock}
+    \begin{block}{Demostración de Mutación Gaussiana en MATLAB}
+        \url{https://github.com/AboudOnji/Ex_Fund_IC/blob/main/Cap7/listing7_11.m}
+    \end{block}
+\end{frame}
+
+%------------------------------------------------
+\subsubsection{Operador de Macromutación: Gallina sin Cabeza}
+%------------------------------------------------
+
+\begin{frame}[fragile]{Operador de Macromutación: Gallina sin Cabeza}
+    \begin{block}{Concepto}
+    Este operador, propuesto por Jones, introduce una gran cantidad de diversidad en la población. Consiste en crear un descendiente recombinando un individuo padre con un \textbf{individuo completamente nuevo y generado al azar}.
+    \end{block}
+    
+    \begin{alertblock}{Propósito}
+    Es una forma de \textbf{mutación drástica} que puede ayudar al algoritmo a \textbf{escapar de óptimos locales} al introducir material genético totalmente nuevo en la población.
+    \end{alertblock}
+
+\end{frame}
+
+\begin{frame}{Ejemplo de aplicación: Gallina sin cabeza}
+El siguiente código en Python ilustra el funcionamiento del operador de \textbf{macromutación 'gallina sin cabeza'}. La función toma un cromosoma padre y lo cruza con un cromosoma completamente nuevo y generado al azar. El resultado es una forma de mutación drástica que puede introducir una gran diversidad en la población, ayudando a escapar de óptimos locales. En este ejemplo, se utiliza un cruce de un punto para la recombinación.
+\begin{block}{Ejemplo en Python}
+    \url{https://github.com/AboudOnji/Ex_Fund_IC/blob/main/Cap7/listing7_12.py}
+\end{block}
+\end{frame}
+
+%------------------------------------------------
+\subsection{Variantes de Algoritmos Genéticos}
+%------------------------------------------------
+
+\begin{frame}{Variantes de Algoritmos Genéticos}
+    \frametitle{Variantes de Algoritmos Genéticos: GGA vs. SSGA}
+    \begin{block}{Brecha Generacional}
+    Se refiere a la cantidad de superposición entre la población actual y la nueva población. La estrategia de reemplazo (cómo los hijos sustituyen a los padres) define dos clases principales de AG.
+    \end{block}
+    
+    \begin{columns}[t]
+        \column{.48\textwidth}
+            \begin{alertblock}{AG Generacional (GGA)}
+                \begin{itemize}
+                    \item \textbf{Estrategia:} \textbf{Todos} los padres de la población actual son reemplazados por la nueva generación de hijos al mismo tiempo.
+                    \item \textbf{Resultado:} No hay superposición entre generaciones (brecha generacional cero), a menos que se use elitismo.
+                \end{itemize}
+            \end{alertblock}
+
+        \column{.48\textwidth}
+            \begin{block}{AG de Estado Estacionario (SSGA)}
+                 \begin{itemize}
+                    \item \textbf{Estrategia:} Los hijos reemplazan a los miembros de la población actual \textbf{uno por uno}, tan pronto como son creados.
+                    \item \textbf{Resultado:} Hay una gran superposición entre generaciones, ya que la población evoluciona de forma incremental.
+                \end{itemize}
+            \end{block}
+    \end{columns}
+\end{frame}
+
+%------------------------------------------------
+\subsubsection{Algoritmos Genéticos 'Messy' (mGA)}
+%------------------------------------------------
+
+\begin{frame}{Algoritmos Genéticos 'Messy' (mGA)}
+    \begin{block}{El Problema con los AG Estándar}
+    Los AG estándar operan sobre cromosomas de longitud fija, lo que puede dificultar la preservación y combinación de 'bloques de construcción' (grupos de genes) óptimos. El cruce puede romper combinaciones buenas.
+    \end{block}
+    
+    \begin{alertblock}{La Solución 'Messy'}
+    El AG 'messy' (desordenado) encuentra soluciones evolucionando explícitamente estos \textbf{bloques de construcción} y luego combinándolos.
+    \begin{itemize}
+        \item Los individuos tienen \textbf{longitud variable} y se especifican como una lista de pares (posición, valor).
+        \item Ejemplo: \texttt{((1,0), (3,1))} representa un individuo parcial donde el gen 1 tiene valor 0 y el gen 3 tiene valor 1.
+    \end{itemize}
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Fases del Algoritmo 'Messy'}
+    \begin{block}{Fases del mGA}
+    Un mGA se implementa en dos fases principales que se repiten:
+        \begin{enumerate}
+            \item \textbf{Fase Primordial:} Se aplica únicamente selección para enriquecer la población con buenos 'bloques de construcción' cortos, sin usar cruce ni mutación.
+            \pause
+            \item \textbf{Fase Yuxtaposicional:} Se aplican operadores especiales de \textbf{corte} (para dividir) y \textbf{empalme} (para unir) para combinar los bloques de construcción y formar soluciones más completas.
+        \end{enumerate}
+    \end{block}
+\end{frame}
+
+%------------------------------------------------
+\subsubsection{Evolución Interactiva (EI)}
+%------------------------------------------------
+
+\begin{frame}{Evolución Interactiva (EI)}
+    \frametitle{Cuando el Humano es la Función de Aptitud}
+    \begin{block}{El Problema: La Aptitud Subjetiva}
+    En los AG estándar, la selección se basa en una función de aptitud matemática. Pero, ¿cómo se define matemáticamente la 'calidad' de una obra de arte, una pieza musical o una animación?
+    \end{block}
+    
+    \begin{alertblock}{La Solución: Evolución Interactiva}
+    La Evolución Interactiva (EI) involucra a un \textbf{usuario humano} directamente en el proceso evolutivo.
+    \begin{itemize}
+        \item En cada generación, el sistema presenta al usuario un conjunto de soluciones candidatas (e.g., imágenes).
+        \item El usuario \textbf{selecciona interactivamente} aquellas que considera 'mejores' o más estéticas.
+        \item Las soluciones seleccionadas se convierten en los padres de la siguiente generación. El humano actúa como la función de aptitud.
+    \end{itemize}
+    \end{alertblock}
+\end{frame}
+\end{document}

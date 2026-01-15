@@ -1,0 +1,12 @@
+\babel@toc {spanish}{}\relax 
+\beamer@sectionintoc {1}{Inteligencia Artificial e Inteligencia Computacional}{2}{0}{1}
+\beamer@sectionintoc {2}{Ramas Principales de la Inteligencia Artificial}{7}{0}{2}
+\beamer@subsectionintoc {2}{1}{Aprendizaje Automático de Máquina}{9}{0}{2}
+\beamer@subsectionintoc {2}{2}{Aprendizaje Profundo}{13}{0}{2}
+\beamer@subsectionintoc {2}{3}{Modelos de Lenguaje y Procesamiento del Lenguaje Natural (NLP)}{16}{0}{2}
+\beamer@sectionintoc {3}{Tipos de Inteligencia Computacional}{21}{0}{3}
+\beamer@subsectionintoc {3}{1}{Redes Neuronales Artificiales}{23}{0}{3}
+\beamer@subsectionintoc {3}{2}{Computación Evolutiva}{24}{0}{3}
+\beamer@subsectionintoc {3}{3}{Lógica Difusa y Sistemas Difusos}{35}{0}{3}
+\beamer@subsectionintoc {3}{4}{Inteligencia de Enjambre}{40}{0}{3}
+\beamer@subsectionintoc {3}{5}{Sistemas Inmunes Artificiales}{47}{0}{3}

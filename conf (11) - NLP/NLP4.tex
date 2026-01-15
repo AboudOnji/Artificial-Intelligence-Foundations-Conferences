@@ -1,0 +1,322 @@
+\documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
+\usetheme{SimpleDarkBlue}
+
+\usepackage[spanish]{babel}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{lettrine}
+\setbeamertemplate{caption}[numbered]
+\usepackage[dvipsnames,svgnames,x11names]{xcolor}
+\usepackage{xurl}
+\usepackage{hyperref}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{adjustbox}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=blue,
+    urlcolor=blue,
+    citecolor=blue,
+}
+%----------------------------------------------------------------------------------------
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.97,0.97,0.99}
+
+\lstdefinestyle{MATLABStyle}{
+  language=Matlab,
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{blue}\bfseries,
+  commentstyle=\color{codegreen},
+  stringstyle=\color{violet},
+  numberstyle=\tiny\color{gray},
+  breakatwhitespace=false,
+  breaklines=true,
+  captionpos=b,
+  keepspaces=true,
+  numbers=left,
+  numbersep=5pt,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  tabsize=2,
+  frame=lines,
+  framerule=0.4pt,
+  backgroundcolor=\color{backcolour}
+}
+\lstset{style=MATLABStyle}
+%----------------------------------------------------------------------------------------
+%   TITLE PAGE
+%----------------------------------------------------------------------------------------
+\title{Procesamiento de Lenguaje Natural (NLP)} 
+\subtitle{Clase 4: Proyecto Integrador - Clasificador de Noticias} 
+\author{Prof. D.Sc. BARSEKH-ONJI Aboud}
+\institute{
+    Faculty of Engineering \\
+    Universidad Anáhuac México Sur
+}
+\date{\today}
+%----------------------------------------------------------------------------------------
+\AtBeginSection[]
+{
+  \begin{frame}{Agenda}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+%----------------------------------------------------------------------------------------
+\begin{document}
+
+%-------------------------------------------------
+% DIAPOSITIVA DE TÍTULO
+%-------------------------------------------------
+\begin{frame}[plain]
+    \titlepage
+\end{frame}
+
+%-------------------------------------------------
+% DIAPOSITIVA DE AGENDA GENERAL
+%-------------------------------------------------
+\begin{frame}{Agenda de la Clase}
+    \tableofcontents
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\section{El Desafío Final: Construir Nuestro Modelo}
+%----------------------------------------------------------------------------------------
+
+\begin{frame}{¿Dónde nos quedamos?}
+    \begin{block}{Resumen de la Clase 3}
+        Aprendimos a usar una herramienta pre-entrenada (\textbf{VADER}) para realizar Análisis de Sentimientos. ¡Fue rápido y efectivo!
+    \end{block}
+    
+    \begin{alertblock}{La Limitación}
+        VADER es excelente para saber si un texto es positivo o negativo, pero... ¿Y si queremos clasificar texto en nuestras \textbf{propias categorías}?
+        
+        \begin{itemize}
+            \item Por ejemplo, clasificar correos en ''Spam'' vs ''No Spam''.
+            \item O clasificar noticias en ''Deportes'', ''Tecnología'', ''Finanzas''.
+        \end{itemize}
+    \end{alertblock}
+    
+    \vfill
+    Para esto, no podemos usar un modelo genérico. Necesitamos \textbf{entrenar nuestro propio modelo} con nuestros propios datos y categorías.
+\end{frame}
+
+%-------------------------------------------------
+\begin{frame}{Objetivo: El Proyecto Integrador}
+    \begin{block}{Nuestra Misión}
+        Construir, entrenar y evaluar un modelo de Machine Learning de principio a fin que pueda \textbf{clasificar reportes de fábrica en diferentes categorías} (ej. ''Calidad'', ''Mantenimiento'', ''Seguridad'').
+    \end{block}
+    
+    \begin{center}
+        \LARGE
+        Se tiene que unir todo lo aprendido:
+        \vspace{0.5cm}
+        
+        \textbf{Clase 1} (Limpieza) + \textbf{Clase 2} (Vectorización) $\rightarrow$ \textbf{Clase 4} (Entrenamiento y Predicción)
+    \end{center}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\section{El Flujo de Trabajo de Machine Learning}
+%----------------------------------------------------------------------------------------
+
+\begin{frame}{El Mapa del Proyecto: 6 Pasos Clave}
+    Todo proyecto de Machine Learning supervisado sigue un flujo de trabajo bien definido. Hoy lo aplicaremos al texto.
+    
+    \begin{enumerate}
+        \item \textbf{Cargar los Datos:} Leer nuestro conjunto de datos (textos y sus etiquetas correctas).
+        \pause
+        \item \textbf{Dividir los Datos:} Separar los datos en un conjunto de \textbf{entrenamiento} (para enseñar al modelo) y uno de \textbf{prueba} (para evaluarlo).
+        \pause
+        \item \textbf{Preprocesar y Vectorizar:} Aplicar las técnicas de las clases 1 y 2 para convertir el texto de entrenamiento en una matriz TF-IDF.
+        \pause
+        \item \textbf{Entrenar el Modelo:} Alimentar al algoritmo de Machine Learning con la matriz numérica y las etiquetas para que aprenda los patrones.
+        \pause
+        \item \textbf{Probar el Modelo:} Usar el modelo entrenado para hacer predicciones sobre los datos de prueba (que nunca ha visto).
+        \pause
+        \item \textbf{Evaluar el Rendimiento:} Comparar las predicciones del modelo con las etiquetas reales para ver qué tan bien lo hizo.
+    \end{enumerate}
+\end{frame}
+
+%-------------------------------------------------
+\begin{frame}{¿Por qué dividir los datos en Entrenamiento y Prueba?}
+    \begin{block}{Analogía del Examen}
+        \begin{itemize}
+            \item El \textbf{conjunto de entrenamiento} son los ejercicios que un alumno hace en clase con el profesor. Aprende de ellos.
+            \item El \textbf{conjunto de prueba} es el examen final. Contiene preguntas que el alumno nunca ha visto, y su resultado nos dice si \textit{realmente} aprendió a generalizar o si solo memorizó las respuestas de la clase.
+        \end{itemize}
+    \end{block}
+    
+    \vfill
+    
+    \begin{alertblock}{Regla de Oro}
+        \textbf{Nunca} se debe evaluar un modelo con los mismos datos con los que fue entrenado. Hacerlo nos daría una falsa sensación de un rendimiento perfecto.
+    \end{alertblock}
+    
+    Típicamente se usa una división 70\% para entrenamiento y 30\% para prueba.
+\end{frame}
+
+
+%----------------------------------------------------------------------------------------
+\section{Ejemplo Práctico en MATLAB: Clasificador de Noticias}
+%----------------------------------------------------------------------------------------
+
+\begin{frame}[fragile]{Paso 1 y 2: Cargar y Dividir los Datos}
+    \begin{block}{Objetivo}
+    Usaremos un conjunto de datos de MATLAB llamado \texttt{factoryReports.csv}. Contiene descripciones de eventos y su categoría.
+    \end{block}
+\begin{lstlisting}[language=Matlab]
+% 1. Cargar los Datos
+data = readtable('factoryReports.csv');
+textos = data.Description;
+categorias = categorical(data.Category); % Etiquetas a predecir
+
+% 2. Dividir los datos en Entrenamiento (80%) y Prueba (20%)
+cvp = cvpartition(categorias, 'Holdout', 0.20);
+idxEntrenamiento = training(cvp);
+textosEntrenamiento = textos(idxEntrenamiento);
+categoriasEntrenamiento = categorias(idxEntrenamiento);
+
+idxPrueba = test(cvp);
+textosPrueba = textos(idxPrueba);
+categoriasPrueba = categorias(idxPrueba);
+\end{lstlisting}
+    \begin{alertblock}{En MATLAB..}
+    La función \texttt{cvpartition} es la herramienta estándar para dividir datos de forma segura.
+    \end{alertblock}
+\end{frame}
+
+%-------------------------------------------------
+\begin{frame}[fragile]{Paso 3: Preprocesar y Vectorizar}
+    \begin{block}{Objetivo}
+    Convertir el \textbf{texto de entrenamiento} en una matriz numérica TF-IDF. ¡Esto ya lo sabemos hacer!
+    \end{block}
+\begin{lstlisting}[language=Matlab]
+% Preprocesamos los textos de ENTRENAMIENTO
+documentosEntrenamiento = tokenizedDocument(lower(textosEntrenamiento));
+documentosEntrenamiento = erasePunctuation(documentosEntrenamiento);
+documentosEntrenamiento = removeStopWords(documentosEntrenamiento);
+documentosEntrenamiento = normalizeWords(documentosEntrenamiento, 'Style', 'stem');
+
+% Creamos la bolsa de palabras A PARTIR DE LOS DATOS DE ENTRENAMIENTO
+bolsa = bagOfWords(documentosEntrenamiento);
+
+% Creamos la matriz TF-IDF de ENTRENAMIENTO
+matrizEntrenamiento = tfidf(bolsa);
+\end{lstlisting}
+    \begin{alertblock}{Punto Clave}
+    El vocabulario (la `bolsa`) se crea \textbf{únicamente} con los datos de entrenamiento.
+    \end{alertblock}
+\end{frame}
+
+%-------------------------------------------------
+\begin{frame}[fragile]{Paso 4: Entrenar el Modelo Clasificador}
+    \begin{block}{Objetivo}
+    Alimentar a un algoritmo de Machine Learning con nuestros datos para que "aprenda". Usaremos un clasificador \textbf{SVM} (\textit{Support Vector Machine}), un modelo muy potente para texto.
+    \end{block}
+\begin{lstlisting}[language=Matlab]
+% Entrenamos un modelo de clasificacion multiclase (SVM por defecto)
+% Le damos la matriz numerica y las etiquetas correctas para que aprenda.
+modeloClasificador = fitcecoc(matrizEntrenamiento, categoriasEntrenamiento);
+
+disp('¡Modelo entrenado con exito!');
+\end{lstlisting}
+    \begin{alertblock}{En MATLAB..}
+        La función \texttt{fitcecoc} (Fit multiclass ECOC) es un comando de alto nivel que entrena un clasificador robusto.
+    \end{alertblock}
+\end{frame}
+
+%-------------------------------------------------
+\begin{frame}[fragile]{Paso 5: Probar el Modelo}
+    \begin{block}{Objetivo}
+    Ahora, preprocesamos los datos de prueba y le pedimos al modelo que prediga sus categorías.
+    \end{block}
+\begin{lstlisting}[language=Matlab]
+% 1. Preprocesamos los datos de PRUEBA (los que el modelo no ha visto)
+documentosPrueba = tokenizedDocument(lower(textosPrueba));
+documentosPrueba = erasePunctuation(documentosPrueba);
+documentosPrueba = removeStopWords(documentosPrueba);
+documentosPrueba = normalizeWords(documentosPrueba, 'Style', 'stem');
+
+% 2. Vectorizamos usando LA MISMA 'bolsa' del entrenamiento
+matrizPrueba = tfidf(bolsa, documentosPrueba);
+
+% 3. Hacemos las predicciones
+predicciones = predict(modeloClasificador, matrizPrueba);
+\end{lstlisting}
+
+\end{frame}
+\begin{frame}[fragile]{Paso 5: Probar el Modelo}
+
+    \begin{alertblock}{Punto Crítico}
+    Al vectorizar los datos de prueba, debemos usar la \textbf{misma `bolsa` (vocabulario)} que creamos con los datos de entrenamiento para asegurar que las matrices sean compatibles.
+    \end{alertblock}
+\end{frame}
+
+%-------------------------------------------------
+\begin{frame}[fragile]{Paso 6: Evaluar el Rendimiento}
+    \begin{block}{Objetivo}
+    Comparar las \texttt{predicciones} del modelo con las \texttt{categoriasPrueba} (las respuestas correctas) para medir su rendimiento.
+    \end{block}
+\begin{lstlisting}[language=Matlab]
+% Comparamos las predicciones con las etiquetas reales
+correctas = sum(predicciones == categoriasPrueba);
+total = numel(categoriasPrueba);
+exactitud = correctas / total;
+
+fprintf('La exactitud (accuracy) del modelo es: %.2f%%\n', exactitud * 100);
+
+% Creamos una matriz de confusion para un analisis mas detallado
+figure;
+confusionchart(categoriasPrueba, predicciones);
+title('Matriz de Confusion');
+\end{lstlisting}
+    La \textbf{exactitud} (accuracy) nos dice el porcentaje de veces que el modelo acertó.
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\section{Análisis de Resultados}
+%----------------------------------------------------------------------------------------
+
+\begin{frame}{La Matriz de Confusión: ¿Dónde se equivoca?}
+    La exactitud es un buen número, pero no cuenta toda la historia. La \textbf{matriz de confusión} nos muestra exactamente qué aciertos y errores cometió el modelo.
+
+    
+    \begin{block}{Cómo leerla:}
+        \begin{itemize}
+            \item \textbf{La diagonal principal (en azul oscuro):} Muestra los \textbf{aciertos}. Por ejemplo, el número en la casilla (Quality, Quality) es cuántas veces un reporte que \textit{era} de calidad fue \textit{predicho} como calidad.
+            \item \textbf{Fuera de la diagonal (en azul claro):} Muestra los \textbf{errores}. Por ejemplo, el número en la casilla (Maintenance, Quality) es cuántas veces un reporte que \textit{era} de mantenimiento fue \textit{confundido} con uno de calidad.
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\section{Conclusiones Finales del Curso}
+%----------------------------------------------------------------------------------------
+
+\begin{frame}{Resumen del estudio de NLP}
+    \begin{block}{Los puntos analizados:}
+        \begin{itemize}
+            \item \textbf{Clase 1:} Empezamos con texto ''sucio'' y aprendimos a \textbf{limpiarlo y estandarizarlo}.
+            \vfill
+            \item \textbf{Clase 2:} Convertimos esas palabras limpias en \textbf{matrices numéricas (TF-IDF)}, el lenguaje de la IA.
+            \vfill
+            \item \textbf{Clase 3:} Usamos un modelo pre-entrenado (\textbf{VADER}) para realizar nuestra primera tarea práctica: el \textbf{Análisis de Sentimientos}.
+            \vfill
+            \item \textbf{Clase 4:} ¡Construimos nuestro \textbf{propio clasificador de texto desde cero}, siguiendo un flujo de trabajo profesional de Machine Learning!
+        \end{itemize}
+    \end{block}
+    
+   
+\end{frame}
+
+\end{document}

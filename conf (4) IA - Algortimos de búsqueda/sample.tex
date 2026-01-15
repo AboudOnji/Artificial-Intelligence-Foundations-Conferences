@@ -1,0 +1,638 @@
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND THEMES
+%----------------------------------------------------------------------------------------
+\documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
+\usetheme{SimpleDarkBlue}
+
+\usepackage[spanish]{babel}
+\usepackage{hyperref}
+\usepackage{graphicx} % Allows including images
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+\usepackage{amsmath}
+\usepackage{lettrine}
+\setbeamertemplate{caption}[numbered]
+\usepackage[dvipsnames,svgnames,x11names]{xcolor}% Para definir y usar colores (ej. en hipervínculos)
+\usepackage{xurl}
+\usepackage{hyperref}       % Para crear hipervínculos internos y externos
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\hypersetup{
+    colorlinks=true,        % Colorear los enlaces en lugar de usar recuadros
+    linkcolor=blue,     % Color para enlaces internos (índice, referencias cruzadas)
+    filecolor=blue, % Color para enlaces a archivos locales
+    urlcolor=blue,      % Color para URLs
+    citecolor=blue,     % Color para citas bibliográficas
+}
+%----------------------------------------------------------------------------------------
+
+\usepackage{listings}
+\usepackage{xcolor} % Para colores en listings
+ \definecolor{codegreen}{rgb}{0,0.6,0}
+ \definecolor{codegray}{rgb}{0.5,0.5,0.5}
+ \definecolor{codepurple}{rgb}{0.58,0,0.82}
+ \definecolor{backcolour}{rgb}{0.97,0.97,0.99}
+
+\lstdefinestyle{MATLABStyle}{
+  language=Matlab,
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{blue}\bfseries,
+  commentstyle=\color{codegreen},
+  stringstyle=\color{violet},
+  numberstyle=\tiny\color{gray},
+  breakatwhitespace=false,
+  breaklines=true,
+  captionpos=b,
+  keepspaces=true,
+  numbers=left,
+  numbersep=5pt,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  tabsize=2,
+  frame=lines, % Añade un marco alrededor del código
+  framerule=0.4pt, % Grosor del marco
+  backgroundcolor=\color{backcolour} % Color de fondo suave
+}
+\lstset{style=MATLABStyle}
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%--------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title{Algoritmos de búsqueda}
+\subtitle{Materia: Fundamentos de Inteligencia Artificial}
+
+\author{Prof. D.Sc. BARSEKH-ONJI Aboud}
+
+\institute
+{
+    Facultad de Ingeniería \\
+    Universidad Anáhuac México % Your institution for the title page
+}
+\date{\today} % Date, can be changed to a custom date
+
+%----------------------------------------------------------------------------------------
+%	PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+% Poner esto en el preámbulo
+\AtBeginSection[]
+{
+  \begin{frame}{Agenda}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+\begin{document}
+
+\begin{frame}
+    % Print the title page as the first slide
+    \titlepage
+\end{frame}
+
+%------------------------------------------------
+\section{¿Qué es un algoritmo de búsqueda?}
+\begin{frame}{¿Qué es un algoritmo de búsqueda?}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.5\linewidth]{Figuras especiales/fig1.png}
+        \label{fig:placeholder}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{¿Qué es un algoritmo de búsqueda?}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.5\linewidth]{Figuras especiales/fig2.png}
+        \label{fig:pla2ceholder}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{¿Qué es un algoritmo de búsqueda?}
+\begin{block}{Un algoritmo de búsqueda:}
+    \begin{itemize}
+        \item Permite la transición entre estados usando los operadores.
+        \item Controla estos movimientos.
+    \end{itemize}
+\end{block}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.7\linewidth]{Figuras especiales/fig3.png}
+        \label{fig:pla2ceholder}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{¿Qué es un algoritmo de búsqueda?}
+\begin{alertblock}{Conceptos}
+\begin{itemize}
+    \item Estado: una posible configuración de un problema.
+    \item Espacios de estados: todas las configuraciones posibles de un sistema (problema, función... etc.)
+    \item Operadores: acciones que generan estados sucesores de un estado actual.
+    \item Solución (Estado Objetivo): la configuración final deseada de la función.
+\end{itemize}
+\end{alertblock}
+\end{frame}
+
+\begin{frame}{¿Qué es un algoritmo de búsqueda?}
+\begin{figure}
+        \centering
+        \includegraphics[width=\linewidth]{Figuras especiales/fig4.png}
+        \label{fig:pla2ceholder}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{¿Qué es un algoritmo de búsqueda?}
+\begin{figure}
+        \centering
+        \includegraphics[width=\linewidth]{Figuras especiales/fig5.png}
+        \label{fig:pla2ceholder}
+    \end{figure}
+\end{frame}
+
+\section{Clasificación de los Algoritmos de Búsqueda}
+
+\begin{frame}{Clasificación de los Algoritmos de Búsqueda}
+    \begin{block}{Búsqueda Ciega}
+        No utiliza información sobre el problema. No existe información acerca de los pasos necesarios o costos para pasar de un estado a otro.
+    \end{block}
+    \begin{block}{Búsqueda Heurística}
+        Usa información sobre el problema como costos, caracterísitcas o restricciones de la solución deseada. Se orienta la búsquda usando información valiosa del problema.
+    \end{block}
+\end{frame}
+%------------------------------------------------
+\section{Evaluación de los Algoritmos de Búsqueda}
+%------------------------------------------------
+
+\begin{frame}{Análisis de Complejidad Algorítmica}
+    \begin{block}{¿Cómo medimos la eficiencia de un algoritmo?}
+    El análisis de algoritmos nos proporciona herramientas para medir su rendimiento, principalmente en términos de tiempo de ejecución y espacio de memoria requerido.
+    \end{block}
+
+    \begin{columns}[t]
+        \column{.48\textwidth}
+            \begin{alertblock}{Análisis a Priori}
+                \begin{itemize}
+                    \item Es un análisis \textbf{teórico} que se realiza antes de la ejecución.
+                    \item Se enfoca en el orden de magnitud de las operaciones, ignorando constantes y detalles de la máquina.
+                    \item Ayuda a entender cómo \textbf{escalará} el algoritmo.
+                \end{itemize}
+            \end{alertblock}
+
+        \column{.48\textwidth}
+            \begin{examples}{Análisis a Posteriori}
+                 \begin{itemize}
+                    \item Es un análisis \textbf{empírico}.
+                    \item Recolecta datos de tiempo y espacio mientras el algoritmo se ejecuta en una máquina específica.
+                    \item Sirve para verificar las predicciones teóricas.
+                \end{itemize}
+            \end{examples}
+    \end{columns}
+\end{frame}
+
+%------------------------------------------------
+\subsection{Análisis de Complejidad Algorítmica}
+%------------------------------------------------
+
+\begin{frame}{Notación Asintótica: La "Gran O" (Big-O)}
+    \begin{block}{Definición}
+    La notación \textbf{Big-O} es la más común para expresar la complejidad. Describe el \textbf{límite superior} del crecimiento de una función, dándonos una cota del rendimiento del algoritmo en el \textbf{peor de los casos} a medida que el tamaño de la entrada ($n$) tiende a infinito.
+    \end{block}
+    
+   
+\end{frame}
+\begin{frame}{Notación Asintótica: La "Gran O" (Big-O)}
+
+ \begin{columns}[c]
+        \column{0.45\textwidth}
+            \begin{alertblock}{Jerarquía de Complejidades Comunes}
+            (De más a menos eficiente)
+                \begin{itemize}
+                    \item $O(1)$: Constante
+                    \item $O(\log n)$: Logarítmico
+                    \item $O(n)$: Lineal
+                    \item $O(n \log n)$: Log-lineal
+                    \item $O(n^2)$: Cuadrático
+                    \item $O(2^n)$: Exponencial
+                    \item $O(n!)$: Factorial
+                \end{itemize}
+            \end{alertblock}
+        \column{0.5\textwidth}
+            \begin{figure}
+                \includegraphics[width=0.9\linewidth]{Figuras/Cap5/fig5-1.png}
+                \caption{Crecimiento de funciones de complejidad.}
+                \label{fig:complejidades_algoritmicas}
+            \end{figure}
+    \end{columns}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Clases de Complejidad: P y NP}
+    \begin{columns}[t]
+        \column{.48\textwidth}
+            \begin{block}{Clase P (Tiempo Polinomial)}
+                \begin{itemize}
+                    \item Contiene problemas que pueden ser \textbf{resueltos} por una máquina en tiempo polinomial (e.g., $O(n)$, $O(n^2)$, $O(n^3)$).
+                    \item Se consideran computacionalmente \textbf{"tratables"} o "fáciles".
+                    \item \textbf{Ejemplo:} Ordenar una lista, encontrar el camino más corto.
+                \end{itemize}
+            \end{block}
+
+        \column{.48\textwidth}
+            \begin{alertblock}{Clase NP (Tiempo Polinomial No Determinista)}
+                 \begin{itemize}
+                    \item Contiene problemas para los cuales una solución propuesta puede ser \textbf{verificada} en tiempo polinomial.
+                    \item \textbf{Intuición:} Si alguien te da una solución, puedes comprobar rápidamente si es correcta.
+                    \item No se sabe si pueden ser resueltos rápidamente, solo verificados.
+                \end{itemize}
+            \end{alertblock}
+    \end{columns}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Problemas NP-Completos y la Pregunta del Millón}
+    \begin{block}{Problemas NP-Completos (NPC)}
+    Son los problemas \textbf{"más difíciles"} en la clase NP.
+        \begin{itemize}
+            \item Si se encontrara una solución eficiente (polinomial) para \textit{un} problema NPC, entonces \textit{todos} los problemas en NP tendrían una solución eficiente.
+            \item \textbf{Ejemplos clásicos:} El Problema del Viajante de Comercio (TSP), el Problema de Satisfacibilidad Booleana (SAT).
+        \end{itemize}
+    \end{block}
+    
+    \begin{alertblock}{La Gran Pregunta: ¿Es P = NP?}
+    Es uno de los problemas abiertos más importantes de la informática. La conjetura predominante es que \textbf{P $\neq$ NP}.
+    
+    \textbf{Implicación:} Si P $\neq$ NP, significa que los problemas NP-Completos no tienen soluciones eficientes, lo que motiva el uso de \textbf{algoritmos heurísticos y de aproximación} para encontrar "buenas" soluciones en un tiempo razonable.
+    \end{alertblock}
+\end{frame}
+
+
+%------------------------------------------------
+\section{Búsqueda Ciega (No Informada)}
+%------------------------------------------------
+
+\begin{frame}{Búsqueda Ciega (No Informada)}
+    \begin{block}{Definición}
+    Las estrategias de búsqueda ciega exploran el espacio de estados \textbf{sin utilizar ningún conocimiento específico del problema}, como la "distancia" o el "costo estimado" hacia el objetivo.
+    \end{block}
+    
+    \begin{alertblock}{Funcionamiento}
+    Operan de manera sistemática, expandiendo nodos basándose únicamente en el orden en que son generados.
+    \end{alertblock}
+\end{frame}
+
+\begin{frame}{Búsqueda Ciega (No Informada)}
+\begin{figure}
+                \includegraphics[width=\linewidth]{Figuras especiales/fig6.png}
+                \label{fig:complejidades_algoritmicas}
+            \end{figure}
+\end{frame}
+%------------------------------------------------
+\subsection{Búsqueda en Anchura vs. Búsqueda en Profundidad}
+%------------------------------------------------
+
+\begin{frame}{Estrategias Fundamentales: Anchura (BFS) vs. Profundidad (DFS)}
+    \begin{columns}[t]
+        \column{.48\textwidth}
+            \begin{block}{Búsqueda en Anchura (BFS)}
+            \textit{Breadth-First Search}
+                \begin{itemize}
+                    \item \textbf{Estrategia:} Explora el árbol de búsqueda \textbf{nivel por nivel}.
+                    \item \textbf{Estructura de Datos:} Cola FIFO (Primero en Entrar, Primero en Salir).
+                    \item \textbf{Propiedades:} Es \textbf{completa} y \textbf{óptima} (si los costos son uniformes), pero su principal inconveniente es su alta demanda de memoria.
+                \end{itemize}
+            \end{block}
+
+        \column{.48\textwidth}
+            \begin{alertblock}{Búsqueda en Profundidad (DFS)}
+            \textit{Depth-First Search}
+                 \begin{itemize}
+                    \item \textbf{Estrategia:} Explora expandiendo siempre el nodo \textbf{más profundo} en la rama actual.
+                    \item \textbf{Estructura de Datos:} Pila LIFO (Último en Entrar, Primero en Salir).
+                    \item \textbf{Propiedades:} Su principal ventaja es su \textbf{bajo consumo de memoria}, pero no garantiza encontrar la solución óptima y puede quedar atrapada en bucles.
+                \end{itemize}
+            \end{alertblock}
+    \end{columns}
+\end{frame}
+\begin{frame}{Búsqueda por anchura}
+\begin{figure}
+                \includegraphics[width=0.6\linewidth]{Figuras especiales/fig7.png}
+                \label{fig:complejidades_algoritmicas}
+            \end{figure}
+\end{frame}
+
+\begin{frame}{Búsqueda por profundidad}
+\begin{figure}
+                \includegraphics[width=0.4\linewidth]{Figuras especiales/fig8.png}
+                \label{fig:complejidades_algoritmicas}
+            \end{figure}
+\end{frame}
+
+%------------------------------------------------
+\subsection{Otras Estrategias de Búsqueda Ciega}
+%------------------------------------------------
+
+\begin{frame}{Variaciones y Mejoras}
+    \begin{columns}[t]
+        \column{.48\textwidth}
+            \begin{block}{Búsqueda de Costo Uniforme (UCS)}
+                \begin{itemize}
+                    \item \textbf{Estrategia:} Expande el nodo de la frontera que tiene el menor costo de camino ($g(n)$) desde el inicio.
+                    \item Es una generalización de BFS para cuando los costos de las acciones \textbf{no son uniformes}.
+                    \item Es completa y óptima.
+                \end{itemize}
+            \end{block}
+
+        \column{.48\textwidth}
+            \begin{alertblock}{Búsqueda en Profundidad Iterativa (IDDFS)}
+                 \begin{itemize}
+                    \item \textbf{Estrategia:} Realiza búsquedas en profundidad con límites crecientes (0, 1, 2, ...).
+                    \item \textbf{Ventaja:} Combina lo mejor de BFS (completitud y optimalidad) y DFS (bajo consumo de memoria).
+                \end{itemize}
+            \end{alertblock}
+    \end{columns}
+\end{frame}
+
+%------------------------------------------------
+\subsection{Comparación entre estrategias de búsqueda ciega}
+\begin{frame}{Comparación entre estrategias de búsqueda ciega}
+    
+\begin{table}[h]
+    \centering
+    \begin{tabular}{lcccc}
+        & \textbf{t} & \textbf{espacio} & \textbf{Opt} & \textbf{Comp} \\ \hline
+        Por extensión & $b^d$ & $b^d$ & no & sí \\
+        Uniforme & $b^d$ & $b^d$ & sí & sí \\
+        Por Profundidad & $b^m$ & $bm$ & no & sí \\
+        Profundidad limitada & $b^l$ & $bl$ & no & quizás \\
+        Iterativo Profundidad & $b^d$ & $bd$ & sí & sí \\
+        Bidireccional & $b^{d/2}$ & $b^{d/2}$ & sí & sí \\
+    \end{tabular}
+    \caption{Caracterización de métodos en función de tiempo, espacio, optimalidad y completitud. Dónde: b, es el factor de ramificación; d, es la profundidad de la solución; m, es la máxima profundidad del árbol; l, es el límite de profundidad.}
+    \label{tab:metodos}
+\end{table}
+\end{frame}
+
+\section{Búsqueda Heurística}
+\subsection{¿Qués es la búsqueda heurística?}
+\begin{frame}{¿Qués es la búsqueda heurística?}
+    \begin{alertblock}{¡Cuidado!}
+        ¡Una mala heurística es peor que una mala búsqueda!
+    \end{alertblock}
+    \begin{block}{Heurítisa}
+        \begin{itemize}
+            \item Origen: 'heuriskein' (griego)
+            \item Criterio que puede resolver un problema pero que no hay garantía que siempre lo resuelva.
+            \item Estimación del costo necesario para alcanzar una solución desde el estado actual.
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\begin{frame}{¿Qués es la búsqueda heurística?}
+
+    \begin{block}{Heurítisa}
+        Es una función (H) que asigna a cada estado una estimación del costo óptimo a la solución.
+    \end{block}
+\end{frame}
+
+\begin{frame}{¿Qués es la búsqueda heurística?}
+\begin{figure}
+        \centering
+        \includegraphics[width=\linewidth]{Figuras especiales/fig5.png}
+        \label{fig:pla2ceholder}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{¿Qués es la búsqueda heurística?}
+\begin{figure}
+        \centering
+        \includegraphics[width=0.6\linewidth]{Figuras especiales/fig9.png}
+        \label{fig:pla2ceholder}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{¿Qués es la búsqueda heurística?}
+\begin{figure}
+        \centering
+        \includegraphics[width=0.7\linewidth]{Figuras especiales/fig10.png}
+        \label{fig:pla2ceholder}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Búsqueda Heurística (Informada)}
+    \begin{block}{Definición}
+    A diferencia de la búsqueda ciega, las estrategias de búsqueda informada utilizan \textbf{conocimiento específico del problema} para guiar el proceso de búsqueda, generalmente en forma de una \textbf{función heurística}, $h(n)$.
+    \end{block}
+    
+    \begin{alertblock}{La Función Heurística $h(n)$}
+    $h(n)$ es una \textbf{estimación} del costo del camino más barato desde el nodo actual $n$ hasta el estado objetivo. El objetivo es dirigir la búsqueda hacia los nodos que parecen estar más cerca de la solución.
+    \end{alertblock}
+    
+    
+\end{frame}
+\begin{frame}{Búsqueda Heurística (Informada)}
+
+\begin{columns}[t]
+        \column{.48\textwidth}
+            \begin{block}{Heurística Admisible}
+            Una heurística es admisible si \textbf{nunca sobreestima} el costo real para alcanzar el objetivo. Es una estimación optimista.
+            \end{block}
+        \column{.48\textwidth}
+            \begin{block}{Heurística Consistente}
+            Una condición más fuerte que la admisibilidad. Cumple la desigualdad del triángulo, asegurando que los costos estimados son coherentes a lo largo de un camino.
+            \end{block}
+    \end{columns}
+\end{frame}
+\subsection{Tipos de búsqueda heurística}
+
+\begin{frame}{Tipos de búsqueda heurística}
+    \begin{block}{Iterativos}
+    \begin{itemize}
+        \item Descense de gradiente.
+        \item Algoritmo Genético.
+    \end{itemize}
+    \end{block}
+    \begin{block}{Constructivo}
+    \begin{itemize}
+        \item Primero el mejor (Best first)
+    \end{itemize}
+    \end{block}
+\end{frame}
+
+
+\subsection{Algoritmos de Búsqueda Informada}
+%------------------------------------------------
+\begin{frame}{Algoritmos de Búsqueda Informada: Greedy vs. A*}
+\begin{figure}
+        \centering
+        \includegraphics[width=0.9\linewidth]{Figuras especiales/fig11.png}
+        \label{fig:pla2ceholder}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Algoritmos de Búsqueda Informada: Greedy vs. A*}
+    \begin{columns}[t]
+        \column{.48\textwidth}
+            \begin{block}{Búsqueda Voraz (Greedy Best-First)}
+                \begin{itemize}
+                    \item \textbf{Estrategia:} Expande el nodo que se estima está más cerca del objetivo. Solo se fija en la heurística $h(n)$.
+                    \item \textbf{Resultado:} Es rápida y a menudo encuentra una solución, pero \textbf{no garantiza que sea la óptima}. Puede ser engañada por caminos que parecen prometedores al principio.
+                \end{itemize}
+            \end{block}
+
+        \column{.48\textwidth}
+            \begin{alertblock}{Búsqueda A* (A-Star)}
+                 \begin{itemize}
+                    \item \textbf{Estrategia:} Evalúa los nodos combinando el costo real desde el inicio, $g(n)$, y el costo estimado hasta el objetivo, $h(n)$. Expande el nodo que minimiza $f(n) = g(n) + h(n)$.
+                    \item \textbf{Resultado:} Es \textbf{completa} y \textbf{óptima} (garantiza encontrar el camino de menor costo), siempre y cuando la heurística $h(n)$ sea admisible.
+                \end{itemize}
+            \end{alertblock}
+    \end{columns}
+\end{frame}
+
+%------------------------------------------------
+\begin{frame}[fragile]{Ejemplo de Implementación: Algoritmo A*}
+    \begin{block}{Contexto: Búsqueda de Rutas en un Mapa}
+        \begin{itemize}
+            \item $g(n)$: La distancia real ya recorrida en la carretera desde el inicio hasta la ciudad $n$.
+            \item $h(n)$: La distancia en línea recta desde la ciudad $n$ hasta el destino (una heurística admisible).
+        \end{itemize}
+    \end{block}
+    
+\end{frame}
+
+\begin{frame}[fragile]{Ejemplo de Implementación: Algoritmo A*}
+   \begin{figure}
+        \centering
+        \includegraphics[width=0.9\linewidth]{Figuras especiales/fig12.png}
+        \label{fig:pla2ceholder}
+    \end{figure}
+    
+\end{frame}
+
+\section{Hill Climbing}
+\begin{frame}{Hill Climbing (Asención a la colina)}
+    \begin{alertblock}{Idea}
+        Muévete siempre a un estado mejor, si es posible.
+    \end{alertblock}
+    \begin{block}{¿Por qué se llama así?}
+        Se llama 'Hill Climbing' porque trata de elegir en cada paso un estado cuyo valor heurístico sea mejor que el del estado activo en este momento.
+    \end{block}
+\end{frame}
+\begin{frame}{Hill Climbing (Asención a la colina)}
+    \begin{block}{Criterio de terminación}
+        El proceso termina cuando en un estado dado, al aplicar todos los operadores, ninguno de los estados resultantes es mejor.
+    \end{block}
+    \begin{alertblock}{Desventaja}
+       Suele atascarse en máximos locales, ya que depende del estado inicial.
+    \end{alertblock}
+\begin{examples}
+    \url{https://github.com/AboudOnji/HillClimbingAlgorithm}
+\end{examples}
+\end{frame}
+\section{Simulated Annealing}
+
+\begin{frame}{Simulated Annealing Algorithm}
+Es una algortimo que introduce un criterio probabilístico de aceptación de soluciones basado en termodinámica.
+\begin{alertblock}{Idea}
+    Escapar de los máximos locales permitiendo movimientos 'incorrectos' (saltos hacia soluciones peores) 
+\end{alertblock}
+\end{frame}
+
+\begin{frame}{Simulated Annealing Algorithm}
+
+\begin{block}{Simulated Annealing Algorithm}
+    Es un algoritmo de búsqueda iterativa inspirado en el proceso de enfriamiento de metales (recocido), donde se intenta encontrar una solución óptima en un espacio de búsqueda con muchas posibles soluciones, incluso si este espacio es muy grande o presenta muchos máximos locales.
+\end{block}
+\begin{block}{¿Cómo funciona?}
+    La idea básica es explorar el espacio de soluciones de forma similar al proceso de recocido térmico de los metales, donde un sistema físico se enfría lentamente desde una temperatura alta hasta llegar a una configuración de mínima energía.
+\end{block}
+
+\end{frame}
+
+\begin{frame}{Simulated Annealing Algorithm}
+   \begin{figure}
+        \centering
+        \includegraphics[width=0.7\linewidth]{Figuras especiales/fig14.png}
+        \label{fig:pla2ceholder}
+    \end{figure} 
+\end{frame}
+
+\begin{frame}{Simulated Annealing Algorithm}
+   \begin{figure}
+        \centering
+        \includegraphics[width=0.9\linewidth]{Figuras especiales/fig13.png}
+        \label{fig:pla2ceholder}
+    \end{figure} 
+\end{frame}
+\begin{frame}[fragile]{Simulated Annealing Algorithm}
+
+  
+\begin{algorithm}[H]
+\caption{Algoritmo de Recocido Simulado (Simulated Annealing)}
+\label{alg:recocido_simulado}
+\begin{tiny}
+\begin{algorithmic}
+    \Require Funci\'on objetivo $f(x)$, soluci\'on inicial $x_0$, temperatura inicial $T_0 > 0$, factor de enfriamiento $\alpha \in (0, 1)$, temperatura m\'inima $T_{\min}$.
+    \Ensure La mejor soluci\'on encontrada $x_{\text{best}}$.
+    
+    \State \textbf{Inicializaci\'on:}
+    \State $T \gets T_0$ \Comment{Establecer la temperatura actual}
+    \State $x_k \gets x_0$ \Comment{Establecer la soluci\'on actual}
+    \State $x_{\text{best}} \gets x_0$ \Comment{Inicializar la mejor soluci\'on encontrada}
+    
+    \While{$T > T_{\min}$}
+        \State Generar una soluci\'on vecina $x_{\text{new}} \in N(x_k)$.
+        \State Calcular $\Delta f = f(x_{\text{new}}) - f(x_k)$.
+        
+        \If{$\Delta f < 0$} \Comment{Si la nueva soluci\'on es mejor}
+            \State $x_k \gets x_{\text{new}}$ \Comment{Aceptar la nueva soluci\'on}
+            \If{$f(x_k) < f(x_{\text{best}})$}
+                \State $x_{\text{best}} \gets x_k$ \Comment{Actualizar la mejor soluci\'on global}
+            \EndIf
+        \Else \Comment{Si la nueva soluci\'on es peor}
+            \State Generar un n\'umero aleatorio $r \in [0, 1]$.
+            \If{$r < \exp(-\Delta f / T)$} \Comment{Aceptar con probabilidad de Boltzmann}
+                \State $x_k \gets x_{\text{new}}$
+            \EndIf
+        \EndIf
+
+        \State $T \gets \alpha \cdot T$ \Comment{Disminuir la temperatura (enfriamiento)}
+    \EndWhile
+    
+    \State \Return $x_{\text{best}}$
+\end{algorithmic}
+\end{tiny}
+\end{algorithm}
+
+\end{frame}
+\begin{frame}{Simulated Annealing Algorithm}
+   \begin{figure}
+        \centering
+        \includegraphics[width=0.7\linewidth]{Figuras especiales/fig15.png}
+        \label{fig:pla2ceholder}
+    \end{figure}
+\pause
+\begin{block}{Otra forma de controlar}
+   ¿y el factor de enfiamiento $\alpha$?
+\end{block}
+\end{frame}
+\section{Ejemplo: Ackley's function}
+\begin{frame}{Ejemplo: Aplicación de 'Simulated Annealing'}
+\begin{equation}
+    f(x, y)=-20 e^{-0.2 \sqrt{0.5\left(x^{2}+y^{2}\right)}}-e^{0.5[\cos (2 \pi x)+\cos (2 \mu y)]}+20+e
+\end{equation}
+\pause
+\begin{figure}
+        \centering
+        \includegraphics[width=0.8\linewidth]{Figuras especiales/fig16.png}
+        \label{fig:pla2ceholder}
+    \end{figure}
+\begin{examples}
+    \url{https://github.com/AboudOnji/SimulatedAnnealing}
+\end{examples}
+\end{frame}
+    
+
+\end{document}

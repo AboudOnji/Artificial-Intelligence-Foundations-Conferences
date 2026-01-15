@@ -1,0 +1,17 @@
+\frametitle{Análisis del Resultado}
+\begin{block}{Salida del Código: La Tabla de Puntuaciones}
+    MATLAB nos devuelve una tabla muy clara con las 4 puntuaciones para cada comentario.
+\begin{lstlisting}
+>> disp(puntuaciones)
+    0.1027
+   -0.2960
+   -0.5423
+    0
+\end{lstlisting}
+    \end{block}
+
+    \pause
+
+    \begin{alertblock}{La clave está en la columna `Compound`}
+        Ahora, podemos usar nuestra regla para interpretar estos números.
+    \end{alertblock}

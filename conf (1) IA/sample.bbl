@@ -1,0 +1,33 @@
+\begin{thebibliography}{}
+
+\bibitem[Bishop, 2006]{Bishop2006}
+Bishop, C.~M. (2006).
+\newblock {\em Pattern Recognition and Machine Learning}.
+\newblock Springer.
+
+\bibitem[Engelbrecht, 2007]{Engelbrecht2007}
+Engelbrecht, A.~P. (2007).
+\newblock {\em Computational Intelligence: An Introduction}.
+\newblock John Wiley \& Sons Ltd., 2nd edition.
+
+\bibitem[Haykin, 2009]{Haykin2009}
+Haykin, S.~O. (2009).
+\newblock {\em Neural Networks and Learning Machines}.
+\newblock Pearson Education, 3rd edition.
+
+\bibitem[Lantz, 2019]{Lantz2019}
+Lantz, B. (2019).
+\newblock {\em Machine Learning with R: Expert techniques for predictive modeling}.
+\newblock Packt Publishing, 3rd edition.
+
+\bibitem[Michalewicz, 1996]{Michalewicz1996}
+Michalewicz, Z. (1996).
+\newblock {\em Genetic Algorithms + Data Structures = Evolutionary Programs}.
+\newblock Springer, Berlin, third edition.
+
+\bibitem[Zadeh, 1965]{Zadeh1965fuzzy}
+Zadeh, L.~A. (1965).
+\newblock Fuzzy sets.
+\newblock {\em Information and Control}, 8(3):338--353.
+
+\end{thebibliography}

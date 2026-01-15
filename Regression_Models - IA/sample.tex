@@ -1,0 +1,685 @@
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND THEMES
+%----------------------------------------------------------------------------------------
+
+\documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
+\usetheme{SimpleDarkBlue}
+
+\usepackage[spanish]{babel}
+\usepackage{hyperref}
+\usepackage{graphicx} % Allows including images
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+\usepackage{amsmath}
+\usepackage{lettrine}
+\usepackage[dvipsnames,svgnames,x11names]{xcolor}% Para definir y usar colores (ej. en hipervínculos)
+\usepackage{xurl}
+\usepackage{hyperref}       % Para crear hipervínculos internos y externos
+\hypersetup{
+    colorlinks=true,        % Colorear los enlaces en lugar de usar recuadros
+    linkcolor=blue,     % Color para enlaces internos (índice, referencias cruzadas)
+    filecolor=blue, % Color para enlaces a archivos locales
+    urlcolor=blue,      % Color para URLs
+    citecolor=blue,     % Color para citas bibliográficas
+}
+% --- Añade esta línea aquí para numerar figuras ---
+\setbeamertemplate{caption}[numbered]
+% --------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title{Los Modelos de Regresión y de Clasificación}
+\subtitle{Materia: Fundamentos de Inteligencia Artificial}
+
+\author{Prof. D.Sc. BARSEKH-ONJI Aboud}
+
+\institute
+{
+    Facultad de Ingeniería \\
+    Universidad Anáhuac México % Your institution for the title page
+}
+\date{\today} % Date, can be changed to a custom date
+
+%----------------------------------------------------------------------------------------
+%	PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+% Poner esto en el preámbulo
+\AtBeginSection[]
+{
+  \begin{frame}{Agenda}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+\begin{document}
+
+\begin{frame}
+    % Print the title page as the first slide
+    \titlepage
+\end{frame}
+
+%------------------------------------------------
+\section{Modelos de Regresión}
+%------------------------------------------------
+
+\begin{frame}{¿Qué es la Regresión?}
+    \begin{block}{Objetivo}
+    La regresión se enfoca en aprender la relación entre un conjunto de variables de entrada (predictoras) $\mathbf{x}$ y una (o varias) variable(s) de salida \textbf{cuantitativa} (respuesta) $y$.
+    \end{block}
+   
+\end{frame}
+
+\begin{frame}{¿Qué es la Regresión?}
+        \begin{columns}[c]
+        \column{0.5\textwidth}
+            El objetivo es construir un modelo $f$ que describa esta relación, generalmente expresado como:
+            $$ y = f(\mathbf{x}) + \epsilon $$
+            Donde $\epsilon$ representa el término de error o ruido que no puede ser explicado por $\mathbf{x}$.
+            
+        \column{0.45\textwidth}
+             \begin{figure}
+                \centering
+                \includegraphics[width=\linewidth]{Figuras/Cap13a/fig6_1.png}
+                \caption{Ejemplo: Predecir la distancia de frenado a partir de la velocidad.}
+                \label{fig:6_1}
+            \end{figure}
+    \end{columns}
+\end{frame}
+
+%------------------------------------------------
+\subsection{Regresión Lineal}
+%------------------------------------------------
+
+\begin{frame}{Regresión Lineal: El Modelo}
+    \begin{block}{Definición}
+    Describe la variable de salida $y$ como una combinación afín de las variables de entrada más un término de ruido. Es uno de los enfoques más fundamentales y utilizados.
+    \end{block}
+    
+    \begin{alertblock}{Ecuación del Modelo}
+    $$ y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_p x_p + \epsilon $$
+    \begin{itemize}
+        \item $\beta_0$ es el término de intercepto (sesgo).
+        \item $\beta_1, \dots, \beta_p$ son los coeficientes de regresión (pesos) que el modelo debe aprender a partir de los datos.
+    \end{itemize}
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Propósitos de la Regresión Lineal}
+
+            \begin{block}{Describir Relaciones (Inferencia)}
+                Interpretar los coeficientes $\beta_j$ para entender la relación entre cada entrada $x_j$ y la salida $y$, realizando pruebas de hipótesis para ver si la relación es estadísticamente significativa.
+            \end{block}
+            \begin{alertblock}{Predecir Salidas (Aprendizaje Automático)}
+                Una vez aprendidos los coeficientes $\hat{\beta}$, se puede predecir una nueva salida $\hat{y}_*$ para una nueva entrada $\mathbf{x}_*$:
+                $$ \hat{y}_* = \hat{\beta}_0 + \hat{\beta}_1 x_{*1} + \dots + \hat{\beta}_p x_{*p} $$
+            \end{alertblock}
+        
+
+\end{frame}
+\begin{frame}{Propósitos de la Regresión Lineal}
+
+            \begin{figure}
+                \centering
+                \includegraphics[width=0.8\linewidth]{Figuras/Cap13a/fig6_2.png}
+                \caption{Modelo de regresión lineal simple ($p=1$).}
+                \label{fig:6_2}
+            \end{figure}
+
+\end{frame}
+%------------------------------------------------
+\subsection{Aprendizaje del Modelo a partir de Datos}
+%------------------------------------------------
+
+\begin{frame}{Aprendizaje: Máxima Verosimilitud y Mínimos Cuadrados}
+    \begin{block}{El Proceso de Aprendizaje}
+    Consiste en estimar los parámetros $\beta$ a partir de un conjunto de datos de entrenamiento. En forma matricial, el modelo se expresa como:
+    $$ Y = X\beta + \mathbf{\epsilon} $$
+    \end{block}
+  
+\end{frame}
+
+\begin{frame}{Aprendizaje: Máxima Verosimilitud y Mínimos Cuadrados}
+
+    
+    \begin{columns}[c]
+        \column{0.5\textwidth}
+            \begin{alertblock}{Mínimos Cuadrados (Least Squares)}
+            Bajo el supuesto de que los errores siguen una distribución Gaussiana, el método de \textbf{Máxima Verosimilitud} es equivalente a minimizar la Suma de los Errores al Cuadrado (SSE). Este es el famoso criterio de \textbf{Mínimos Cuadrados}:
+            $$ \hat{\beta}_{LS} = \arg\min_{\beta} ||Y - X\beta||_2^2 $$
+            \end{alertblock}
+        \column{0.45\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=\linewidth]{Figuras/Cap13a/fig6_3.png}
+                \caption{El criterio de Mínimos Cuadrados minimiza la suma de las áreas de los cuadrados naranjas.}
+                \label{fig:least_squares_criterion_cap6}
+            \end{figure}
+    \end{columns}
+\end{frame}
+%------------------------------------------------
+
+\begin{frame}{La Solución: Ecuaciones Normales}
+    \begin{block}{Obtención de los Coeficientes}
+    La solución al problema de mínimos cuadrados se obtiene al establecer el gradiente de la Suma de Errores al Cuadrado (SSE) a cero. Esto conduce a un sistema de ecuaciones lineales conocido como las \textbf{Ecuaciones Normales}.
+    \end{block}
+    
+    \begin{center}
+    \LARGE $ X^T X \hat{\beta} = X^T Y $
+    \end{center}
+    
+    \begin{alertblock}{Solución de Forma Cerrada}
+    Si la matriz $X^T X$ es invertible, existe una solución única de forma cerrada para los coeficientes $\hat{\beta}$:
+    $$ \hat{\beta} = (X^T X)^{-1} X^T Y $$
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+\subsection{Transformaciones No Lineales de las Entradas}
+%------------------------------------------------
+
+\begin{frame}{¿Qué Significa 'Lineal' en Regresión Lineal?}
+    \begin{block}{Linealidad en los Parámetros $\beta$}
+    El término 'lineal' se refiere a que el modelo es una combinación lineal de los \textbf{parámetros} ($\beta$), no necesariamente de las variables de entrada originales.
+    \end{block}
+    
+    \begin{alertblock}{Modelando Relaciones Complejas}
+    Podemos incluir transformaciones no lineales de las entradas (creando nuevas características o \textit{features}) para modelar relaciones más complejas. Por ejemplo, con una regresión polinomial:
+    $$ y = \beta_0 + \beta_1 x + \beta_2 x^2 + \dots + \beta_d x^d + \epsilon $$
+    Este sigue siendo un modelo de regresión lineal porque es lineal en los coeficientes $\beta_j$.
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Ejemplo: Regresión Polinomial}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.9\textwidth]{Figuras/Cap13a/fig6_4.png}
+        \caption{(izquierda) Modelo con un polinomio de segundo orden. (derecha) Modelo con un polinomio de cuarto orden. Un orden muy alto puede llevar a un sobreajuste.}
+        \label{fig:polynomial_regression_cap6}
+    \end{figure}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Otras Transformaciones: Funciones de Base Radial (RBFs)}
+    \begin{block}{Funciones de Base Radial (RBFs)}
+    Son otra clase popular de transformaciones, como el kernel Gaussiano:
+    $$ K_c(x) = \exp\left(-\frac{||x-c||_2^2}{l}\right) $$
+    El modelo se convierte en una combinación lineal de estas funciones de base:
+    $$ y = \beta_0 + \sum_{j=1}^{p} \beta_j K_{c_j}(x) + \epsilon $$
+    \end{block}
+    
+    \begin{alertblock}{Propiedad Clave de las RBFs}
+    Tienen un efecto \textbf{local}, lo que significa que un cambio en un parámetro afecta principalmente al modelo en la vecindad del centro $c$ de la RBF.
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+\subsection{Variables de Entrada Cualitativas}
+%------------------------------------------------
+
+\begin{frame}{Manejo de Variables Cualitativas (Categóricas)}
+    \begin{block}{La Técnica: Variables Ficticias (Dummy Variables)}
+    Para incorporar variables de entrada cualitativas en un modelo de regresión lineal, se transforman en un conjunto de variables numéricas binarias (0 o 1) llamadas variables \textit{dummy}.
+    \end{block}
+    
+    \begin{alertblock}{Regla General}
+    Si una variable cualitativa tiene $K$ niveles o clases, se crean $K-1$ variables \textit{dummy}. El nivel que no tiene una variable \textit{dummy} se convierte en la categoría de referencia y queda capturado por el intercepto ($\beta_0$) del modelo.
+    \end{alertblock}
+    
+\end{frame}
+\begin{frame}{Manejo de Variables Cualitativas (Categóricas)}
+   
+    \begin{examples}{Ejemplo: 'Tipo de Motor'}
+    Si tenemos una variable \texttt{TipoMotor} con 3 niveles: \texttt{\{A, B, C\}}.
+        \begin{itemize}
+            \item Se elige \texttt{A} como nivel de referencia.
+            \item Se crean 2 variables \textit{dummy} ($K-1 = 3-1=2$):
+                \begin{itemize}
+                    \item $x_{\text{TipoB}}$: será 1 si \texttt{TipoMotor=B}, y 0 en otro caso.
+                    \item $x_{\text{TipoC}}$: será 1 si \texttt{TipoMotor=C}, y 0 en otro caso.
+                \end{itemize}
+        \end{itemize}
+    \end{examples}
+\end{frame}
+
+%------------------------------------------------
+\subsection{Regularización}
+%------------------------------------------------
+
+\begin{frame}{Regularización: Evitando el Sobreajuste}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{Figuras/Cap13a/over.png}
+    \caption{underfitting vs. overfitting}
+    \label{fig:enter-label}
+\end{figure}
+\end{frame}
+\begin{frame}{Regularización: Evitando el Sobreajuste}
+    \begin{block}{El Problema: Sobreajuste (Overfitting)}
+    Cuando el número de características es grande comparado con el número de muestras, o cuando las características están muy correlacionadas, el modelo puede aprender el "ruido" de los datos de entrenamiento. Esto se conoce como sobreajuste y resulta en un mal rendimiento con datos nuevos.
+    \end{block}
+    
+    \begin{alertblock}{La Solución: Regularización}
+    La regularización introduce un término de \textbf{penalización} en la función de costo para restringir la magnitud de los coeficientes $\beta$. Esto previene que el modelo se vuelva demasiado complejo y mejora su capacidad de generalización.
+    $$ \min_{\beta} \underbrace{V(Y, X, \beta)}_{\text{Ajuste a los datos}} + \gamma \underbrace{R(\beta)}_{\text{Penalización}} $$
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Técnicas de Regularización: Ridge vs. LASSO}
+    \begin{columns}[t]
+        \column{.48\textwidth}
+            \begin{block}{Ridge Regression (L2)}
+                \begin{itemize}
+                    \item Añade una penalización proporcional a la suma de los \textbf{cuadrados} de los coeficientes.
+                    $$ \min_{\beta} \left( ||X\beta - Y||_2^2 + \gamma ||\beta||_2^2 \right) $$
+                    \item \textbf{Efecto:} Encoge todos los coeficientes hacia cero, pero raramente los hace exactamente cero.
+                    \item Es muy útil cuando hay alta correlación entre predictores.
+                \end{itemize}
+            \end{block}
+
+        \column{.48\textwidth}
+            \begin{alertblock}{LASSO (L1)}
+                 \begin{itemize}
+                    \item Añade una penalización proporcional a la suma de los \textbf{valores absolutos} de los coeficientes.
+                    $$ \min_{\beta} \left( ||X\beta - Y||_2^2 + \gamma ||\beta||_1 \right) $$
+                    \item \textbf{Efecto:} Puede forzar a que algunos coeficientes sean \textbf{exactamente cero}.
+                    \item Realiza una selección automática de características, produciendo modelos más simples (dispersos).
+                \end{itemize}
+            \end{alertblock}
+    \end{columns}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Efecto Visual de la Regularización}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.4\textwidth]{Figuras/Cap13a/fig6_5a.png} \\
+        \includegraphics[width=0.4\textwidth]{Figuras/Cap13a/fig6_5b.png} \\
+        
+        \caption{Comparación: (arriba) Sin regularización (sobreajuste), (abajo) Ridge (encoge coeficientes)}
+        \label{fig:regularization_rbf_cap6}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Efecto Visual de la Regularización}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.4\textwidth]{Figuras/Cap13a/fig6_5a.png} \\
+        \includegraphics[width=0.4\textwidth]{Figuras/Cap13a/fig6_5c.png}
+        \caption{Comparación: (arriba) Sin regularización (sobreajuste), (abajo) LASSO (crea un modelo disperso).}
+        \label{fig:regularization_rbf_cap6}
+    \end{figure}
+\end{frame}
+
+%------------------------------------------------
+\section{Modelos de Clasificación}
+%------------------------------------------------
+
+\begin{frame}{¿Qué es la Clasificación?}
+    \begin{block}{Objetivo}
+    La clasificación es la tarea de predecir una variable de salida \textbf{cualitativa} (o categórica) $y$ a partir de un conjunto de variables de entrada $\mathbf{x}$.
+    \end{block}
+    
+    \begin{itemize}
+        \item La salida $y$ puede tomar valores de un conjunto finito de clases o etiquetas: $\{c_1, c_2, \dots, c_K\}$.
+        \item \textbf{Ejemplos:} Clasificar correos como 'spam' o 'no spam' ($K=2$); reconocer dígitos escritos a mano del 0 al 9 ($K=10$).
+    \end{itemize}
+    
+    \begin{alertblock}{Perspectiva Estadística}
+    El objetivo principal es modelar o estimar las probabilidades de que una observación pertenezca a cada clase, dadas sus características:
+    $$ p(y=c_k|\mathbf{x}) $$
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+\subsection{Regresión Logística}
+%------------------------------------------------
+
+\begin{frame}{Regresión Logística: Un Clasificador Lineal}
+    \begin{block}{¿Qué es la Regresión Logística?}
+    A pesar de su nombre, es un modelo de \textbf{clasificación lineal} muy popular. En lugar de modelar la salida $y$ directamente, modela la \textbf{probabilidad} de que $y$ pertenezca a una clase particular.
+    \end{block}
+    
+    \begin{columns}[c]
+        \column{0.5\textwidth}
+            \begin{alertblock}{Modelo para Clasificación Binaria}
+            Para $y \in \{0,1\}$, modela la probabilidad de la clase positiva ($y=1$) usando la función logística (o sigmoide):
+            $$ P(y=1|\mathbf{x}) = \frac{1}{1 + e^{-\mathbf{x}^T\beta}} $$
+            \end{alertblock}
+        \column{0.45\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=\linewidth]{Figuras/Cap13a/fig6_6.png}
+                \caption{La función logística mapea cualquier valor real al intervalo (0,1).}
+                \label{fig:logistic_function_cap6}
+            \end{figure}
+    \end{columns}
+\end{frame}
+
+%------------------------------------------------
+\subsubsection{Aprendizaje del Modelo}
+%------------------------------------------------
+
+\begin{frame}{Aprendizaje del Modelo de Regresión Logística}
+    \begin{block}{Máxima Verosimilitud (Maximum Likelihood Estimation - MLE)}
+    Los parámetros $\beta$ se estiman maximizando la función de verosimilitud logarítmica, que mide qué tan bien los parámetros del modelo explican los datos de entrenamiento observados.
+    $$ \ell(\beta) = \sum_{i=1}^{n} \left( y_i \mathbf{x}_i^T\beta - \log(1 + e^{\mathbf{x}_i^T\beta}) \right) $$
+    \end{block}
+    
+    \begin{alertblock}{Solución Numérica}
+    No existe una solución de forma cerrada para $\beta$ que maximice esta función. Por lo tanto, se deben utilizar métodos de optimización numérica iterativos, como el algoritmo de Newton-Raphson, para encontrar los mejores coeficientes.
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+\subsubsection{Fronteras de Decisión}
+%------------------------------------------------
+
+\begin{frame}{Fronteras de Decisión para Regresión Logística}
+    \begin{columns}[c]
+        \column{0.5\textwidth}
+            Una vez entrenado el modelo, se asigna una clase predicha. Típicamente, si $P(y=1|\mathbf{x}) > 0.5$, la predicción es 1.
+            \begin{block}{La Frontera de Decisión}
+            El umbral de decisión de 0.5 corresponde a la ecuación:
+            $$ \mathbf{x}^T\hat{\beta} = 0 $$
+            Esta ecuación define un hiperplano lineal en el espacio de características. Por esta razón, la regresión logística es un \textbf{clasificador lineal}.
+            \end{block}
+        \column{0.45\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=\linewidth]{Figuras/Cap13a/fig6_7.png}
+                \caption{La frontera de decisión (línea vertical) separa las regiones donde la probabilidad predicha es >0.5 o <0.5.}
+                \label{fig:logistic_decision_boundary_cap6}
+            \end{figure}
+    \end{columns}
+\end{frame}
+
+%------------------------------------------------
+\subsubsection{Regresión Logística para Múltiples Clases}
+%------------------------------------------------
+
+\begin{frame}{Regresión Logística para Múltiples Clases (Multinomial)}
+    \begin{block}{Extensión a K $>$ 2 Clases}
+    La regresión logística se puede generalizar a problemas multiclase mediante la \textbf{regresión softmax}. Se calcula la probabilidad para cada clase $k$ usando la función softmax:
+    $$ P(y=k|\mathbf{x}) = \frac{e^{\mathbf{x}^T\beta_k}}{\sum_{j=1}^{K} e^{\mathbf{x}^T\beta_j}} $$
+    \end{block}
+    
+    \begin{alertblock}{Fronteras de Decisión Lineales}
+    Incluso en el caso multiclase, las fronteras de decisión entre cualquier par de clases siguen siendo lineales.
+    \end{alertblock}
+    
+    
+\end{frame}
+
+\begin{frame}{Regresión Logística para Múltiples Clases (Multinomial)}
+\begin{figure}
+        \centering
+        \includegraphics[width=0.8\textwidth]{Figuras/Cap13a/fig6_8.png}
+        \caption{Fronteras de decisión para regresión logística con K=3 clases (izquierda) y K=2 clases con dos características (derecha).}
+        \label{fig:logistic_multiclass_boundary_cap6}
+    \end{figure}
+\end{frame}
+
+%------------------------------------------------
+\subsection{Análisis Discriminante Lineal (LDA) y Cuadrático (QDA)}
+%------------------------------------------------
+
+\begin{frame}{LDA y QDA: Un Enfoque Generativo}
+    \begin{block}{Métodos de Clasificación Generativos}
+    A diferencia de la regresión logística (que es un modelo \textit{discriminativo}), LDA y QDA son modelos \textbf{generativos}. En lugar de modelar la frontera de decisión directamente, modelan la distribución de las características para cada clase.
+    \end{block}
+    
+    \begin{alertblock}{El Teorema de Bayes en Acción}
+    Modelan la probabilidad de las características dada la clase, $p(\mathbf{x}|y=k)$, y la probabilidad a priori de cada clase, $P(y=k)$. Luego, usan el Teorema de Bayes para calcular la probabilidad final que nos interesa:
+    $$ P(y=k|\mathbf{x}) = \frac{p(\mathbf{x}|y=k)P(y=k)}{\sum_{j=1}^{K} p(\mathbf{x}|y=j)P(y=j)} $$
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{La Suposición Gaussiana: Diferencia entre LDA y QDA}
+    \begin{block}{Suposición Principal}
+    Tanto LDA como QDA asumen que la distribución de las características para cada clase, $p(\mathbf{x}|y=k)$, sigue una distribución Gaussiana multivariada.
+    \end{block}
+    
+    \begin{columns}[t]
+        \column{.48\textwidth}
+            \begin{alertblock}{Análisis Discriminante Lineal (LDA)}
+                 \begin{itemize}
+                    \item \textbf{Suposición Fuerte:} Todas las clases comparten la \textbf{misma} matriz de covarianza ($\Sigma_k = \Sigma$).
+                    \item \textbf{Resultado:} Genera fronteras de decisión \textbf{lineales}.
+                \end{itemize}
+            \end{alertblock}
+
+        \column{.48\textwidth}
+            \begin{examples}{Análisis Discriminante Cuadrático (QDA)}
+                \begin{itemize}
+                    \item \textbf{Suposición Flexible:} Cada clase tiene su \textbf{propia} matriz de covarianza ($\Sigma_k$).
+                    \item \textbf{Resultado:} Genera fronteras de decisión \textbf{cuadráticas}.
+                \end{itemize}
+            \end{examples}
+    \end{columns}
+    
+   
+\end{frame}
+\begin{frame}{La Suposición Gaussiana: Diferencia entre LDA y QDA}
+
+  \begin{figure}
+        \centering
+        \includegraphics[width=0.8\textwidth]{Figuras/Cap13a/fig6_9.png}
+        \caption{Diferencia en las suposiciones de covarianza para LDA (izquierda) y QDA (derecha).}
+        \label{fig:lda_qda_assumptions_cap6}
+    \end{figure}
+
+\end{frame}
+%------------------------------------------------
+
+\begin{frame}{Fronteras de Decisión Resultantes}
+    \begin{block}{La Forma de la Frontera de Decisión}
+    La suposición sobre la matriz de covarianza determina directamente la forma de la frontera que separa las clases.
+    \end{block}
+\end{frame}
+\begin{frame}{Fronteras de Decisión Resultantes}
+
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.5\textwidth]{Figuras/Cap13a/fig6_12.png}
+        \caption{Ejemplos de fronteras de decisión: (a, b) LDA siempre produce fronteras lineales. (c, d) QDA produce fronteras cuadráticas, que son más flexibles.}
+        \label{fig:lda_qda_boundaries_cap6}
+    \end{figure}
+\end{frame}
+
+%------------------------------------------------
+\subsection{Clasificador de Bayes y su Justificación Teórica}
+%------------------------------------------------
+
+\begin{frame}{El Clasificador de Bayes: La Decisión Óptima}
+    \begin{block}{La Regla de Decisión Óptima}
+    El Clasificador de Bayes proporciona la justificación teórica para la toma de decisiones en clasificación. Si el objetivo es minimizar el número promedio de errores, el clasificador óptimo es aquel que predice la clase $\hat{y}$ con la \textbf{mayor probabilidad a posteriori}.
+    $$ \hat{y} = \arg\max_k P(y=k|\mathbf{x}_*) $$
+    \end{block}
+    
+    \begin{alertblock}{Consideraciones Prácticas}
+    En la práctica, no conocemos las verdaderas probabilidades $P(y=k|\mathbf{x})$, por lo que los modelos de aprendizaje automático se utilizan para \textbf{estimarlas}. Además, esta regla asume que todos los errores cuestan lo mismo. Si los costos de error son asimétricos (p.ej., en diagnóstico médico), se deben incorporar funciones de pérdida.
+    \end{alertblock}
+\end{frame}
+\begin{frame}{El Clasificador de Bayes: La Decisión Óptima}
+
+\begin{figure}
+        \centering
+        \includegraphics[width=0.9\textwidth]{Figuras/Cap13a/fig6_13.png}
+        \caption{El clasificador de Bayes selecciona la clase con la probabilidad más alta.}
+        \label{fig:bayes_classifier_illustration_cap6}
+    \end{figure}
+\end{frame}
+
+%------------------------------------------------
+\subsection{Consideraciones Adicionales en Clasificación}
+%------------------------------------------------
+
+\begin{frame}{Consideraciones Adicionales}
+    \begin{columns}[t]
+        \column{.48\textwidth}
+            \begin{block}{Clasificadores Lineales vs. No Lineales}
+                \begin{itemize}
+                    \item Un clasificador es \textbf{lineal} si su frontera de decisión es lineal (e.g., Regresión Logística, LDA).
+                    \item QDA es un clasificador \textbf{no lineal}.
+                    \item Se pueden obtener fronteras no lineales con clasificadores lineales mediante la transformación no lineal de las características de entrada.
+                \end{itemize}
+            \end{block}
+
+        \column{.48\textwidth}
+            \begin{alertblock}{Regularización en Clasificación}
+                 \begin{itemize}
+                    \item Al igual que en la regresión, la regularización (L1 o L2) es crucial para evitar el sobreajuste en modelos de clasificación.
+                    \item Es especialmente útil cuando hay muchas características o los datos son limitados.
+                \end{itemize}
+            \end{alertblock}
+    \end{columns}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Evaluación de Clasificadores Binarios}
+    \frametitle{Más allá de la Exactitud (Accuracy)}
+    \begin{block}{El Problema con la Exactitud}
+    La exactitud simple (porcentaje de aciertos) puede ser engañosa, especialmente si las clases están desbalanceadas (e.g., 99\% de los correos no son spam).
+    \end{block}
+    
+    \begin{alertblock}{La Matriz de Confusión}
+    Es la herramienta fundamental para resumir el rendimiento de un clasificador binario.
+    \begin{center}
+    \begin{tabular}{cc|c|c|}
+      & \multicolumn{1}{c}{} & \multicolumn{2}{c}{Clase Real}\\
+      & \multicolumn{1}{c}{} & \multicolumn{1}{c}{Positivo} & \multicolumn{1}{c}{Negativo} \\
+      \cline{3-4}
+      \raisebox{0.8em}{Predicción} & Positivo & \textbf{VP} (Verdadero Positivo) & \textbf{FP} (Falso Positivo) \\
+      \cline{3-4}
+      & Negativo & \textbf{FN} (Falso Negativo) & \textbf{VN} (Verdadero Negativo) \\
+      \cline{3-4}
+    \end{tabular}
+    \end{center}
+    \end{alertblock}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Métricas Clave de la Matriz de Confusión}
+    \begin{columns}[t]
+        \column{.48\textwidth}
+            \begin{block}{Sensibilidad (Recall)}
+            ¿Qué proporción de los positivos reales se identificó correctamente?
+            $$ \text{Sensibilidad} = \frac{VP}{VP + FN} $$
+            \end{block}
+            
+            \begin{alertblock}{Precisión (Precision)}
+            De todos los que se predijeron como positivos, ¿cuántos lo eran realmente?
+            $$ \text{Precisión} = \frac{VP}{VP + FP} $$
+            \end{alertblock}
+            
+        \column{.48\textwidth}
+            \begin{block}{Especificidad}
+            ¿Qué proporción de los negativos reales se identificó correctamente?
+            $$ \text{Especificidad} = \frac{VN}{VN + FP} $$
+            \end{block}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Métricas Clave de la Matriz de Confusión}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.65\linewidth]{Figuras/Cap13a/confusion.png}
+    \caption{Ejemplo de una matriz de confusión}
+    \label{fig:enter-labgel}
+\end{figure}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Curva ROC y AUC}
+    \begin{columns}[c]
+        \column{0.5\textwidth}
+            \begin{block}{Curva ROC (Receiver Operating Characteristic)}
+            Es un gráfico que muestra el rendimiento de un clasificador para todos los umbrales de decisión. Grafica:
+            \begin{itemize}
+                \item Eje Y: \textbf{Sensibilidad} (Tasa de Verdaderos Positivos).
+                \item Eje X: \textbf{1 - Especificidad} (Tasa de Falsos Positivos).
+            \end{itemize}
+            \end{block}
+
+        \column{0.45\textwidth}
+            \begin{figure}
+                \includegraphics[width=\linewidth]{Figuras/Cap13a/fig6_14.png}
+                \caption{Ejemplo de una curva ROC.}
+                \label{fig:roc_curve_cap6}
+            \end{figure}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Curva ROC y AUC}
+    \begin{columns}[c]
+        \column{0.5\textwidth}
+
+
+            \begin{alertblock}{Área Bajo la Curva (AUC)}
+            Es una medida global del rendimiento del clasificador, independiente del umbral.
+            \begin{itemize}
+                \item \textbf{AUC = 1:} Clasificador perfecto.
+                \item \textbf{AUC = 0.5:} Clasificador aleatorio (inútil).
+            \end{itemize}
+            \end{alertblock}
+
+        \column{0.45\textwidth}
+            \begin{figure}
+                \includegraphics[width=\linewidth]{Figuras/Cap13a/fig6_14.png}
+                \caption{Ejemplo de una curva ROC.}
+                \label{fig:roc_curve_cap6}
+            \end{figure}
+    \end{columns}
+\end{frame}
+
+\section{Ejemplos prácticos}
+\subsection{Pronóstico del tipo de cambio (USD/MXN) - Regresión 1}
+\subsection{Describir la relación entre varaibles que influyen en el rendimiento de un auto - Regresión 2}
+\subsection{Clasificación 'iris de Fisher 1936'}
+
+\begin{frame}{Ejemplos prácticos}
+    Abordaremos los siguientes ejemplos:
+    \begin{itemize}
+        \item Pronóstico del tipo de cambio (USD/MXN) - Regresión 1
+        \item Describir la relación entre varaibles que influyen en el rendimiento de un auto - Regresión 2
+        \item Clasificación 'iris de Fisher 1936'.
+    \end{itemize}
+\end{frame}
+\begin{frame}{Ejemplos prácticos}
+    Para más información sobre el uso de las aplicaciones 'Regression Learner' y 'Classification Learner' de MATLAB es recomendable visitar:
+    \begin{itemize}
+        \item Para el caso de 'Regression Learner': \url{https://la.mathworks.com/help/stats/regressionlearner-app.html}
+        \item Para el caso de 'Classification Learner': \url{https://la.mathworks.com/help/stats/classificationlearner-app.html}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Ejemplos prácticos}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\linewidth]{Figuras/Cap13a/MPG.png}
+    \caption{Modelo de regresión para el ejemplo 2}
+    \label{fig:entser-label}
+\end{figure}
+\end{frame}
+\begin{frame}{Ejemplos prácticos}
+\begin{block}{Ejemplo de un modelo de clasificación}
+   Este ejemplo utiliza los datos de iris de Fisher de 1936. Estos datos contienen mediciones de flores: longitud de pétalo, ancho de pétalo, longitud de sépalo y ancho de sépalo para especímenes de tres especies. Entrene un clasificador para predecir la especie basándose en las mediciones de los predictores. 
+\end{block}
+\begin{examples}
+    Se recomienda revisar el ejemplo a detalle en el repositorio de Matlab en: \url{https://la.mathworks.com/help/stats/train-decision-trees-in-classification-learner-app.html}
+\end{examples}
+\end{frame}
+\end{document}

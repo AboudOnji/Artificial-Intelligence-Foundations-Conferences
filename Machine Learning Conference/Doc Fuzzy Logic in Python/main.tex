@@ -1,0 +1,374 @@
+\UseRawInputEncoding
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+
+% --- Paquetes necesarios ---
+\usepackage[utf8]{inputenc} % Codificación de entrada UTF-8
+\usepackage[spanish]{babel} % Soporte para español
+\usepackage{amsmath}        % Para fórmulas matemáticas (si son necesarias)
+\usepackage{amssymb}        % Para símbolos matemáticos (si son necesarios)
+\usepackage{graphicx}       % Para incluir imágenes (si las tienes, por ejemplo, gráficos de MF)
+\usepackage{geometry}       % Para configurar márgenes
+\geometry{a4paper, margin=1in} % Ejemplo de márgenes
+\usepackage{listings}       % Para incluir código fuente
+\usepackage{xcolor}         % Para soporte de colores en listados
+\usepackage{hyperref}       % Para enlaces (útil si mencionas URLs o referencias)
+\usepackage{caption}        % Para personalizar subtítulos de figuras/tablas
+\usepackage{float}          % Para un mejor control de la colocación de figuras/tablas
+
+% --- Configuración del paquete listings para código Python ---
+\lstset{
+    language=Python,           % Lenguaje a resaltar
+    basicstyle=\small\ttfamily, % Fuente para el código
+    numbers=left,              % Numeración de líneas a la izquierda
+    numberstyle=\tiny\color{gray}, % Estilo de los números de línea
+    stepnumber=1,              % Intervalo de números de línea
+    numbersep=5pt,             % Espacio entre números y código
+    showspaces=false,          % No mostrar espacios como caracteres especiales
+    showtabs=false,            % No mostrar tabulaciones
+    breaklines=true,           % Romper líneas largas
+    keywordstyle=\color{blue}\bfseries, % Estilo para palabras clave
+    stringstyle=\color{red},     % Estilo para strings
+    commentstyle=\color{green!60!black}\itshape, % Estilo para comentarios
+    frame=tb,                  % Marco superior e inferior
+    tabsize=4,                 % Tamaño de la tabulación
+    morekeywords={ctrl, Antecedent, Consequent, trimf, trapmf, Rule, ControlSystem, ControlSystemSimulation, input, output, compute, universe, FIS, AutoFIS_Mamdani, AutoFIS_Sugeno, add_input_variable, add_output_variable, set_rules, set_variable, Mamdani_inference, Sugeno_inference} % Palabras clave adicionales de las librerías
+}
+
+% --- Información del artículo ---
+\title{Transición de Lógica Difusa: De MATLAB a Python}
+\author{BARSEKH-ONJI Aboud\thanks{Universidad Anáhuac México, Facultad de Ingeniería} \\ \small Fecha: \today}
+\date{} % Deja la fecha en blanco para no mostrarla o usa \date{\today}
+
+\begin{document}
+
+\maketitle
+
+% --- Resumen (Abstract) ---
+\begin{abstract}
+Este documento sirve como guía detallada para ingenieros y científicos que desean transitar del entorno de MATLAB, específicamente del Fuzzy Logic Toolbox, al ecosistema de Python para el desarrollo y la implementación de sistemas de lógica difusa. Se abordan los aspectos fundamentales de la construcción de Sistemas de Inferencia Difusa (FIS) simples (Single FIS), la conceptualización e implementación de estructuras jerárquicas (Tree FIS) y las aproximaciones para el proceso de ajuste (tuning) de los sistemas difusos en Python, comparando flujos de trabajo y herramientas clave en ambos lenguajes. Se presentan ejemplos de código utilizando librerías populares de Python como \texttt{scikit-fuzzy} y \texttt{simpful} para ilustrar los conceptos.
+\end{abstract}
+
+% --- Palabras clave ---
+% \noindent\textbf{Palabras clave:} Lógica Difusa, Python, MATLAB, scikit-fuzzy, simpful, FIS, Tuning, Inteligencia Artificial.
+
+% --- Contenido del artículo ---
+
+\section{Introducción}
+
+MATLAB ha sido durante mucho tiempo una herramienta dominante en el ámbito de la ingeniería y la investigación, ofreciendo toolboxes especializados como el Fuzzy Logic Toolbox que facilitan la creación y simulación de sistemas difusos. Sin embargo, la creciente popularidad de Python, impulsada por su versatilidad, su naturaleza de código abierto y su vasto ecosistema de librerías para computación científica, aprendizaje automático e inteligencia artificial, lo convierte en una alternativa atractiva para el desarrollo de sistemas de lógica difusa.
+
+Esta transición de MATLAB a Python en el campo de la lógica difusa no implica una pérdida de capacidades, sino un cambio de paradigma en el flujo de trabajo, pasando de un entorno integrado (con GUIs y toolboxes comerciales) a un enfoque más basado en código y en la combinación de diferentes librerías especializadas. Este artículo tiene como objetivo facilitar esa transición, detallando cómo abordar la construcción de FIS simples, jerárquicos y el proceso de tuning utilizando herramientas disponibles en Python.
+
+\section{Librerías de Python para Lógica Difusa}
+
+El ecosistema de Python ofrece varias librerías que permiten implementar sistemas de lógica difusa con capacidades comparables a las de MATLAB. Las más destacadas incluyen:
+
+\begin{itemize}
+    \item \textbf{\texttt{scikit-fuzzy}}: Integrada con el stack científico de Python (\texttt{NumPy}, \texttt{SciPy}, \texttt{Matplotlib}). Es una opción robusta y de propósito general para sistemas Mamdani y Sugeno.
+    \item \textbf{\texttt{simpful}}: Diseñada para ser una librería de lógica difusa amigable, con una API que busca ser intuitiva y cercana al lenguaje natural, especialmente para la definición de reglas.
+    \item \textbf{\texttt{fuzzylab}}: Basada en el Octave Fuzzy Logic Toolkit, pretende ofrecer una sintaxis y flujo de trabajo similares a los del Fuzzy Logic Toolbox de MATLAB, lo que podría ser ventajoso para usuarios que buscan una transición más directa a nivel de código.
+    \item \textbf{\texttt{pyfuzzylite}}: Un wrapper de Python para la potente librería C++ FuzzyLite, que proporciona una amplia gama de métodos y tipos de FIS.
+\end{itemize}
+
+Aunque existen otras, \texttt{scikit-fuzzy} y \texttt{simpful} son excelentes puntos de partida debido a su popularidad, documentación y facilidad de uso para las tareas básicas y avanzadas de construcción de FIS.
+
+\section{Construcción de un Single FIS}
+
+Un Single FIS es la estructura fundamental en lógica difusa, compuesta por un conjunto de variables de entrada (antecedentes), variables de salida (consecuentes), funciones de membresía para los términos lingüísticos de cada variable y un conjunto de reglas difusas que relacionan entradas y salidas.
+
+\subsection{Del Enfoque de MATLAB a Python}
+
+En MATLAB, la creación de un FIS a menudo comienza con la herramienta gráfica \texttt{fuzzy} o con funciones de línea de comandos como \texttt{newfis}, \texttt{addvar}, \texttt{addmf}, \texttt{addrule} para definir la estructura paso a paso.
+
+En Python, la metodología es similar en concepto pero se implementa a través de la instanciación de clases y la llamada a métodos proporcionados por la librería elegida.
+
+\subsection{Implementación en Python}
+
+Veamos cómo construir un FIS Mamdani simple (ejemplo del control de propina) utilizando \texttt{scikit-fuzzy} y \texttt{simpful}.
+
+\subsubsection{Usando \texttt{scikit-fuzzy}}
+
+Con \texttt{scikit-fuzzy}, se definen las variables como objetos \texttt{Antecedent} o \texttt{Consequent}, se asignan funciones de membresía a través de notación de diccionario y se crean reglas como objetos \texttt{Rule} que combinan variables con operadores lógicos.
+
+\begin{lstlisting}[caption={Construcción de un FIS Mamdani con scikit-fuzzy}]
+import numpy as np
+import skfuzzy as fuzz
+from skfuzzy import control as ctrl
+
+# 1. Definir variables de entrada (Antecedentes) y salida (Consecuente)
+# Cada variable requiere un universo de discurso (rango de valores)
+servicio = ctrl.Antecedent(np.arange(0, 11, 1), 'servicio')
+comida = ctrl.Antecedent(np.arange(0, 11, 1), 'comida')
+propina = ctrl.Consequent(np.arange(0, 26, 1), 'propina')
+
+# 2. Definir funciones de membresía para cada término lingüístico
+# Se usan funciones de skfuzzy como trimf (triangular), trapmf (trapezoidal), etc.
+servicio['pobre'] = fuzz.trimf(servicio.universe, [0, 0, 5])
+servicio['aceptable'] = fuzz.trimf(servicio.universe, [0, 5, 10])
+servicio['excelente'] = fuzz.trimf(servicio.universe, [5, 10, 10])
+
+comida['rancia'] = fuzz.trapmf(comida.universe, [0, 0, 1, 3])
+comida['deliciosa'] = fuzz.trapmf(comida.universe, [7, 9, 10, 10])
+
+propina['baja'] = fuzz.trimf(propina.universe, [0, 0, 13])
+propina['media'] = fuzz.trimf(propina.universe, [6, 13, 20])
+propina['alta'] = fuzz.trimf(propina.universe, [13, 25, 25])
+
+# 3. Definir las reglas difusas
+# Se combinan los términos lingüísticos con operadores lógicos (& para AND, | para OR)
+regla1 = ctrl.Rule(servicio['pobre'] | comida['rancia'], propina['baja'])
+regla2 = ctrl.Rule(servicio['aceptable'], propina['media'])
+regla3 = ctrl.Rule(servicio['excelente'] | comida['deliciosa'], propina['alta'])
+
+# 4. Crear el sistema de control y simulación
+sistema_ctrl = ctrl.ControlSystem([regla1, regla2, regla3])
+simulacion = ctrl.ControlSystemSimulation(sistema_ctrl)
+
+# 5. Evaluar el sistema con entradas específicas
+simulacion.input['servicio'] = 6.5
+simulacion.input['comida'] = 9.8
+simulacion.compute()
+
+print(f"Propina sugerida (scikit-fuzzy): {simulacion.output['propina']:.2f}")
+
+# Para visualizar funciones de membresía (opcional, requiere matplotlib)
+# servicio.view()
+# comida.view()
+# propina.view()
+# plt.show()
+\end{lstlisting}
+
+\subsubsection{Usando \texttt{simpful}}
+
+\texttt{simpful} permite una definición de variables y reglas de manera que puede sentirse más "natural" o declarativa, a menudo utilizando strings.
+
+\begin{lstlisting}[caption={Construcción de un FIS Mamdani con simpful}]
+from simpful import *
+
+# 1. Crear un sistema de inferencia difusa (Mamdani o Sugeno)
+FIS = AutoFIS_Mamdani() # Usamos AutoFIS para una configuración más rápida
+
+# 2. Definir variables de entrada con sus rangos y términos lingüísticos
+# Se usan diccionarios para definir los términos y los parámetros de las MF
+LV = AutoFIS_LinguisticVariable("Service quality", {
+    "poor": [0, 0, 5, 5],       # trapezoidal
+    "average": [0, 5, 5, 10],   # triangular (dos veces el centro para pico)
+    "good": [5, 10, 10, 10]     # trapezoidal
+})
+FIS.add_input_variable(LV)
+
+LV = AutoFIS_LinguisticVariable("Food quality", {
+    "rancid": [0, 0, 1, 3],
+    "delicious": [7, 9, 10, 10]
+})
+FIS.add_input_variable(LV)
+
+# 3. Definir variable de salida con su rango y términos lingüísticos
+LV = AutoFIS_LinguisticVariable("Tip amount", {
+    "low": [0, 0, 13, 13],
+    "medium": [6, 13, 13, 20],
+    "high": [13, 25, 25, 25]
+})
+FIS.add_output_variable(LV)
+
+# 4. Definir reglas difusas usando strings
+RULES = [
+    "IF (Service quality is poor) OR (Food quality is rancid) THEN (Tip amount is low)",
+    "IF (Service quality is average) THEN (Tip amount is medium)",
+    "IF (Service quality is good) OR (Food quality is delicious) THEN (Tip amount is high)"
+]
+FIS.set_rules(RULES)
+
+# 5. Establecer entradas y calcular salida
+FIS.set_variable("Service quality", 6.5)
+FIS.set_variable("Food quality", 9.8)
+
+# Para visualizar funciones de membresía y superficie (opcional)
+# FIS.produce_figure()
+
+print(f"Propina sugerida (simpful - Mamdani): {FIS.Mamdani_inference():.2f}")
+\end{lstlisting}
+
+\subsection{Sistema Takagi-Sugeno en Python}
+
+La implementación de un FIS Takagi-Sugeno difiere principalmente en la naturaleza de las funciones de membresía de salida, que son funciones lineales (o constantes) de las variables de entrada, en lugar de conjuntos difusos.
+
+En \texttt{scikit-fuzzy}, al definir el consecuente, se deshabilita la defusificación automática (\texttt{auto\_defuzzify=False}) y las reglas apuntan a funciones o valores. En \texttt{simpful}, se inicializa con \texttt{AutoFIS\_Sugeno()} y los consecuentes en las reglas se definen como valores constantes o expresiones lineales de las variables de entrada.
+
+\begin{lstlisting}[caption={Concepto de FIS Sugeno en Python}]
+# Ejemplo conceptual - la implementación varía ligeramente por librería
+
+# Consecuente para Sugeno en scikit-fuzzy (sin defusificación automática)
+propina_sugeno = ctrl.Consequent(np.arange(0, 26, 1), 'propina', auto_defuzzify=False)
+
+# Las "funciones de membresía" de salida para Sugeno son solo etiquetas
+propina_sugeno['baja'] = None
+propina_sugeno['media'] = None
+propina_sugeno['alta'] = None
+
+# Reglas Sugeno en scikit-fuzzy apuntarían a valores o funciones
+regla_sugeno1 = ctrl.Rule(servicio['pobre'], propina_sugeno['baja'])
+# El mapping de 'baja' a un valor/función se define de otra manera,
+# a menudo especificando el consecuente directamente en la regla como un valor
+# numérico o una expresión lineal de las entradas.
+
+# Consecuentes constantes en simpful Sugeno
+FIS_sugeno = AutoFIS_Sugeno()
+# ... (variables de entrada)
+# FIS_sugeno.add_output_variable(AutoFIS_LinguisticVariable("Tip amount", {
+    "low": 5,
+    "medium": 15,
+    "high": 25
+ }))
+ RULES_sugeno = [
+     "IF (Service quality is poor) THEN (Tip amount is 5)", # Regla con consecuente constante
+     "IF (Service quality is average) THEN (Tip amount is 15)",
+     "IF (Service quality is good) THEN (Tip amount is 25)",
+     # O con consecuente lineal:
+     # "IF (Service quality is excellent) THEN (Tip amount is 1.5 * Service quality + 0.5 * Food quality)"
+]
+FIS_sugeno.set_rules(RULES_sugeno)
+FIS_sugeno.set_variable("Service quality", 6.5)
+FIS_sugeno.set_variable("Food quality", 9.8)
+print(f"Propina sugerida (simpful - Sugeno): {FIS_sugeno.Sugeno_inference():.2f}")
+
+print("Los ejemplos de Sugeno son conceptuales y la sintaxis exacta depende de la librería y versión.")
+\end{lstlisting}
+
+\section{Construcción de un Tree FIS (FIS Jerárquico)}
+
+Un Tree FIS, o sistema de lógica difusa jerárquico, se compone de múltiples FIS interconectados, donde las salidas de uno o más FIS actúan como entradas para otros FIS en niveles superiores de la jerarquía. MATLAB no tiene un tipo de objeto 'Tree FIS' nativo, y su construcción se realiza manualmente evaluando FIS individuales y pasando sus resultados como entradas.
+
+En Python, la aproximación es idéntica. No se encuentra una clase o función específica para Tree FIS en las librerías generales de lógica difusa. La construcción de un FIS jerárquico se logra creando instancias de múltiples objetos FIS (utilizando la misma librería o combinando varias) y encadenando sus simulaciones.
+
+\subsection{Implementación Conceptual de Tree FIS en Python}
+
+La clave es gestionar las entradas y salidas entre los diferentes niveles del árbol.
+
+\begin{lstlisting}[caption={Concepto de Tree FIS encadenando simulaciones}]
+# Suponemos que ya tienes definidos los ControlSystem para FIS_Nivel1 y FIS_Nivel2
+
+# Crear simulaciones para cada nivel
+simulacion_nivel1 = ctrl.ControlSystemSimulation(sistema_ctrl_nivel1)
+simulacion_nivel2 = ctrl.ControlSystemSimulation(sistema_ctrl_nivel2) # Este usa salida_nivel1 como entrada
+
+# 1. Proporcionar entradas primarias al FIS del primer nivel
+simulacion_nivel1.input['entrada_primaria_A'] = valor_A
+simulacion_nivel1.input['entrada_primaria_B'] = valor_B
+
+# 2. Ejecutar la simulación del primer nivel
+ simulacion_nivel1.compute()
+
+# 3. Obtener la salida del primer nivel
+salida_calculada_nivel1 = simulacion_nivel1.output['salida_nivel1']
+
+# 4. Usar la salida del primer nivel como entrada para el FIS del segundo nivel
+simulacion_nivel2.input['entrada_desde_nivel1'] = salida_calculada_nivel1
+simulacion_nivel2.input['entrada_primaria_C'] = valor_C # Otras entradas primarias del Nivel 2
+
+# 5. Ejecutar la simulación del segundo nivel
+simulacion_nivel2.compute()
+
+# 6. Obtener la salida final del sistema jerárquico
+salida_final_tree_fis = simulacion_nivel2.output['salida_final']
+
+print("La construcción de un Tree FIS implica instanciar y encadenar FIS individuales manualmente.")
+\end{lstlisting}
+
+Este enfoque manual ofrece flexibilidad para construir diversas arquitecturas de sistemas difusos interconectados.
+
+\section{El Proceso de Tuning (Ajuste)}
+
+El tuning de un FIS busca optimizar sus parámetros (como la forma y posición de las funciones de membresía, o los pesos de las reglas) para mejorar su rendimiento, generalmente comparando sus salidas con un conjunto de datos de referencia. MATLAB ofrece herramientas interactivas y algorítmicas para el tuning, incluyendo ANFIS.
+
+Python, al carecer de una GUI de tuning integrada similar a la de MATLAB en sus librerías de lógica difusa estándar, aborda el tuning mediante la integración con librerías de optimización o la implementación de enfoques basados en aprendizaje automático.
+
+\subsection{Aproximaciones para Tuning en Python}
+
+\begin{itemize}
+    \item \textbf{Optimización Numérica}: Definir una función de costo (que mida el error entre la salida del FIS y la salida esperada) y usar optimizadores numéricos (ej. \texttt{scipy.optimize.minimize}) para encontrar los parámetros del FIS que minimizan este error.
+    \item \textbf{Algoritmos Evolutivos}: Emplear algoritmos genéticos (\texttt{DEAP}, \texttt{PyGAD}) u otros para buscar el conjunto óptimo de parámetros del FIS, donde la función de aptitud se deriva de la función de costo.
+    \item \textbf{ANFIS (Adaptive Neuro-Fuzzy Inference System)}: Implementaciones de ANFIS en Python (buscar librerías específicas o construirlas con marcos de deep learning) permiten entrenar un sistema Sugeno a partir de datos.
+    \item \textbf{Tuning Manual Asistido}: Usar las capacidades de visualización (\texttt{Matplotlib}) para observar el comportamiento del FIS y las funciones de membresía, realizando ajustes manuales informados.
+\end{itemize}
+
+El tuning en Python requiere más programación explícita para definir el problema de optimización y conectar el FIS con la herramienta de optimización.
+
+\subsection{Ejemplo Conceptual de Tuning}
+
+El tuning algorítmico generalmente implica definir una función objetivo que el optimizador intentará minimizar. Esta función evaluará el rendimiento del FIS con un conjunto de parámetros propuestos.
+
+\begin{lstlisting}[caption={Concepto de Tuning con Optimización Numérica}]
+from scipy.optimize import minimize
+import numpy as np
+# Suponemos que sistema_ctrl está definido y tiene una forma de modificar sus parámetros
+
+# Datos de entrenamiento (entradas y salidas esperadas)
+inputs_data = np.array([[val1_in1, val1_in2], [val2_in1, val2_in2], ...])
+salidas_esperadas_data = np.array([salida1_esp, salida2_esp, ...])
+
+# Función de costo a minimizar (ej. Suma del Error Cuadrático)
+# Esta función debe tomar los parámetros a optimizar y devolver un escalar (el error total)
+def funcion_de_costo(parametros, inputs, salidas_esperadas, sistema_ctrl):
+    # 1. Actualizar los parámetros del FIS con 'parametros'
+    #    Esto es dependiente de la estructura interna de tu FIS en la librería.
+    #    Ej: sistema_ctrl.antecedents[0]['nombre_mf'].params = [..., parametros[0], ...]
+
+    # 2. Simular el FIS para todas las entradas simulacion
+ctrl.ControlSystemSimulation(sistema_ctrl)
+salidas_obtenidas = []
+    #    for inp in inputs:
+simulacion.input['nombre_entrada_1'] = inp[0]
+simulacion.input['nombre_entrada_2'] = inp[1]
+simulacion.compute()
+salidas_obtenidas.append(simulacion.output['nombre_salida'])
+
+    # 3. Calcular el error total (ej. Suma de errores cuadrados)
+errores = (np.array(salidas_obtenidas) - salidas_esperadas)**2
+error_total = np.sum(errores)
+return error_total
+
+    # Placeholder para el ejemplo conceptual
+    return np.random.rand() # Una función de costo simulada
+
+# Parámetros iniciales para la optimización
+parametros_iniciales = [valor_inicial_parametro1, valor_inicial_parametro2, ...]
+
+# Llamar al optimizador
+resultado_optimizacion = minimize(funcion_de_costo, parametros_iniciales, args=(inputs_data, salidas_esperadas_data, sistema_ctrl), method='TuMetodoDeOptimizacion') # Ej: 'Nelder-Mead', 'BFGS', etc.
+
+# Los parámetros óptimos estarán en resultado_optimizacion.x
+# Puedes usar estos parámetros para actualizar tu FIS final.
+
+print("El tuning algorítmico requiere una implementación cuidadosa de la función de costo.")
+\end{lstlisting}
+
+La implementación práctica del tuning depende en gran medida de la flexibilidad de la librería de lógica difusa para permitir la modificación programática de los parámetros del FIS después de su creación.
+
+\section{Consejos para una Transición Exitosa}
+
+\begin{itemize}
+    \item \textbf{Comienza con Ejemplos Simples}: Reimplementa tus FIS más básicos de MATLAB en Python primero para familiarizarte con la sintaxis y el flujo de trabajo.
+    \item \textbf{Domina las Librerías Clave}: Invierte tiempo en entender la documentación y ejemplos de \texttt{scikit-fuzzy} o \texttt{simpful}.
+    \item \textbf{Aprovecha NumPy y Matplotlib}: Estas librerías son esenciales para la manipulación de datos numéricos y la visualización, tareas comunes en lógica difusa.
+    \item \textbf{Visualiza Frecuentemente}: Utiliza las funciones de visualización para verificar que las funciones de membresía y la superficie de control se comportan como esperas.
+    \item \textbf{Explora Herramientas de Optimización}: Si el tuning es crucial, familiarízate con \texttt{scipy.optimize} u otras librerías de optimización.
+    \item \textbf{Busca Implementaciones de ANFIS}: Si usas ANFIS en MATLAB, busca implementaciones en Python, posiblemente en frameworks de ML.
+    \item \textbf{Participa en la Comunidad}: Los foros y comunidades en línea pueden ofrecer soluciones a problemas específicos.
+\end{itemize}
+
+\section{Conclusión}
+
+Transitar de MATLAB a Python para el trabajo con lógica difusa es un paso viable y recomendable dada la potencia y flexibilidad del ecosistema Python. Aunque el enfoque pasa de un entorno integrado y gráfico a uno más centrado en código y librerías, las capacidades para construir Single FIS, Tree FIS y realizar tuning están plenamente disponibles a través de librerías como \texttt{scikit-fuzzy} y \texttt{simpful}, complementadas por herramientas de optimización y visualización estándar de Python. Con una comprensión clara de los conceptos y la práctica en la implementación, podrás transferir y expandir tu experiencia en lógica difusa al entorno Python.
+
+% --- Posibles referencias (ejemplo) ---
+\section*{Referencias}
+ \begin{thebibliography}{99}
+     \bibitem{scikit-fuzzy} Sitio web de scikit-fuzzy: \url{https://pythonhosted.org/scikit-fuzzy/}
+     \bibitem{simpful} Sitio web de simpful: \url{https://simpful.readthedocs.io/}
+     \bibitem{fuzzylab} Repositorio de fuzzylab: \url{https://github.com/ITTcs/fuzzylab}
+ \end{thebibliography}
+
+\end{document}

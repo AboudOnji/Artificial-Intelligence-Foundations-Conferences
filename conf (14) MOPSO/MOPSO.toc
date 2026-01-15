@@ -1,0 +1,7 @@
+\babel@toc {english}{}\relax 
+\beamer@sectionintoc {1}{Introduction to Multi-Objective Optimization (MOP)}{3}{0}{1}
+\beamer@sectionintoc {2}{The Concept of Pareto Optimality}{10}{0}{2}
+\beamer@sectionintoc {3}{From PSO to MOPSO: The 3 Challenges}{18}{0}{3}
+\beamer@sectionintoc {4}{Solutions and the MOPSO Algorithm}{25}{0}{4}
+\beamer@sectionintoc {5}{Applications and Future of MOPSO}{35}{0}{5}
+\beamer@sectionintoc {6}{Conclusions}{40}{0}{6}

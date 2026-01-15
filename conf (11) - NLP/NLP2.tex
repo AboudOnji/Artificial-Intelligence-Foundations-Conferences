@@ -1,0 +1,364 @@
+\documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
+\usetheme{SimpleDarkBlue}
+
+\usepackage[spanish]{babel}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{lettrine}
+\setbeamertemplate{caption}[numbered]
+\usepackage[dvipsnames,svgnames,x11names]{xcolor}
+\usepackage{xurl}
+\usepackage{hyperref}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{adjustbox}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=blue,
+    urlcolor=blue,
+    citecolor=blue,
+}
+%----------------------------------------------------------------------------------------
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.97,0.97,0.99}
+
+\lstdefinestyle{MATLABStyle}{
+  language=Matlab,
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{blue}\bfseries,
+  commentstyle=\color{codegreen},
+  stringstyle=\color{violet},
+  numberstyle=\tiny\color{gray},
+  breakatwhitespace=false,
+  breaklines=true,
+  captionpos=b,
+  keepspaces=true,
+  numbers=left,
+  numbersep=5pt,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  tabsize=2,
+  frame=lines,
+  framerule=0.4pt,
+  backgroundcolor=\color{backcolour}
+}
+\lstset{style=MATLABStyle}
+%----------------------------------------------------------------------------------------
+%   TITLE PAGE
+%----------------------------------------------------------------------------------------
+\title{Procesamiento de Lenguaje Natural (NLP)} 
+\subtitle{Clase 2: Vectorización de Texto} 
+\author{Prof. D.Sc. BARSEKH-ONJI Aboud}
+\institute{
+    Faculty of Engineering \\
+    Universidad Anáhuac México Sur
+}
+\date{\today}
+%----------------------------------------------------------------------------------------
+\AtBeginSection[]
+{
+  \begin{frame}{Agenda}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+%----------------------------------------------------------------------------------------
+\begin{document}
+
+%-------------------------------------------------
+% DIAPOSITIVA DE TÍTULO
+%-------------------------------------------------
+\begin{frame}[plain]
+    \titlepage
+\end{frame}
+
+%-------------------------------------------------
+% DIAPOSITIVA DE AGENDA GENERAL
+%-------------------------------------------------
+\begin{frame}{Agenda de la Clase}
+    \tableofcontents
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\section{Repaso y El Siguiente Paso}
+%----------------------------------------------------------------------------------------
+
+\begin{frame}{¿Dónde nos quedamos?}
+    \begin{block}{Resumen de la Clase 1}
+        Aprendimos a tomar texto ''sucio'' y, mediante el \textbf{preprocesamiento}, lo convertimos en una lista de tokens limpios y estandarizados.
+    \end{block}
+    
+    \begin{center}
+        \textbf{Texto Crudo} \\
+        \textit{''Los alumnos estan aprendiendo...''}
+        \vspace{0.5cm}
+        $\downarrow$ \quad \textit{Limpieza} \quad $\downarrow$
+        \vspace{0.5cm}
+        \textbf{Tokens Procesados} \\
+        \texttt{'alumn', 'aprend', 'procesamiento', ...}
+    \end{center}
+    
+    \vfill
+    \begin{alertblock}{El Problema Actual}
+        Nuestros tokens son limpios, ¡pero siguen siendo palabras! Los modelos de Machine Learning no entienden palabras, solo entienden \textbf{números}.
+    \end{alertblock}
+\end{frame}
+
+%-------------------------------------------------
+\begin{frame}{El Puente entre Palabras y Matemáticas}
+    \begin{block}{Objetivo de Hoy: La Vectorización}
+        El proceso de convertir texto en una representación numérica (vectores o matrices) se llama \textbf{vectorización} o \textit{feature extraction}.
+    \end{block}
+    
+    \begin{center}
+        \LARGE
+        Tokens Limpios \quad $\xrightarrow{\text{Vectorización}}$ \quad Matriz Numérica
+    \end{center}
+    
+    \vfill
+    Hoy aprenderemos dos técnicas fundamentales para lograr esto: \textbf{Bag-of-Words} y \textbf{TF-IDF}.
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\section{Modelo Bag-of-Words (Bolsa de Palabras)}
+%----------------------------------------------------------------------------------------
+
+\begin{frame}{Bag-of-Words (BoW): Una Idea Sencilla}
+    \begin{block}{Analogía}
+        Imagina que tomas todas las palabras de un documento, las metes en una bolsa, las revuelves y luego cuentas cuántas veces aparece cada una. \textbf{El orden no importa, solo la frecuencia.}
+    \end{block}
+
+    \textbf{El proceso tiene dos pasos clave:}
+    \begin{enumerate}
+        \item \textbf{Crear un Vocabulario:} Construir una lista de todas las palabras únicas que aparecen en \textit{todos} nuestros documentos.
+        \pause
+        \item \textbf{Contar Frecuencias:} Para cada documento, contar cuántas veces aparece cada palabra del vocabulario.
+    \end{enumerate}
+\end{frame}
+
+%-------------------------------------------------
+\begin{frame}{Bag-of-Words: Ejemplo Visual}
+    Supongamos que tenemos dos documentos (después de preprocesar):
+    \begin{itemize}
+        \item \textbf{Doc 1:} ''gato persigue raton''
+        \item \textbf{Doc 2:} ''perro persigue gato''
+    \end{itemize}
+    \pause
+    
+    \begin{enumerate}
+        \item \textbf{Vocabulario único:} \{gato, persigue, raton, perro\}
+        \pause
+        \item \textbf{Contar frecuencias para crear vectores:}
+    \end{enumerate}
+    
+    \begin{table}
+    \centering
+    \begin{tabular}{l c c c c}
+        \toprule
+        & \textbf{gato} & \textbf{persigue} & \textbf{raton} & \textbf{perro} \\
+        \midrule
+        \textbf{Doc 1} & 1 & 1 & 1 & 0 \\
+        \textbf{Doc 2} & 1 & 1 & 0 & 1 \\
+        \bottomrule
+    \end{tabular}
+    \end{table}
+    
+    \begin{alertblock}{}
+        ¡Hemos convertido el texto en una matriz numérica! Cada fila es un documento.
+    \end{alertblock}
+\end{frame}
+
+%-------------------------------------------------
+\begin{frame}{Limitaciones del Modelo BoW}
+    \begin{block}{El Problema: Todas las palabras pesan lo mismo}
+        En el modelo BoW simple, la palabra ''excelente'' tiene la misma importancia que la palabra ''producto'' si ambas aparecen una vez.
+    \end{block}
+    
+    \textbf{Consideremos estas frases:}
+    \begin{itemize}
+        \item ''El producto es \textbf{excelente}.''
+        \item ''El producto es \textbf{terrible}.''
+    \end{itemize}
+    
+    \vfill
+    Intuitivamente, sabemos que ''excelente'' y ''terrible'' son más importantes para determinar la opinión que ''producto''.
+    
+    \begin{alertblock}{¿Cómo podemos dar más peso a las palabras más significativas?}
+        La respuesta es \textbf{TF-IDF}.
+    \end{alertblock}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\section{Ponderación TF-IDF}
+%----------------------------------------------------------------------------------------
+
+\begin{frame}{TF-IDF: Dando Peso a lo Importante}
+    \begin{block}{Definición}
+        \textbf{TF-IDF} significa \textit{Term Frequency - Inverse Document Frequency}. Es una puntuación numérica que refleja qué tan importante es una palabra para un documento dentro de una colección de documentos.
+    \end{block}
+    
+    La puntuación se compone de dos partes:
+    
+    \begin{columns}[T]
+        \begin{column}{0.5\textwidth}
+            \textbf{1. TF (Frecuencia del Término):}
+            \begin{itemize}
+                \item ¿Qué tan seguido aparece la palabra en \textbf{un documento}?
+                \item Si una palabra aparece mucho, es importante \textit{para ese documento}.
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \textbf{2. IDF (Frecuencia Inversa de Documento):}
+            \begin{itemize}
+                \item ¿Qué tan rara es la palabra en \textbf{toda la colección}?
+                \item Si una palabra aparece en muchos documentos (como ''producto''), es menos informativa y recibe un peso bajo.
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+%-------------------------------------------------
+\begin{frame}{La Intuición del TF-IDF}
+    \begin{center}
+        \LARGE
+        Puntuación TF-IDF = TF $\times$ IDF
+    \end{center}
+    
+    \vfill
+    
+    \begin{alertblock}{La Puntuación TF-IDF es alta cuando...}
+        Una palabra aparece \textbf{muchas veces} dentro de un documento (\textit{TF alto}), pero \textbf{pocas veces} en el resto de los documentos de la colección (\textit{IDF alto}).
+    \end{alertblock}
+
+    \vfill
+    
+    \begin{itemize}
+        \item Esto resalta las palabras que son \textbf{distintivas y características} de un documento en particular.
+        \item Por ejemplo, en un artículo sobre "Inteligencia Artificial", la palabra "neuronal" tendrá un TF-IDF alto. En un conjunto de noticias, la palabra ''el'' tendrá un TF-IDF muy bajo.
+    \end{itemize}
+\end{frame}
+
+
+%----------------------------------------------------------------------------------------
+\section{Ejemplo Práctico en MATLAB}
+%----------------------------------------------------------------------------------------
+
+\begin{frame}[fragile]{Creando una Matriz TF-IDF en MATLAB}
+    \begin{block}{Objetivo}
+    Convertir un conjunto de comentarios de texto en una matriz numérica TF-IDF, lista para ser usada en un modelo de IA.
+    \end{block}
+\end{frame}
+\begin{frame}[fragile]{Creando una Matriz TF-IDF en MATLAB}
+
+\begin{lstlisting}[language=Matlab]
+% 1. Datos de ejemplo: 3 comentarios de un producto
+textos = [
+    "La bateria dura mucho, excelente producto.",
+    "La pantalla es grande y la camara es buena.",
+    "La bateria no dura nada, un producto terrible."
+];
+
+% 2. Preprocesamos los textos (usando los pasos de la Clase 1)
+documentos = tokenizedDocument(lower(textos));
+documentos = erasePunctuation(documentos);
+listaStopWords = ["y", "la", "el", "es", "un", "una"];
+documentos = removeWords(documentos, listaStopWords);
+documentos = normalizeWords(documentos, 'Style', 'stem');
+
+% 3. Crear el modelo de Bag-of-Words
+bolsa = bagOfWords(documentos);
+
+% 4. Convertir los documentos a una matriz TF-IDF
+matrizTfidf = tfidf(bolsa);
+\end{lstlisting}
+\end{frame}
+
+%-------------------------------------------------
+\begin{frame}[fragile]{Análisis del Resultado}
+    \begin{block}{Paso 1: El Vocabulario Creado}
+    La función `bagOfWords` crea el vocabulario automáticamente.
+\begin{lstlisting}[language=Matlab]
+>> disp(bolsa.Vocabulary)
+
+'bateri'    'buen'    'camar'    'dur'    'excelent' ... 
+'grand'    'much'    'nad'    'pantall'   'product'    'terribl'
+\end{lstlisting}
+    \end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Análisis del Resultado}
+    \begin{alertblock}{Paso 2: La Matriz Numérica Final}
+    La función `tfidf` genera la matriz, donde cada fila es un comentario y cada columna es una palabra del vocabulario.
+\begin{lstlisting}[language=Matlab]
+>> disp(full(matrizTfidf))
+
+%       bateri   buen    camar    dur    ...
+ans =
+   0.2588     0      0    0.2588   ...  (Comentario 1)
+        0  0.3536 0.3536       0   ...  (Comentario 2)
+   0.2182     0      0    0.2182   ...  (Comentario 3)
+\end{lstlisting}
+    \end{alertblock}
+\end{frame}
+\begin{frame}{Interpretando los Números de la Matriz}
+    \begin{block}{¿Qué significa cada número?}
+        Cada valor en la matriz representa la \textbf{puntuación TF-IDF} de una palabra (columna) para un documento específico (fila). Un número más alto significa que la palabra es más importante o distintiva para ese documento.
+    \end{block}
+
+    \textbf{Vamos a analizar un ejemplo:}
+    \begin{itemize}
+        \item La palabra \texttt{'bateri'} tiene un valor alto en la Fila 1 y Fila 3, pero \textbf{cero} en la Fila 2.
+        \begin{itemize}
+            \item \textbf{¿Por qué?} Porque la palabra ''batería'' solo aparece en el primer y tercer comentario. El cero indica su ausencia en el segundo.
+        \end{itemize}
+        \vfill
+        \item La palabra \texttt{'excelent'} (en la Fila 1) probablemente tendrá una puntuación TF-IDF más alta que \texttt{'product'}.
+        \begin{itemize}
+            \item \textbf{¿Por qué?} Aunque ambas aparecen una vez (TF similar), \texttt{'product'} aparece en dos documentos, haciéndola menos única (IDF más bajo). En cambio, \texttt{'excelent'} es una palabra muy distintiva de ese primer comentario.
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+\begin{frame}{Interpretando los Números de la Matriz}
+
+    \begin{alertblock}{La Gran Idea}
+        No solo contamos palabras; hemos calculado su \textbf{relevancia ponderada}. Esto es lo que permite a un modelo de IA enfocarse en las palabras que realmente definen el significado de un texto.
+    \end{alertblock}
+\end{frame}
+%----------------------------------------------------------------------------------------
+\section{Conclusiones y Próximos Pasos}
+%----------------------------------------------------------------------------------------
+
+\begin{frame}{Resumen y Conclusiones}
+    \begin{itemize}
+        \item \textbf{Vectorizar es Esencial:} Es el proceso de convertir palabras en números, un paso obligatorio para aplicar Machine Learning al texto.
+        \vfill
+        \item \textbf{Bag-of-Words (BoW):} Es un modelo simple y efectivo que representa documentos basándose en la frecuencia de las palabras.
+        \vfill
+        \item \textbf{TF-IDF:} Es una técnica de ponderación que mejora a BoW al dar más importancia a las palabras que son realmente distintivas de un documento.
+        \vfill
+        \item \textbf{Logro de Hoy:} ¡Ya sabemos cómo transformar texto crudo en una \textbf{matriz numérica significativa}!
+    \end{itemize}
+\end{frame}
+
+%-------------------------------------------------
+\begin{frame}{Próximos Pasos}
+
+    
+    \begin{block}{La Próxima Frontera: Aplicaciones Reales}
+        Ahora que nuestros datos de texto están en un formato que una máquina puede ''entender'', podemos empezar a hacer tareas útiles con ellos.
+        
+        En la próxima etapa, se dará un primer paso en las aplicaciones de NLP: realizando un \textbf{Análisis de Sentimientos} para clasificar automáticamente si un comentario es positivo, negativo o neutral.
+    \end{block}
+\end{frame}
+%----------------------------------------------------------------------------------------
+
+\end{document}

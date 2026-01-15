@@ -1,0 +1,341 @@
+\documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
+\usetheme{SimpleDarkBlue}
+
+\usepackage[spanish]{babel}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{lettrine}
+\setbeamertemplate{caption}[numbered]
+\usepackage[dvipsnames,svgnames,x11names]{xcolor}
+\usepackage{xurl}
+\usepackage{hyperref}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{adjustbox}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=blue,
+    urlcolor=blue,
+    citecolor=blue,
+}
+%----------------------------------------------------------------------------------------
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.97,0.97,0.99}
+
+\lstdefinestyle{MATLABStyle}{
+  language=Matlab,
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{blue}\bfseries,
+  commentstyle=\color{codegreen},
+  stringstyle=\color{violet},
+  numberstyle=\tiny\color{gray},
+  breakatwhitespace=false,
+  breaklines=true,
+  captionpos=b,
+  keepspaces=true,
+  numbers=left,
+  numbersep=5pt,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  tabsize=2,
+  frame=lines,
+  framerule=0.4pt,
+  backgroundcolor=\color{backcolour}
+}
+\lstset{style=MATLABStyle}
+%----------------------------------------------------------------------------------------
+%   TITLE PAGE
+%----------------------------------------------------------------------------------------
+\title{Procesamiento de Lenguaje Natural (NLP)} 
+\subtitle{Clase 3: Análisis de Sentimientos} 
+\author{Prof. D.Sc. BARSEKH-ONJI Aboud}
+\institute{
+    Faculty of Engineering \\
+    Universidad Anáhuac México Sur
+}
+\date{\today}
+%----------------------------------------------------------------------------------------
+\AtBeginSection[]
+{
+  \begin{frame}{Agenda}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+%----------------------------------------------------------------------------------------
+\begin{document}
+
+%-------------------------------------------------
+% DIAPOSITIVA DE TÍTULO
+%-------------------------------------------------
+\begin{frame}[plain]
+    \titlepage
+\end{frame}
+
+%-------------------------------------------------
+% DIAPOSITIVA DE AGENDA GENERAL
+%-------------------------------------------------
+\begin{frame}{Agenda de la Clase}
+    \tableofcontents
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\section{De los Números a la Acción}
+%----------------------------------------------------------------------------------------
+
+\begin{frame}{¿Dónde nos quedamos?}
+    \begin{block}{Resumen de la Clase 2}
+        ¡Logramos el gran objetivo de la vectorización! Aprendimos a convertir texto en una matriz numérica usando \textbf{Bag-of-Words} y la ponderación \textbf{TF-IDF}.
+    \end{block}
+    
+    \begin{center}
+        \textbf{Tokens Limpios} \\
+        \texttt{'bateri', 'dur', 'much', ...}
+        \vspace{0.5cm}
+        $\downarrow$ \quad \textit{Vectorización} \quad $\downarrow$
+        \vspace{0.5cm}
+        \textbf{Matriz Numérica (TF-IDF)} \\
+        \begin{tabular}{c c c c}
+           0.25 & 0.25 & 0 & ... \\
+           0 & 0 & 0.35 & ... \\
+        \end{tabular}
+    \end{center}
+    
+    \vfill
+    \begin{alertblock}{La Gran Pregunta}
+        Ya tenemos nuestros datos en un formato que la máquina ''entiende''. \textbf{¿Ahora qué podemos hacer con ellos?}
+    \end{alertblock}
+\end{frame}
+
+%-------------------------------------------------
+\begin{frame}{Nuestra Primera Aplicación: Análisis de Sentimientos}
+    \begin{block}{Objetivo de Hoy}
+        Usar nuestros conocimientos de NLP para realizar una de las tareas más comunes y útiles: determinar automáticamente la \textbf{emoción} o \textbf{polaridad} de un texto.
+    \end{block}
+
+    \begin{center}
+        \LARGE
+        ¿Este comentario es Positivo 😄, Negativo 😠, o Neutral 😐?
+    \end{center}
+    
+    \vfill
+    
+    Vamos a explorar cómo una máquina puede responder a esta pregunta, una tarea fundamental conocida como \textbf{Análisis de Sentimientos} (o minería de opiniones).
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\section{¿Qué es el Análisis de Sentimientos?}
+%----------------------------------------------------------------------------------------
+
+\begin{frame}{Definición y Relevancia}
+    \begin{block}{Definición}
+        Es el proceso de usar NLP para identificar y extraer información subjetiva de un texto. En términos simples, es la tarea de \textbf{clasificar la polaridad de un texto}.
+    \end{block}
+    
+    \textbf{¿Por qué es tan importante?}
+    \begin{columns}[T]
+        \begin{column}{0.5\textwidth}
+            \textbf{Para las Empresas:}
+            \begin{itemize}
+                \item ¿Qué opinan los clientes de mi nuevo producto?
+                \item Monitorear la reputación de la marca en redes sociales.
+                \item Entender la satisfacción del cliente a partir de encuestas.
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \textbf{Para el Público:}
+            \begin{itemize}
+                \item Analizar la opinión pública sobre un tema político.
+                \item Resumir críticas de películas o libros.
+                \item Detectar ciberacoso o discurso de odio.
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+%-------------------------------------------------
+\begin{frame}{Enfoques para el Análisis de Sentimientos}
+    Existen varias formas de abordar este problema. Hoy nos centraremos en la más directa:
+    
+    \begin{alertblock}{Enfoque Basado en Léxicos (Diccionarios)}
+        \begin{itemize}
+            \item \textbf{La Idea:} Se utiliza un diccionario pre-construido (léxico) donde cada palabra tiene una puntuación de polaridad.
+            \item \textbf{Ejemplo de Léxico:}
+                \begin{itemize}
+                    \item ''excelente'': +0.9
+                    \item ''bueno'': +0.6
+                    \item ''malo'': -0.7
+                    \item ''terrible'': -0.9
+                \end{itemize}
+            \item \textbf{¿Cómo funciona?} El algoritmo analiza un texto, busca las palabras en el léxico, y calcula una puntuación final sumando las polaridades.
+        \end{itemize}
+    \end{alertblock}
+    
+    \vfill
+    \begin{block}{Otro Enfoque: Basado en Machine Learning}
+        En este caso, en lugar de un diccionario, se entrena un modelo con miles de ejemplos de textos ya etiquetados como positivos o negativos.
+    \end{block}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\section{El Algoritmo VADER}
+%----------------------------------------------------------------------------------------
+
+\begin{frame}{VADER: Una Herramienta Especializada}
+    \begin{block}{VADER: \textit{Valence Aware Dictionary and sEntiment Reasoner}}
+        Es un modelo basado en léxico que está específicamente \textbf{optimizado para analizar sentimientos en textos de redes sociales}.
+    \end{block}
+    
+    \textbf{¿Qué lo hace especial?}
+    \begin{itemize}
+        \item \textbf{Considera la puntuación:} Reconoce que ''!!!'' intensifica un sentimiento.
+        \item \textbf{Considera las mayúsculas:} Entiende que ''ODIO'' es más intenso que ''odio''.
+        \item \textbf{Maneja negaciones:} Sabe que ''no es bueno'' invierte la polaridad de ''bueno''.
+        \item \textbf{Reconoce modificadores:} Entiende que ''muy bueno'' es más positivo que solo ''bueno''.
+    \end{itemize}
+    
+    \begin{alertblock}{En MATLAB..}
+        ¡Tenemos una función lista para usar que implementa VADER! Se llama \texttt{vaderSentimentScores}.
+    \end{alertblock}
+\end{frame}
+
+%-------------------------------------------------
+\begin{frame}{Interpretando las Puntuaciones de VADER}
+    La función `vaderSentimentScores` no devuelve una, sino \textbf{cuatro} puntuaciones para cada texto:
+    
+    \begin{itemize}
+        \item \texttt{Positive}: La suma de las puntuaciones de las palabras positivas.
+        \item \texttt{Negative}: La suma de las puntuaciones de las palabras negativas.
+        \item \texttt{Neutral}: La proporción de palabras que no son ni positivas ni negativas.
+        \item \texttt{Compound}: ¡La más importante! Es una puntuación \textbf{normalizada y agregada} de todas las demás, que va de -1 (muy negativo) a +1 (muy positivo).
+    \end{itemize}
+    
+    \vfill
+    
+    \begin{alertblock}{Regla General para Clasificar con \texttt{Compound}}
+        \begin{itemize}
+            \item Si \texttt{Compound} $\geq$ 0.05 $\rightarrow$ \textbf{Positivo} 😄
+            \item Si \texttt{Compound} $\leq$ -0.05 $\rightarrow$ \textbf{Negativo} 😠
+            \item Si no, es $\rightarrow$ \textbf{Neutral} 😐
+        \end{itemize}
+    \end{alertblock}
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+\section{Ejemplo Práctico en MATLAB}
+%----------------------------------------------------------------------------------------
+
+\begin{frame}[fragile]{Puntuando Comentarios con VADER}
+    \begin{block}{Objetivo}
+    Usar la función \texttt{vaderSentimentScores} para clasificar automáticamente un conjunto de comentarios.
+    \end{block}
+\end{frame}
+\begin{frame}[fragile]{Puntuando Comentarios con VADER}
+
+\begin{lstlisting}[language=Matlab]
+% 1. Datos de ejemplo
+comentarios = [
+    "Amo este producto, es absolutamente fantastico.",
+    "Estoy seguro de que no me gusta.",
+    "El servicio fue horrible, nunca volvere.",
+    "El paquete llego a tiempo."
+];
+
+% 2. Tokenizar los comentarios
+documentos = tokenizedDocument(comentarios);
+
+% 3. Obtener las puntuaciones de sentimiento
+puntuaciones = vaderSentimentScores(documentos);
+
+% 4. Mostrar la tabla de resultados
+disp(puntuaciones)
+\end{lstlisting}
+\end{frame}
+
+%-------------------------------------------------
+\begin{frame}[fragile]{Análisis del Resultado}
+    \begin{block}{Salida del Código: La Tabla de Puntuaciones}
+    MATLAB nos devuelve una tabla muy clara con las 4 puntuaciones para cada comentario.
+\begin{lstlisting}
+>> disp(puntuaciones)
+    0.1027
+   -0.2960
+   -0.5423
+    0
+\end{lstlisting}
+    \end{block}
+    
+    \pause
+    
+    \begin{alertblock}{La clave está en la columna `Compound`}
+        Ahora, podemos usar nuestra regla para interpretar estos números.
+    \end{alertblock}
+\end{frame}
+
+\begin{frame}{Interpretando el Resultado Final}
+    \textbf{Vamos a clasificar cada comentario basándonos en la puntuación \texttt{Compound}:}
+    
+    \begin{itemize}
+        \item \textbf{Comentario 1:} ''Amo este producto...''
+        \begin{itemize}
+            \item \texttt{Compound} = \textbf{0.1027} ($\geq$ 0.05) $\rightarrow$ \textbf{POSITIVO} 😄
+        \end{itemize}
+        \vfill
+        \item \textbf{Comentario 2:} ''Estoy seguro...''
+        \begin{itemize}
+            \item \texttt{Compound} = \textbf{-0.2969} ($\leq$ -0.05) $\rightarrow$ \textbf{NEGATIVO} 😠
+        \end{itemize}
+        \vfill
+        \item \textbf{Comentario 3:} ''El servicio fue horrible...''
+        \begin{itemize}
+            \item \texttt{Compound} = \textbf{-0.5423} ($\leq$ -0.05) $\rightarrow$ \textbf{NEGATIVO} 😠
+        \end{itemize}
+         \vfill
+        \item \textbf{Comentario 4:} ''El paquete llego a tiempo.''
+        \begin{itemize}
+            \item \texttt{Compound} = \textbf{0} (entre -0.05 y 0.05) $\rightarrow$ \textbf{NEUTRAL} 😐
+        \end{itemize}
+    \end{itemize}
+    
+    \begin{alertblock}{Resultaos}
+    Con solo unas pocas líneas de código, hemos construido un sistema funcional de análisis de sentimientos.
+    \end{alertblock}
+\end{frame}
+
+
+%----------------------------------------------------------------------------------------
+\section{Conclusiones y Próximos Pasos}
+%----------------------------------------------------------------------------------------
+
+\begin{frame}{Resumen y Conclusiones}
+    \begin{itemize}
+        \item \textbf{Aplicación Directa:} El Análisis de Sentimientos es una de las tareas más valiosas y directas del NLP.
+        \vfill
+        \item \textbf{Léxicos como Herramienta:} Los enfoques basados en léxicos (diccionarios) son una forma rápida y efectiva de analizar sentimientos sin necesidad de entrenar un modelo.
+        \vfill
+        \item \textbf{VADER:} Es una herramienta poderosa, especialmente para texto informal como el de redes sociales, y es muy fácil de usar en MATLAB.
+        \vfill
+        \item \textbf{Logro de Hoy:} Pasamos de tener datos numéricos a obtener \textbf{conclusiones accionables} sobre el contenido de un texto.
+    \end{itemize}
+\end{frame}
+
+%-------------------------------------------------
+\begin{frame}{Próximos Pasos}
+    \begin{block}{La Próxima Frontera: Construir un Modelo propio}
+        Usar una herramienta pre-entrenada como VADER es fantástico, pero... ¿y si quisiéramos clasificar texto en categorías que VADER no conoce? Por ejemplo, clasificar noticias en ''Deportes'', ''Tecnología'' o ''Negocios''.
+        
+        En la próxima y última clase, daremos el paso final: aprenderemos a \textbf{entrenar, probar y evaluar nuestro propio modelo de Machine Learning} para clasificar documentos desde cero.
+    \end{block}
+
+\end{frame}
+
+\end{document}

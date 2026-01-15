@@ -1,0 +1,259 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+% Theme - puedes elegir otro si prefieres
+\usetheme{Berkeley}
+\usecolortheme{default}
+
+\title{Introducción a Google AI, GitHub y Colab}
+\author{Prof. DSc. BARSEKH-ONJI Aboud}
+\institute{{Universidad Anáhuac México}\\{Facultad de Ingeniería}}
+\date{\today}
+
+\begin{document}
+
+% --- Diapositiva de Título ---
+\begin{frame}
+    \titlepage
+\end{frame}
+
+% --- Agenda ---
+\begin{frame}
+    \frametitle{Agenda}
+    \tableofcontents
+\end{frame}
+
+% --- Sección 1: Introducción ---
+\section{Introducción al Ecosistema}
+
+\begin{frame}
+    \frametitle{El Mundo de la IA y el Desarrollo Colaborativo}
+    \begin{itemize}
+        \item La Inteligencia Artificial (IA) está transformando industrias.
+        \item El desarrollo moderno de software, incluida la IA, es altamente colaborativo.
+        \item Plataformas como GitHub y herramientas como Google Colab son esenciales.
+        \item Google ofrece un amplio conjunto de APIs y herramientas de IA.
+    \end{itemize}
+    \begin{center}
+        % Puedes añadir un logo de Google AI o similar aquí si quieres
+        % \includegraphics[width=0.3\textwidth]{logo_google_ai.png}
+        \textit{Explorando las herramientas clave para el desarrollo de IA.}
+    \end{center}
+\end{frame}
+
+% --- Sección 2: GitHub ---
+\section{GitHub: El Hogar del Código}
+
+\begin{frame}
+    \frametitle{¿Qué es GitHub?}
+    \begin{figure}
+        % Reemplaza con una imagen relevante si lo deseas
+        % \includegraphics[width=0.4\textwidth]{github_logo.png}
+        \caption{Logo de GitHub}
+    \end{figure}
+    \begin{itemize}
+        \item<1-> Plataforma de desarrollo colaborativo basada en la web.
+        \item<2-> Utiliza \textbf{Git}, un sistema de control de versiones distribuido.
+        \item<3-> Permite alojar repositorios de código (públicos y privados).
+        \item<4-> Facilita la colaboración:
+              \begin{itemize}
+                  \item Forks (copias personales de repositorios).
+                  \item Pull Requests (propuestas de cambios).
+                  \item Issues (seguimiento de tareas y errores).
+                  \item Gestión de proyectos.
+              \end{itemize}
+        \item<5-> Es fundamental para el software de código abierto (\textit{open source}), incluyendo muchos proyectos de IA.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{GitHub en el Mundo de la IA}
+    \begin{itemize}
+        \item \textbf{Repositorios de Modelos:} Muchos modelos de IA (ej. de TensorFlow Hub, Hugging Face) tienen su código fuente o ejemplos en GitHub.
+        \item \textbf{Proyectos de Investigación:} Investigadores publican el código de sus artículos en GitHub para reproducibilidad.
+        \item \textbf{Librerías y Frameworks:} El código fuente de librerías como TensorFlow, PyTorch, Keras, Scikit-learn está en GitHub.
+        \item \textbf{Ejemplos y Tutoriales:} Abundan repositorios con ejemplos prácticos y tutoriales de IA.
+    \end{itemize}
+    \begin{alertblock}{Importancia}
+        Saber navegar y utilizar GitHub es crucial para cualquier desarrollador o investigador de IA.
+    \end{alertblock}
+\end{frame}
+
+% --- Sección 3: Google Colaboratory (Colab) ---
+\section{Google Colab: Tu Entorno de IA en la Nube}
+
+\begin{frame}
+    \frametitle{¿Qué es Google Colaboratory (Colab)?}
+     \begin{figure}
+        % Reemplaza con una imagen relevante si lo deseas
+        % \includegraphics[width=0.3\textwidth]{colab_logo.png}
+        \caption{Logo de Google Colab}
+    \end{figure}
+    \begin{itemize}
+        \item<1-> Servicio \textbf{gratuito} de Google Research.
+        \item<2-> Permite escribir y ejecutar código Python a través del navegador.
+        \item<3-> Basado en \textbf{Jupyter Notebooks}, ideal para ciencia de datos y Machine Learning.
+        \item<4-> Ofrece acceso gratuito a recursos computacionales:
+            \begin{itemize}
+                \item GPUs (Unidades de Procesamiento Gráfico).
+                \item TPUs (Unidades de Procesamiento Tensorial).
+            \end{itemize}
+        \item<5-> No requiere configuración inicial.
+        \item<6-> Facilita la colaboración y el compartir notebooks.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Colab y su Integración con GitHub}
+    \begin{itemize}
+        \item \textbf{Abrir Notebooks desde GitHub:} Puedes abrir directamente archivos `.ipynb` alojados en repositorios de GitHub dentro de Colab.
+            \begin{itemize}
+                \item Simplemente reemplaza `github.com` por `colab.research.google.com/github/` en la URL del repositorio o archivo.
+            \end{itemize}
+        \item \textbf{Guardar Copias en GitHub:} Puedes guardar una copia de tu notebook de Colab directamente en un repositorio de GitHub (requiere autenticación).
+        \item \textbf{Clonar Repositorios:} Puedes usar comandos de Git (`!git clone ...`) dentro de una celda de código de Colab para descargar repositorios completos.
+    \end{itemize}
+    \begin{exampleblock}{Caso de Uso Típico}
+        Encontrar un proyecto interesante en GitHub -> Abrir su notebook de ejemplo en Colab -> Ejecutarlo y experimentar con él usando GPUs gratuitas -> Guardar tus modificaciones en tu propio fork de GitHub.
+    \end{exampleblock}
+\end{frame}
+
+% --- Sección 4: Lenguajes de Programación ---
+\section{Lenguajes de Programación Clave}
+
+\begin{frame}
+    \frametitle{Python: El Rey de la IA}
+    \begin{columns}[T] % Divide la diapositiva en columnas
+        \begin{column}{0.6\textwidth}
+            \begin{itemize}
+                \item<1-> Lenguaje \textbf{dominante} en IA, Machine Learning y Ciencia de Datos.
+                \item<2-> Sintaxis clara y legible.
+                \item<3-> Vasto ecosistema de librerías:
+                    \begin{itemize}
+                        \item \textbf{NumPy:} Computación numérica.
+                        \item \textbf{Pandas:} Manipulación y análisis de datos.
+                        \item \textbf{Matplotlib/Seaborn:} Visualización de datos.
+                        \item \textbf{Scikit-learn:} Machine Learning tradicional.
+                        \item \textbf{TensorFlow/Keras/PyTorch:} Deep Learning.
+                    \end{itemize}
+                \item<4-> Es el lenguaje principal usado en Google Colab.
+                \item<5-> La mayoría de ejemplos y SDKs de Google AI están en Python.
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.4\textwidth} % Columna para imagen/logo
+            \begin{figure}
+                 % Reemplaza con una imagen relevante si lo deseas
+                 % \includegraphics[width=\textwidth]{python_logo.png}
+                 \caption{Logo de Python}
+            \end{figure}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Otros Lenguajes Relevantes}
+    \begin{itemize}
+        \item \textbf{R:} Popular en estadística y visualización de datos. Menos común para Deep Learning que Python, pero con fuerte presencia académica.
+        \item \textbf{JavaScript:} Usado para desplegar modelos de IA en la web (TensorFlow.js) y para interactuar con APIs desde el frontend.
+        \item \textbf{Java/Kotlin:} Relevante para aplicaciones Android que integran IA (ML Kit) y para usar APIs de Google Cloud desde backend.
+        \item \textbf{Swift:} Para integrar IA en aplicaciones iOS (Core ML, ML Kit).
+        \item \textbf{C++:} Usado para optimizar el rendimiento de bajo nivel en librerías de IA y en sistemas embebidos.
+    \end{itemize}
+    \begin{block}{Enfoque Principal}
+        Aunque existen otros lenguajes, \textbf{Python} es el punto de partida esencial para la mayoría de las tareas de IA, especialmente al usar Colab y explorar repositorios de GitHub.
+    \end{block}
+\end{frame}
+
+% --- Sección 5: Herramientas Google AI/API y GitHub ---
+\section{Herramientas Google AI/API y su Conexión con GitHub}
+
+\begin{frame}
+    \frametitle{TensorFlow y Keras}
+     \begin{figure}
+        % Reemplaza con una imagen relevante si lo deseas
+        % \includegraphics[width=0.3\textwidth]{tensorflow_logo.png}
+        \caption{Logo de TensorFlow}
+    \end{figure}
+    \begin{itemize}
+        \item \textbf{TensorFlow:} Framework open-source líder para Machine Learning y Deep Learning, desarrollado por Google.
+        \item \textbf{Keras:} API de alto nivel para construir y entrenar modelos de redes neuronales, integrada en TensorFlow.
+        \item \textbf{Conexión con GitHub:}
+            \begin{itemize}
+                \item El código fuente de TensorFlow y Keras está en GitHub.
+                \item \href{https://github.com/tensorflow/models}{TensorFlow Models Zoo}: Repositorio oficial con implementaciones de modelos estado-del-arte.
+                \item \href{https://github.com/keras-team/keras-io}{Keras.io Examples}: Repositorio con numerosos ejemplos y tutoriales.
+                \item Muchos proyectos de investigación y aplicaciones usan TF/Keras y publican su código en GitHub.
+            \end{itemize}
+        \item \textbf{Uso en Colab:} TensorFlow y Keras vienen preinstalados en Colab, listos para usar con GPUs/TPUs.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Vertex AI}
+    \begin{itemize}
+        \item Plataforma unificada de Machine Learning de Google Cloud.
+        \item Cubre todo el ciclo de vida del ML: preparación de datos, entrenamiento, evaluación, despliegue y monitorización de modelos.
+        \item Ofrece modelos pre-entrenados (APIs) y la capacidad de entrenar modelos personalizados (AutoML, Custom Training).
+        \item \textbf{Conexión con GitHub:}
+            \begin{itemize}
+                \item \href{https://github.com/GoogleCloudPlatform/vertex-ai-samples}{Vertex AI Samples}: Repositorio oficial con notebooks y código de ejemplo para diversas tareas en Vertex AI.
+                \item Muchos ejemplos muestran cómo integrar código de GitHub en pipelines de entrenamiento o despliegue en Vertex AI.
+                \item Las SDKs de Vertex AI (principalmente Python) permiten interactuar con la plataforma desde código (que puede estar en GitHub o Colab).
+            \end{itemize}
+        \item \textbf{Uso en Colab:} Puedes usar la SDK de Vertex AI desde Colab para gestionar recursos y lanzar trabajos en Google Cloud.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{APIs de IA de Google Cloud}
+    \begin{itemize}
+        \item Google ofrece APIs pre-entrenadas para tareas específicas de IA:
+            \begin{itemize}
+                \item \textbf{Vision AI:} Análisis de imágenes (detección de objetos, OCR, etc.).
+                \item \textbf{Natural Language AI:} Análisis de texto (sentimiento, entidades, sintaxis).
+                \item \textbf{Speech-to-Text / Text-to-Speech:} Transcripción de audio y síntesis de voz.
+                \item \textbf{Translation AI:} Traducción automática.
+                \item \textbf{Video Intelligence AI:} Análisis de video.
+            \end{itemize}
+        \item \textbf{Conexión con GitHub:}
+            \begin{itemize}
+                \item \href{https://github.com/googleapis/google-cloud-python}{Google Cloud Client Libraries (Python)}: Repositorio con las librerías cliente para interactuar con estas APIs (y otros servicios de GCP) desde Python. Hay repositorios similares para otros lenguajes (Java, Node.js, Go, etc.).
+                \item Abundantes ejemplos en GitHub que muestran cómo llamar a estas APIs desde diferentes lenguajes y aplicaciones.
+            \end{itemize}
+        \item \textbf{Uso en Colab:} Fácil de usar las librerías cliente de Python desde Colab para experimentar con las APIs (requiere autenticación a Google Cloud).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Otros Recursos Relevantes}
+    \begin{itemize}
+        \item \textbf{ML Kit:} SDK para llevar modelos de Machine Learning a aplicaciones móviles (Android/iOS). Los ejemplos y algunos componentes pueden encontrarse en GitHub.
+        \item \textbf{TensorFlow Hub (\href{https://tfhub.dev/}{tfhub.dev}):} Repositorio de modelos pre-entrenados listos para usar. Muchos enlazan a su código fuente o ejemplos en GitHub.
+        \item \textbf{Google AI Blog y Research Publications:} A menudo enlazan a repositorios de GitHub con el código asociado a nuevas investigaciones o modelos.
+    \end{itemize}
+\end{frame}
+
+% --- Sección 6: Conclusión ---
+\section{Conclusión}
+
+\begin{frame}
+    \frametitle{Resumen y Próximos Pasos}
+    \begin{itemize}
+        \item \textbf{GitHub} es esencial para la colaboración y el acceso al código fuente en IA.
+        \item \textbf{Google Colab} proporciona un entorno accesible y potente (con GPUs/TPUs gratuitas) para ejecutar código de IA, especialmente Python.
+        \item \textbf{Python} es el lenguaje clave en el ecosistema de IA actual.
+        \item \textbf{Google} ofrece herramientas potentes (TensorFlow, Vertex AI, APIs) que a menudo se encuentran, se comparten y se ejemplifican a través de \textbf{GitHub} y se pueden experimentar fácilmente en \textbf{Colab}.
+    \end{itemize}
+    \begin{alertblock}{Recomendación}
+        ¡Exploren! Busquen proyectos de IA en GitHub, ábranlos en Colab, ejecuten el código y empiecen a experimentar. Es la mejor manera de aprender.
+    \end{alertblock}
+    \begin{center}
+        \vspace{0.5cm}
+        \textbf{¿Preguntas?}
+    \end{center}
+\end{frame}
+
+\end{document}
