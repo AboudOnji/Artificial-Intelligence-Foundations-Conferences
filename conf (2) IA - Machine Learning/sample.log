@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  16 JAN 2026 12:49
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.8)  16 JAN 2026 12:55
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -728,8 +728,10 @@ File: listings.cfg 2024/09/23 1.10c listings configuration
 Package: listings 2024/09/23 1.10c (Carsten Heinz)
  (/usr/local/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2024/09/23 1.10c listings language file
+) (./sample.aux
+LaTeX Info: Redefining \. on input line 12.
+LaTeX Info: Redefining \% on input line 12.
 )
-No file sample.aux.
 \openout1 = `sample.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 98.
@@ -750,6 +752,7 @@ LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 98.
 LaTeX Font Info:    ... okay on input line 98.
 LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 98.
 LaTeX Font Info:    ... okay on input line 98.
+
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -804,6 +807,7 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
 Package hyperref Info: Link coloring ON on input line 98.
+ (./sample.out) (./sample.out)
 \@outlinefile=\write5
 \openout5 = `sample.out'.
 
@@ -876,9 +880,10 @@ LaTeX Info: Redefining \% on input line 98.
 
 [1{/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
-]
-No file sample.toc.
-
+] (./sample.toc
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+)
 
 [2
 
@@ -903,7 +908,7 @@ No file sample.toc.
 [7
 
 ]
-<figg1.png, id=608, 1561.835pt x 995.72pt>
+<figg1.png, id=642, 1561.835pt x 995.72pt>
 File: figg1.png Graphic file (type png)
 <use figg1.png>
 Package pdftex.def Info: figg1.png  used on input line 161.
@@ -916,9 +921,10 @@ Overfull \vbox (28.98586pt too high) detected at line 161
 
 [8
 
- <./figg1.png>]
-No file sample.toc.
-
+ <./figg1.png>] (./sample.toc
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+)
 
 [9
 
@@ -949,9 +955,10 @@ LaTeX Font Info:    Font shape `OT1/cmss/b/n' in size <6> not available
 
 [11
 
-]
-No file sample.toc.
-
+] (./sample.toc
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+)
 
 [12
 
@@ -971,40 +978,14 @@ No file sample.toc.
 
 [16
 
-]
-No file sample.toc.
-
+] (./sample.toc
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+)
 
 [17
 
 ]
-
-/Users/aboudonji/OnjiLabs/Artificial Intelligence Foundations Conferences/conf (2) IA - Machine Learning/sample.tex:260: LaTeX Error: Unicode character � (U+FFFD)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.260 \end{frame}
-                 
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
-/Users/aboudonji/OnjiLabs/Artificial Intelligence Foundations Conferences/conf (2) IA - Machine Learning/sample.tex:260: LaTeX Error: Unicode character � (U+FFFD)
-               not set up for use with LaTeX.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.260 \end{frame}
-                 
-You may provide a definition with
-\DeclareUnicodeCharacter 
-
-
 
 [18
 
@@ -1044,9 +1025,10 @@ Overfull \vbox (6.83333pt too high) detected at line 299
 
 [26
 
-]
-No file sample.toc.
-
+] (./sample.toc
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+)
 
 [27
 
@@ -1106,29 +1088,22 @@ LaTeX Info: Redefining \% on input line 12.
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
-
-
-Package rerunfilecheck Warning: File `sample.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `sample.out':
-(rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  4E940E2345D294BB4761FB4703160441;1351.
+Package rerunfilecheck Info: File `sample.out' has not changed.
+(rerunfilecheck)             Checksum: 4E940E2345D294BB4761FB4703160441;1351.
  ) 
 Here is how much of TeX's memory you used:
- 28270 strings out of 473190
- 527466 string characters out of 5715801
+ 28361 strings out of 473190
+ 529944 string characters out of 5715801
  1249724 words of memory out of 5000000
- 50889 multiletter control sequences out of 15000+600000
+ 50964 multiletter control sequences out of 15000+600000
  571837 words of font info for 83 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 128i,19n,123p,505b,2433s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 128i,19n,123p,505b,2434s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmitt10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi8.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on sample.pdf (32 pages, 313841 bytes).
+Output written on sample.pdf (32 pages, 317861 bytes).
 PDF statistics:
- 2521 PDF objects out of 2984 (max. 8388607)
- 1736 compressed objects within 18 object streams
+ 2578 PDF objects out of 2984 (max. 8388607)
+ 1793 compressed objects within 18 object streams
  72 named destinations out of 1000 (max. 500000)
- 48 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 104 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1768589370.77954 "/Users/aboudonji/OnjiLabs/Artificial Intelligence Foundations Conferences/conf (2) IA - Machine Learning/sample.tex" "sample.pdf" "sample" 1768589374.57257 2
-  "/Users/aboudonji/OnjiLabs/Artificial Intelligence Foundations Conferences/conf (2) IA - Machine Learning/sample.tex" 1768589366.63023 17618 b85cd9fa724d8a593172119fa70e8049 ""
+["pdflatex"] 1768589700.68936 "/Users/aboudonji/OnjiLabs/Artificial Intelligence Foundations Conferences/conf (2) IA - Machine Learning/sample.tex" "sample.pdf" "sample" 1768589704.63431 0
+  "/Users/aboudonji/OnjiLabs/Artificial Intelligence Foundations Conferences/conf (2) IA - Machine Learning/sample.tex" 1768589700.54991 17611 99a4e5f319b2bf4948dcb6584f6d09a9 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1246382020 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -239,12 +239,12 @@
   "/usr/local/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt" 1741450574 3345740 46b66fdb0378f7bf5921b5eabf1762b8 ""
   "/usr/local/texlive/2025/texmf.cnf" 1741450484 577 418a7058ec8e006d8704f60ecd22c938 ""
   "figg1.png" 1766436546.4585 105628 efd2732aa83844fe377e7d27afb8b66d ""
-  "sample.aux" 1768589374.50883 5874 80db5bb659c07192e3c20228f4556391 "pdflatex"
-  "sample.nav" 1768589374.51037 3623 1e32ed9e20fd5c7e33455d64d01c0b91 "pdflatex"
-  "sample.out" 1768589374.5102 1351 4e940e2345d294bb4761fb4703160441 "pdflatex"
-  "sample.tex" 1768589366.63023 17618 b85cd9fa724d8a593172119fa70e8049 ""
-  "sample.toc" 1768589374.51059 495 69dd2fbe2293cfbdab1d420110510b7b "pdflatex"
-  "sample.vrb" 1768589374.39176 825 601a5cf5f41e78b99be1d4c0c6a597e5 "pdflatex"
+  "sample.aux" 1768589704.56632 5874 80db5bb659c07192e3c20228f4556391 "pdflatex"
+  "sample.nav" 1768589704.56792 3623 1e32ed9e20fd5c7e33455d64d01c0b91 "pdflatex"
+  "sample.out" 1768589704.56773 1351 4e940e2345d294bb4761fb4703160441 "pdflatex"
+  "sample.tex" 1768589700.54991 17611 99a4e5f319b2bf4948dcb6584f6d09a9 ""
+  "sample.toc" 1768589704.56794 495 69dd2fbe2293cfbdab1d420110510b7b "pdflatex"
+  "sample.vrb" 1768589704.45031 825 601a5cf5f41e78b99be1d4c0c6a597e5 "pdflatex"
   (generated)
   "sample.aux"
   "sample.log"
