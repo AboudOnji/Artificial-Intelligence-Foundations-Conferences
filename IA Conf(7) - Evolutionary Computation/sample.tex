@@ -3,7 +3,7 @@
 %----------------------------------------------------------------------------------------
 
 \documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
-\usetheme{SimpleDarkBlue}
+\usetheme{Berlin}
 
 \usepackage[spanish]{babel}
 \usepackage{hyperref}
@@ -63,7 +63,7 @@
 \title{Inteligencia Computacional Evolutiva}
 \subtitle{Fundamentos de Inteligencia Computacional}
 
-\author{Prof. D.Sc. BARSEKH-ONJI Aboud}
+\author{Prof. Dr. Aboud Barsekh-Onji}
 
 \institute
 {
@@ -79,6 +79,7 @@
 \AtBeginSection[]
 {
   \begin{frame}{Agenda}
+    \footnotesize
     \tableofcontents[currentsection]
   \end{frame}
 }
@@ -123,6 +124,7 @@
     \begin{columns}[t]
         \column{.48\textwidth}
             \begin{block}{Lamarckismo (Principios del s. XIX)}
+                \footnotesize
                 \begin{itemize}
                     \item Propuso el primer mecanismo coherente de evolución.
                     \item Se basaba en la \textbf{'herencia de características adquiridas'}: los cambios en el entorno modificaban a los organismos, y estas modificaciones se transmitían a la descendencia.
@@ -132,6 +134,8 @@
 
         \column{.48\textwidth}
             \begin{alertblock}{Selección Natural (Darwin y Wallace, 1859)}
+                                \footnotesize
+
                  \begin{itemize}
                     \item Dentro de una población existe \textbf{variación natural}.
                     \item Los individuos con variaciones ventajosas tienen más probabilidades de sobrevivir y reproducirse (\textbf{'supervivencia del más apto'}).
@@ -185,10 +189,12 @@
 %------------------------------------------------
 
 \begin{frame}{Los Tres Paradigmas Fundacionales}
-        \centering\includegraphics[width=0.2\textwidth]{Fogel.jpg}
+        \centering\includegraphics[width=0.15\textwidth]{Fogel.jpg}
 
             \begin{block}{Programación Evolutiva (EP)}
             \textbf{Lawrence J. Fogel (EE.UU.)}
+                            \footnotesize
+
                 \begin{itemize}
                     \item \textbf{Motivación:} IA, crear sistemas que se adaptan y predicen.
                     \item \textbf{Enfoque:} Evolucionar el \textbf{comportamiento} (fenotipo) de las soluciones.
@@ -199,11 +205,13 @@
 \end{frame}
 
 \begin{frame}{Los Tres Paradigmas Fundacionales}
-    \centering\includegraphics[width=0.2\textwidth]{rechenberg.jpeg}
+    \centering\includegraphics[width=0.15\textwidth]{rechenberg.jpeg}
 
 
             \begin{alertblock}{Estrategias Evolutivas (ES)}
             \textbf{Rechenberg y Schwefel (Alemania)}
+                            \footnotesize
+
                  \begin{itemize}
                     \item \textbf{Motivación:} Optimización de problemas de \textbf{ingeniería} con parámetros de valor real.
                     \item \textbf{Concepto Clave:} \textbf{Auto-adaptación} (el algoritmo aprende y ajusta sus propios parámetros).
@@ -220,6 +228,8 @@
             
             \begin{block}{Algoritmos Genéticos (GA)}
             \textbf{John H. Holland (EE.UU.)}
+                            \footnotesize
+
                  \begin{itemize}
                     \item \textbf{Motivación:} Entender teóricamente los principios de la \textbf{adaptación}.
                     \item \textbf{Enfoque:} Énfasis en la \textbf{codificación} de la solución (genotipo).
@@ -325,6 +335,8 @@
     \begin{columns}[t]
         \column{.48\textwidth}
             \begin{block}{La Estrategia (1+1)-ES}
+                                \footnotesize
+
                 Es la versión más simple:
                 \begin{itemize}
                     \item Un solo padre genera un solo hijo mediante mutación.
@@ -335,6 +347,8 @@
 
         \column{.48\textwidth}
             \begin{alertblock}{Estrategias Basadas en Poblaciones}
+                                \footnotesize
+
                  Se introdujeron poblaciones más grandes, con dos esquemas de selección principales:
                  \begin{itemize}
                     \item \textbf{($\mu+\lambda$)-ES:} Los $\mu$ mejores de la \textbf{unión de padres e hijos} forman la siguiente generación. Es \textbf{elitista}.
@@ -351,7 +365,8 @@
     \begin{block}{Problema}
     Minimizar la función de Rosenbrock: $f(x_1, x_2) = 100(x_1^2 - x_2)^2 + (1-x_1)^2$
     \end{block}
-    
+                    \footnotesize
+
     \begin{enumerate}
         \item \textbf{Inicialización (Padre):} Partimos de un punto inicial $\mathbf{x}^t = (-1.0 ; 1.0)$, con una aptitud (costo) de $f(\mathbf{x}^t) = 4.0$. \pause
         
@@ -453,6 +468,7 @@
     \begin{columns}[t]
         \column{.32\textwidth}
             \begin{block}{Cruce de un Punto}
+
                 \begin{itemize}
                     \item Se elige un punto de cruce al azar.
                     \item Las cadenas de bits después de ese punto se intercambian entre los dos padres.
@@ -494,10 +510,14 @@
 
 \begin{frame}{Cruce para Representaciones de Punto Flotante}
     \begin{block}{Recombinación Intermedia}
+                        \footnotesize
+
     A diferencia de los operadores discretos (que solo intercambian valores), los operadores de recombinación intermedia \textbf{mezclan} los componentes de los padres para crear nuevos valores que pueden no haber existido en la población.
     \end{block}
     
     \begin{alertblock}{Operadores Comunes}
+                        \footnotesize
+
         \begin{itemize}
             \item \textbf{Cruce Lineal:} Genera tres descendientes candidatos (dos extrapolados y uno interpolado) y selecciona los dos mejores.
             \pause
@@ -517,6 +537,7 @@
 \begin{frame}{Operadores de Cruce Multiparentales}
     \begin{columns}[c]
         \column{0.5\textwidth}
+            \footnotesize
             \begin{block}{Objetivo Principal}
             El objetivo de los operadores multiparentales es \textbf{intensificar la exploración} del espacio de búsqueda al agregar información de más de dos padres, logrando una mayor diversidad en la descendencia.
             \end{block}
@@ -525,7 +546,7 @@
             
         \column{0.5\textwidth}
             \begin{figure}
-                \includegraphics[width=0.9\linewidth]{Figuras/Cap7/fig7.92.png}
+                \includegraphics[width=0.7\linewidth]{Figuras/Cap7/fig7.92.png}
                 \caption{Ilustración de operadores de cruce multiparentales.}
                 \label{fig:multiparent_crossover}
             \end{figure}
@@ -533,24 +554,21 @@
 \end{frame}
 
 \begin{frame}{Operadores de Cruce Multiparentales}
-    \begin{columns}[c]
-        \column{0.5\textwidth}
-
 
             \begin{alertblock}{Enfoques Comunes}
+                \footnotesize
                 \begin{itemize}
                     \item \textbf{Basados en Centro de Masa (UNDX, SPX):} Generan descendencia en una región definida por el centro de masa de los padres seleccionados.
                     \item \textbf{Centrados en los Padres (PCX):} Generan descendencia alrededor de los padres seleccionados, en lugar del centro de masa.
                 \end{itemize}
             \end{alertblock}
-            
-        \column{0.5\textwidth}
+        \end{frame}
+\begin{frame}{Operadores de Cruce Multiparentales}
             \begin{figure}
-                \includegraphics[width=0.9\linewidth]{Figuras/Cap7/fig7.92.png}
+                \includegraphics[width=0.97\linewidth]{Figuras/Cap7/fig7.92.png}
                 \caption{Ilustración de operadores de cruce multiparentales.}
                 \label{fig:multiparent_crossover}
             \end{figure}
-    \end{columns}
 \end{frame}
 
 \begin{frame}[fragile]
@@ -570,7 +588,7 @@ Para ilustrar los operadores de cruce más avanzados que utilizan múltiples pad
 
     \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.7\textwidth]{Figuras/Cap7/fig7.93.png}
+    \includegraphics[width=0.5\textwidth]{Figuras/Cap7/fig7.93.png}
     \caption[Operador de Cruce Diagonal]{Ilustración del operador de cruce diagonal para $n=2$ puntos de cruce y $n_\mu=3$ padres. Se pueden generar uno o múltiples descendientes.}
     \label{fig:diagonal_crossover}
 \end{figure}
@@ -712,7 +730,9 @@ El siguiente código en Python ilustra el funcionamiento del operador de \textbf
     \begin{block}{Brecha Generacional}
     Se refiere a la cantidad de superposición entre la población actual y la nueva población. La estrategia de reemplazo (cómo los hijos sustituyen a los padres) define dos clases principales de AG.
     \end{block}
-    
+\end{frame}
+
+\begin{frame}{Variantes de Algoritmos Genéticos: GGA vs. SSGA}
     \begin{columns}[t]
         \column{.48\textwidth}
             \begin{alertblock}{AG Generacional (GGA)}
@@ -740,7 +760,9 @@ El siguiente código en Python ilustra el funcionamiento del operador de \textbf
     \begin{block}{El Problema con los AG Estándar}
     Los AG estándar operan sobre cromosomas de longitud fija, lo que puede dificultar la preservación y combinación de 'bloques de construcción' (grupos de genes) óptimos. El cruce puede romper combinaciones buenas.
     \end{block}
-    
+\end{frame}
+
+\begin{frame}{Algoritmos Genéticos 'Messy' (mGA)}
     \begin{alertblock}{La Solución 'Messy'}
     El AG 'messy' (desordenado) encuentra soluciones evolucionando explícitamente estos \textbf{bloques de construcción} y luego combinándolos.
     \begin{itemize}
@@ -772,7 +794,9 @@ El siguiente código en Python ilustra el funcionamiento del operador de \textbf
     \begin{block}{El Problema: La Aptitud Subjetiva}
     En los AG estándar, la selección se basa en una función de aptitud matemática. Pero, ¿cómo se define matemáticamente la 'calidad' de una obra de arte, una pieza musical o una animación?
     \end{block}
-    
+\end{frame} 
+
+\begin{frame}{Cuando el Humano es la Función de Aptitud}
     \begin{alertblock}{La Solución: Evolución Interactiva}
     La Evolución Interactiva (EI) involucra a un \textbf{usuario humano} directamente en el proceso evolutivo.
     \begin{itemize}
