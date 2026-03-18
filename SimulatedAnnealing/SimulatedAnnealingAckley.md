@@ -1,6 +1,6 @@
 # Simulated Annealing aplicado a la Función de Ackley: `SimulatedAnnealingAckley.m`
 
-**Autor:** Dr. Aboud Barsekh Onji  
+**Autor:** Prof. Dr. Aboud Barsekh Onji  
 **Institución:** Facultad de Ingeniería, Universidad Anáhuac México  
 **Contacto:** aboud.barsekh@anahuac.mx  
 **ORCID:** [0009-0004-5440-8092](https://orcid.org/0009-0004-5440-8092)
