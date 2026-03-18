@@ -1,0 +1,10 @@
+\frametitle{Lazo Principal del SA}
+\begin{lstlisting}[language=Matlab, style=MATLABStyle]
+    % 3. Registrar trayectoria y actualizar temperatura
+    costs(iter) = best_cost;
+    trace_x(end+1) = x(1);  trace_y(end+1) = x(2);
+    trace_z(end+1) = ackley(x);
+    T = T * alpha;           % Enfriamiento geometrico
+    if T < T_min, break; end % Criterio de paro termico
+end
+\end{lstlisting}

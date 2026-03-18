@@ -1,0 +1,469 @@
+\documentclass[aspectratio=169,xcolor=dvipsnames]{beamer}
+\usetheme{Berlin}
+
+\usepackage[spanish]{babel}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{lettrine}
+\setbeamertemplate{caption}[numbered]
+\usepackage[dvipsnames,svgnames,x11names]{xcolor}
+\usepackage{xurl}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{adjustbox}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=cyan,
+    filecolor=blue,
+    urlcolor=blue,
+    citecolor=blue,
+}
+
+%----------------------------------------------------------------------------------------
+%   CODE LISTINGS SETTINGS
+%----------------------------------------------------------------------------------------
+\usepackage{listings}
+\definecolor{backcolour}{rgb}{0.97,0.97,0.99}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+
+\lstdefinestyle{MATLABStyle}{
+  language=Matlab,
+  basicstyle=\ttfamily\scriptsize,
+  keywordstyle=\color{blue}\bfseries,
+  commentstyle=\color{codegreen},
+  stringstyle=\color{violet},
+  breaklines=true,
+  numbers=left,
+  numbersep=5pt,
+  frame=lines,
+  backgroundcolor=\color{backcolour}
+}
+\lstset{style=MATLABStyle}
+
+%----------------------------------------------------------------------------------------
+%   TITLE CONFIGURATION
+%----------------------------------------------------------------------------------------
+\title{Simulated Annealing}
+\subtitle{Metaheurística basada en el enfriamiento de materiales}
+\author{Prof. Dr. BARSEKH-ONJI Aboud}
+\institute{
+    Facultad de Ingeniería \\
+    Universidad Anáhuac México
+}
+\date{\today}
+
+%----------------------------------------------------------------------------------------
+%   AUTO AGENDA AT EACH SECTION
+%----------------------------------------------------------------------------------------
+\AtBeginSection[]{
+  \begin{frame}{Agenda}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+
+\begin{document}
+
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\begin{frame}{Contenido General}
+    \tableofcontents
+\end{frame}
+
+%------------------------------------------------
+\section{Motivación y Contexto}
+%------------------------------------------------
+
+\begin{frame}{¿Por qué necesitamos metaheurísticas?}
+    \begin{block}{El problema de la optimización compleja}
+        Muchos problemas de ingeniería presentan:
+        \begin{itemize}
+            \item Espacios de búsqueda \textbf{no convexos} con múltiples mínimos locales
+            \item Funciones objetivo \textbf{no diferenciables} o de cómputo costoso
+            \item Alta dimensionalidad que hace inviables los métodos exactos
+        \end{itemize}
+    \end{block}
+    \vspace{0.3cm}
+    \begin{alertblock}{Limitación de métodos clásicos}
+        El descenso por gradiente y otros métodos locales \textbf{quedan atrapados} en mínimos locales. No pueden explorar globalmente el espacio de soluciones.
+    \end{alertblock}
+\end{frame}
+
+\begin{frame}{Inspiración de la Naturaleza}
+    \begin{columns}
+        \column{0.55\textwidth}
+        \begin{block}{Analogía con la metalurgia}
+            El \textbf{\textit{recocido}} (\textit{annealing}) es un proceso térmico donde:
+            \begin{enumerate}
+                \item El material se calienta a alta temperatura
+                \item Los átomos adquieren \textbf{alta energía} y se reorganizan libremente
+                \item Se enfría \textbf{lentamente y de forma controlada}
+                \item Los átomos llegan a un estado de mínima energía (estructura cristalina óptima)
+            \end{enumerate}
+        \end{block}
+        \column{0.45\textwidth}
+        \begin{exampleblock}{Origen del algoritmo}
+            Propuesto por \textbf{Kirkpatrick, Gelatt y Vecchi} (1983) en el artículo:
+            \textit{``Optimization by Simulated Annealing''}, \textit{Science}, Vol. 220.
+            \vspace{0.2cm}
+            
+            Inspirado en la simulación de Monte Carlo de Metrópolis (1953).
+        \end{exampleblock}
+    \end{columns}
+\end{frame}
+
+%------------------------------------------------
+\section{Fundamentos Teóricos}
+%------------------------------------------------
+
+\begin{frame}{El Criterio de Metrópolis}
+    El núcleo matemático del algoritmo se basa en la \textbf{distribución de Boltzmann}:
+    \begin{equation}
+        P(\Delta E, T) = \exp\!\left(\frac{-\Delta E}{T}\right)
+    \end{equation}
+    \begin{itemize}
+        \item $\Delta E = f(x_{\text{nuevo}}) - f(x_{\text{actual}})$: diferencia de costo entre soluciones
+        \item $T$: temperatura actual del sistema (parámetro de control)
+        \item $P$: probabilidad de \textbf{aceptar una solución peor}
+    \end{itemize}
+    \vspace{0.2cm}
+    \begin{alertblock}{Propiedad clave}
+        Cuando $T$ es \textbf{alto}, $P \to 1$: se aceptan soluciones malas con frecuencia (exploración). \\
+        Cuando $T$ es \textbf{bajo}, $P \to 0$: solo se aceptan mejoras (explotación).
+    \end{alertblock}
+\end{frame}
+
+\begin{frame}{Esquema de Enfriamiento}
+    La temperatura disminuye iterativamente mediante un \textbf{factor de enfriamiento} $\alpha$:
+    \begin{equation}
+        T_{k+1} = \alpha \cdot T_k, \qquad 0 < \alpha < 1
+    \end{equation}
+    \begin{columns}
+        \column{0.5\textwidth}
+        \begin{block}{Parámetros de control}
+            \begin{itemize}
+                \item $T_0$: Temperatura inicial (alta)
+                \item $T_{\min}$: Temperatura mínima (criterio de paro)
+                \item $\alpha$: Factor de enfriamiento ($0.90$--$0.99$)
+                \item $N_{\max}$: Iteraciones máximas
+            \end{itemize}
+        \end{block}
+        \column{0.5\textwidth}
+        \begin{alertblock}{Impacto de $\alpha$}
+            \begin{itemize}
+                \item $\alpha$ pequeño ($< 0.9$): enfriamiento rápido, riesgo de mínimo local
+                \item $\alpha$ grande ($> 0.99$): enfriamiento lento, mejor exploración pero mayor costo computacional
+            \end{itemize}
+        \end{alertblock}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Balance entre Exploración y Explotación}
+    \begin{columns}
+        \column{0.5\textwidth}
+        \textbf{Exploración} (\textit{Exploration}):
+        \begin{itemize}
+            \item Temperaturas altas ($T$ grande)
+            \item Se aceptan soluciones peores
+            \item El algoritmo ``escapa'' de mínimos locales
+            \item Mayor diversidad en el espacio de búsqueda
+        \end{itemize}
+        \column{0.5\textwidth}
+        \textbf{Explotación} (\textit{Exploitation}):
+        \begin{itemize}
+            \item Temperaturas bajas ($T$ pequeño)
+            \item Solo se aceptan mejoras
+            \item Convergencia hacia el óptimo
+            \item Refinamiento de la solución actual
+        \end{itemize}
+    \end{columns}
+    \vspace{0.4cm}
+    \begin{exampleblock}{Principio fundamental}
+        El éxito de SA reside en \textbf{combinar} ambas fases de forma adaptativa mediante la temperatura. El proceso imita la ``paciencia térmica'' del recocido metalúrgico.
+    \end{exampleblock}
+\end{frame}
+
+%------------------------------------------------
+\section{Pseudocódigo y Algoritmo}
+%------------------------------------------------
+
+\begin{frame}{Pseudocódigo del Simulated Annealing}
+\begin{adjustbox}{max width=0.97\textwidth}
+\begin{minipage}{\textwidth}
+\begin{algorithm}[H]
+\tiny
+\caption{Simulated Annealing}
+\begin{algorithmic}[1]
+    \State \textbf{Inicializar:} $x_0$ (solución inicial), $T_0$, $T_{\min}$, $\alpha$, $N_{\max}$
+    \State $x_{\text{mejor}} \leftarrow x_0$; \quad $f_{\text{mejor}} \leftarrow f(x_0)$
+    \State $T \leftarrow T_0$; \quad $k \leftarrow 0$
+    \While{$T > T_{\min}$ \textbf{and} $k < N_{\max}$}
+        \State Generar vecino: $x_{\text{nuevo}} \leftarrow x_k + \mathcal{N}(0,1)$
+        \State Calcular $\Delta E = f(x_{\text{nuevo}}) - f(x_k)$
+        \If{$\Delta E < 0$}
+            \State $x_{k+1} \leftarrow x_{\text{nuevo}}$ \Comment{Aceptar mejora}
+            \If{$f(x_{\text{nuevo}}) < f_{\text{mejor}}$}
+                \State $x_{\text{mejor}} \leftarrow x_{\text{nuevo}}$
+            \EndIf
+        \Else
+            \If{$\text{rand}(0,1) < \exp(-\Delta E / T)$}
+                \State $x_{k+1} \leftarrow x_{\text{nuevo}}$ \Comment{Aceptar con probabilidad}
+            \EndIf
+        \EndIf
+        \State $T \leftarrow \alpha \cdot T$; \quad $k \leftarrow k + 1$
+    \EndWhile
+    \State \Return $x_{\text{mejor}}$
+\end{algorithmic}
+\end{algorithm}
+\end{minipage}
+\end{adjustbox}
+\end{frame}
+
+%------------------------------------------------
+\section{Función de Prueba: Ackley}
+%------------------------------------------------
+
+\begin{frame}{La Función de Ackley}
+    Una de las funciones de referencia más utilizadas en optimización:
+    \begin{equation}
+        f(x,y) = -20\exp\!\left(-0.2\sqrt{0.5(x^2+y^2)}\right)
+        - \exp\!\left(0.5(\cos 2\pi x + \cos 2\pi y)\right) + 20 + e
+    \end{equation}
+    \begin{columns}
+        \column{0.55\textwidth}
+        \begin{block}{Características}
+            \begin{itemize}
+                \item \textbf{Mínimo global:} $f(0,0) = 0$
+                \item \textbf{Dominio típico:} $[-5, 5]^2$
+                \item \textbf{Superficie:} irregular, con múltiples mínimos locales
+                \item Diseñada para \textbf{engañar} a algoritmos que solo explotan localmente
+            \end{itemize}
+        \end{block}
+        \column{0.45\textwidth}
+        \begin{alertblock}{Desafío para optimizadores}
+            La función tiene una región central casi plana rodeada de ``muros'' cosénicos. Un optimizador local queda atrapado fuera del óptimo global.
+        \end{alertblock}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Implementación MATLAB — Definición de la Función}
+\begin{columns}
+\column{0.6\textwidth}
+\begin{exampleblock}{Función anónima en MATLAB}
+Definición compacta usando \texttt{@(x)} para pasar un vector $[x_1, x_2]$:
+\end{exampleblock}
+\column{0.4\textwidth}
+\begin{block}{Parámetros matemáticos}
+\begin{itemize}
+    \item $a = 20$, $b = 0.2$, $c = 2\pi$
+    \item Estándar de la literatura
+\end{itemize}
+\end{block}
+\end{columns}
+\vspace{0.2cm}
+\begin{lstlisting}[language=Matlab, style=MATLABStyle]
+% Definicion de la funcion de Ackley como funcion anonima
+ackley = @(x) -20 * exp(-0.2 * sqrt(0.5 * (x(1)^2 + x(2)^2))) ...
+              - exp(0.5 * (cos(2 * pi * x(1)) + cos(2 * pi * x(2)))) ...
+              + 20 + exp(1);
+
+% Generacion de la malla para visualizacion
+[x_grid, y_grid] = meshgrid(-5:0.1:5, -5:0.1:5);
+z_grid = arrayfun(@(x, y) ackley([x, y]), x_grid, y_grid);
+\end{lstlisting}
+\end{frame}
+
+%------------------------------------------------
+\section{Implementación MATLAB}
+%------------------------------------------------
+
+\begin{frame}[fragile]{Parámetros e Inicialización}
+\begin{lstlisting}[language=Matlab, style=MATLABStyle]
+% ---- Parametros del algoritmo ----
+T       = 1000;   % Temperatura inicial (alta -> maxima exploracion)
+T_min   = 1;      % Temperatura minima (criterio de paro)
+alpha   = 0.95;   % Factor de enfriamiento geometrico
+max_iter = 700;   % Numero maximo de iteraciones
+
+% ---- Solucion inicial ----
+x = [0.1, 0.1];          % Punto de partida (cercano al origen)
+best_sol  = x;
+best_cost = ackley(x);   % Evaluar costo inicial
+
+% ---- Vectores de rastreo ----
+costs   = zeros(1, max_iter);
+trace_x = x(1);  trace_y = x(2);  trace_z = best_cost;
+\end{lstlisting}
+\end{frame}
+\begin{frame}[fragile]{Parámetros e Inicialización}
+
+\begin{block}{Nota sobre $\alpha = 0.95$}
+    Con $T_0=1000$, $T_{\min}=1$ y $\alpha=0.95$: el número de iteraciones para enfriar es $\lceil \log(T_{\min}/T_0)/\log(\alpha) \rceil \approx 135$ pasos de temperatura.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Lazo Principal del SA}
+\begin{lstlisting}[language=Matlab, style=MATLABStyle]
+for iter = 1:max_iter
+    % 1. Generar solucion vecina (perturbacion gaussiana)
+    new_x    = x + randn(1, 2);
+    new_cost = ackley(new_x);
+
+    % 2. Criterio de aceptacion
+    if new_cost < best_cost          % Mejora -> aceptar siempre
+        best_sol  = new_x;
+        best_cost = new_cost;
+        x = new_x;
+    else
+        delta_cost = new_cost - ackley(x);
+        if rand < exp(-delta_cost / T) % Criterio de Metropolis
+            x = new_x;
+        end
+    end
+
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Lazo Principal del SA}
+\begin{lstlisting}[language=Matlab, style=MATLABStyle]
+    % 3. Registrar trayectoria y actualizar temperatura
+    costs(iter) = best_cost;
+    trace_x(end+1) = x(1);  trace_y(end+1) = x(2);
+    trace_z(end+1) = ackley(x);
+    T = T * alpha;           % Enfriamiento geometrico
+    if T < T_min, break; end % Criterio de paro termico
+end
+\end{lstlisting}
+\end{frame}
+%------------------------------------------------
+\section{Análisis de Resultados}
+%------------------------------------------------
+
+\begin{frame}{Visualización del Proceso de Búsqueda}
+    \footnotesize
+    \begin{columns}
+        \column{0.5\textwidth}
+        \begin{block}{Gráfica 3D: Superficie + Trayectoria}
+            \begin{itemize}
+                \item La superficie \texttt{surf()} muestra la función de Ackley
+                \item Puntos rojos (\texttt{scatter3}) muestran la \textbf{trayectoria explorada}
+                \item Se observa cómo al inicio el algoritmo salta ampliamente (alta $T$)
+                \item Después converge hacia el mínimo
+            \end{itemize}
+        \end{block}
+        \column{0.5\textwidth}
+        \begin{block}{Gráfica 2D: Convergencia del costo}
+            \begin{itemize}
+                \item Eje $x$: número de iteración
+                \item Eje $y$: $f_{\text{mejor}}$ en cada iteración
+                \item Curva descendente confirma convergencia
+                \item La curva no es monótonamente decreciente (SA acepta soluciones peores temporalmente)
+            \end{itemize}
+        \end{block}
+    \end{columns}
+    \vspace{0.2cm}
+    % TODO: Add image Figures/SA_convergence.png
+    \begin{exampleblock}{Salida esperada en consola}
+        \texttt{Mejor solución encontrada: (0.0023, -0.0041)} \\
+        \texttt{Costo de la mejor solución: 0.0123}
+    \end{exampleblock}
+\end{frame}
+
+\begin{frame}{Resumen de Parámetros y su Efecto}
+    \begin{table}[h]
+        \centering
+        \caption{Parámetros clave del Simulated Annealing}
+        \scalebox{0.85}{
+        \begin{tabular}{lccl}
+            \toprule
+            \textbf{Parámetro} & \textbf{Símbolo} & \textbf{Valor en ejemplo} & \textbf{Efecto} \\
+            \midrule
+            Temperatura inicial   & $T_0$     & 1000    & Mayor $\to$ más exploración inicial \\
+            Temperatura mínima    & $T_{\min}$ & 1      & Criterio de paro del enfriamiento \\
+            Factor de enfriamiento & $\alpha$  & 0.95   & Más cerca de 1 $\to$ enfriamiento lento \\
+            Iteraciones máx.      & $N_{\max}$ & 700    & Límite de evaluaciones de la función \\
+            Solución inicial      & $x_0$     & (0.1, 0.1) & Influye en calidad final \\
+            \bottomrule
+        \end{tabular}}
+    \end{table}
+\end{frame}
+
+%------------------------------------------------
+\section{Ventajas, Limitaciones y Variantes}
+%------------------------------------------------
+
+\begin{frame}{Ventajas y Limitaciones del SA}
+    \footnotesize
+    \begin{columns}
+        \column{0.5\textwidth}
+        \textbf{Ventajas:}
+        \begin{itemize}
+            \item \textbf{Generalidad}: aplica a cualquier problema con función de costo
+            \item \textbf{Garantía asintótica}: con enfriamiento suficientemente lento, converge al óptimo global
+            \item \textbf{Simplicidad de implementación}: pocos parámetros y código compacto
+            \item \textbf{Robusto} ante ruido y discontinuidades
+        \end{itemize}
+        \column{0.5\textwidth}
+        \textbf{Limitaciones:}
+        \begin{itemize}
+            \item \textbf{Sensibilidad al \textit{schedule}}: una mala elección de $\alpha$ o $T_0$ puede fallar
+            \item \textbf{Convergencia lenta} para espacios de alta dimensión
+            \item \textbf{No paralelizable} fácilmente (cadena de Markov secuencial)
+            \item No garantiza el óptimo en tiempo finito
+        \end{itemize}
+    \end{columns}
+    \vspace{0.3cm}
+    \begin{alertblock}{Recomendación práctica}
+        Para problemas de alta dimensión o multiobjetivo, considerar extensiones como \textbf{Parallel SA}, \textbf{MOSA} (Multi-Objective SA) o su combinación con metaheurísticas poblacionales.
+    \end{alertblock}
+\end{frame}
+
+\begin{frame}{Variantes Avanzadas del SA}
+    \begin{table}[h]
+        \centering
+        \caption{Comparación de variantes del Simulated Annealing}
+        \scalebox{0.78}{
+        \begin{tabular}{lll}
+            \toprule
+            \textbf{Variante} & \textbf{Característica principal} & \textbf{Aplicación} \\
+            \midrule
+            SA clásico         & Enfriamiento geométrico       & Optimización mono-objetivo \\
+            Fast SA (FSA)      & Enfriamiento de Cauchy        & Convergencia más rápida \\
+            Adaptive SA        & $T$ se ajusta dinámicamente   & Problemas dinámicos \\
+            MOSA               & Frente de Pareto              & Optimización multiobjetivo \\
+            Parallel SA        & Múltiples cadenas             & Cómputo paralelo / GPU \\
+            SA + Híbrido       & SA + búsqueda local           & Optimización combinatoria \\
+            \bottomrule
+        \end{tabular}}
+    \end{table}
+\end{frame}
+
+%------------------------------------------------
+\section{Conclusiones}
+%------------------------------------------------
+
+\begin{frame}{Conclusiones}
+    \begin{block}{Puntos clave}
+        \begin{enumerate}
+            \item El \textbf{Simulated Annealing} es una metaheurística inspirada en el proceso físico de recocido, capaz de escapar de mínimos locales mediante el criterio de \textbf{Metrópolis}.
+            \item La temperatura controla el \textbf{balance exploración-explotación}: alta $T$ favorece diversidad; baja $T$ favorece convergencia.
+            \item Los parámetros ($T_0$, $\alpha$, $T_{\min}$) deben elegirse con cuidado; su impacto es \textbf{determinante} para la calidad de la solución.
+            \item Aplicado a la \textbf{función de Ackley}, el SA demuestra su capacidad de encontrar el mínimo global en un paisaje altamente multimodal.
+        \end{enumerate}
+    \end{block}
+\end{frame}
+
+\begin{frame}{Referencias}
+
+    \begin{exampleblock}{Referencia fundamental}
+        Kirkpatrick, S., Gelatt, C. D., \& Vecchi, M. P. (1983). Optimization by simulated annealing. \textit{Science}, 220(4598), 671--680.
+        \url{https://doi.org/10.1126/science.220.4598.671}
+    \end{exampleblock}
+\end{frame}
+
+\end{document}
