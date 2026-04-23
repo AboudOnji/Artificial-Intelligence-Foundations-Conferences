@@ -161,43 +161,8 @@ ub = [ -5,  3];                     % <-- límites superiores
 # Parte 4 — Algoritmos Genéticos sobre las Mismas Funciones
 
 \begin{instruccion}
-\textbf{Tarea 4.1 --- Script \texttt{main\_GA.m}.} Crea \texttt{main\_GA.m} usando la función \texttt{ga()} del \textbf{MATLAB Optimization Toolbox} (disponible en R2025b). El script debe seguir la misma filosofía modular que \texttt{main\_SA.m}: una sección \texttt{>>> CONFIGURAR AQUÍ <<<} donde se cambia la función, la dimensión y los límites.
+\textbf{Tarea 4.1 --- Script \texttt{main\_GA.m}.} Crea \texttt{main\_GA.m} usando la función \texttt{ga()} del \textbf{MATLAB Optimization Toolbox} (disponible en R2025b). El script debe seguir la misma filosofía modular que \texttt{main\_SA.m}: una sección \texttt{>>> CONFIGURAR AQUÍ <<<} donde se cambia la función, la dimensión y los límites. Documenta cada parámetro del GA con comentarios explicativos, igual que en \texttt{main\_SA.m}.
 \end{instruccion}
-
-**Estructura sugerida para `main_GA.m`:**
-
-```matlab
-% =========================================================
-% main_GA.m  —  Algoritmo Genético sobre función arbitraria
-% =========================================================
-clear; clc; close all;
-
-% >>> CONFIGURAR AQUÍ <<<
-FUN_NAME      = 'ackley';
-objective_fun = @(x) ackley(x);
-d  = 2;
-lb = -32.768 * ones(1, d);
-ub =  32.768 * ones(1, d);
-
-% --- Parámetros del GA ---
-options = optimoptions('ga', ...
-    'PopulationSize',   200,  ...  % tamaño de la población
-    'MaxGenerations',   500,  ...  % generaciones máximas
-    'EliteCount',         5,  ...  % individuos élite (no mutan)
-    'CrossoverFraction', 0.8, ...  % fracción de cruzamiento
-    'MutationFcn',  @mutationgaussian, ...
-    'PlotFcn',      @gaplotbestf, ...
-    'Display',      'iter');
-
-% --- Ejecución del GA ---
-[x_best, f_best] = ga(objective_fun, d, [], [], [], [], lb, ub, [], options);
-
-% --- Resultados ---
-fprintf('Mejor valor GA : f = %.8f\n', f_best);
-fprintf('Mejor posición : x = [');
-fprintf('%.4f  ', x_best);
-fprintf(']\n');
-```
 
 \begin{instruccion}
 \textbf{Tarea 4.2 --- GA para las cuatro funciones.} Crea cuatro scripts (uno por función) modificando solo la sección de configuración. Completa la misma tabla comparativa que en la Tarea 3.3, ahora para el GA.

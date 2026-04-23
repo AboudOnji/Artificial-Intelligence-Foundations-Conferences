@@ -43,8 +43,8 @@ clear; clc; close all;
 % La función debe aceptar un vector fila xx = [x1, x2, ..., xd]
 % y devolver un escalar y = f(xx).
 % Cambia 'ackley' por el nombre de tu función (sin extensión .m).
-FUN_NAME       = 'ackley';
-objective_fun  = @(x) ackley(x);
+FUN_NAME       = 'Ackley';
+objective_fun  = @(x) Ackley(x);
 
 % --- Dimensión del problema (número de variables) ---
 d = 2;
@@ -60,22 +60,22 @@ ub =  32.768 * ones(1, d);
 % =========================================================================
 
 T0       = 1000;    % Temperatura inicial  — debe ser alta para aceptar
-                    % casi cualquier movimiento al principio.
+% casi cualquier movimiento al principio.
 T_min    = 1e-8;    % Temperatura de corte — el algoritmo para cuando T < T_min.
 alpha    = 0.995;   % Factor de enfriamiento geométrico: T_{k+1} = alpha * T_k
-                    % Valores típicos: 0.90 – 0.999
-                    % Más cercano a 1 → enfriamiento más lento → mejor calidad,
-                    % pero más iteraciones.
+% Valores típicos: 0.90 – 0.999
+% Más cercano a 1 → enfriamiento más lento → mejor calidad,
+% pero más iteraciones.
 max_iter = 20000;   % Número máximo de iteraciones globales (cota de seguridad)
 sigma    = 1.0;     % Desviación estándar de la perturbación gaussiana.
-                    % Controla el tamaño del "salto" al generar un vecino.
+% Controla el tamaño del "salto" al generar un vecino.
 
 % =========================================================================
 % INICIALIZACIÓN
 % =========================================================================
 
 rng('shuffle');  % Semilla aleatoria distinta en cada ejecución.
-                 % Usa rng(42) para reproducibilidad exacta.
+% Usa rng(42) para reproducibilidad exacta.
 
 % Solución inicial: punto aleatorio uniforme dentro del dominio
 x_current = lb + (ub - lb) .* rand(1, d);
@@ -180,7 +180,7 @@ while T > T_min && iter < max_iter
     % ------------------------------------------------------------------
     if mod(iter, 2000) == 0 || iter == 1
         fprintf('  %5d  %15.6e  %13.6f  %13.6f\n', ...
-                iter, T, f_current, f_best);
+            iter, T, f_current, f_best);
     end
 
 end  % fin del bucle principal
@@ -218,16 +218,15 @@ fprintf('Tasa de aceptación global: %.2f %%\n', acceptance_rate);
 % =========================================================================
 
 fig = figure('Name', ['SA — ' FUN_NAME], ...
-             'Color', 'white', ...
-             'Units', 'normalized', ...
-             'Position', [0.05 0.1 0.9 0.8]);
+    'Units', 'normalized', ...
+    'Position', [0.05 0.1 0.9 0.8]);
 
 % ---- Subgráfica 1: convergencia del mejor valor ----
 subplot(2, 2, [1 2]);
 plot(1:iter, hist_f_best, 'b-', 'LineWidth', 1.8, 'DisplayName', 'f_{best}');
 hold on;
 plot(1:iter, hist_f_curr, 'Color', [0.7 0.7 0.7], 'LineWidth', 0.8, ...
-     'DisplayName', 'f_{actual}');
+    'DisplayName', 'f_{actual}');
 yline(0, 'r--', 'LineWidth', 1.2, 'DisplayName', 'Óptimo teórico');
 hold off;
 xlabel('Iteración', 'FontSize', 11);
@@ -263,26 +262,26 @@ if d == 2
     colorbar;
     hold on;
     plot(x_best(1), x_best(2), 'r*', 'MarkerSize', 14, 'LineWidth', 2, ...
-         'DisplayName', 'x^* encontrado');
+        'DisplayName', 'x^* encontrado');
     plot(0, 0, 'w+', 'MarkerSize', 14, 'LineWidth', 2, ...
-         'DisplayName', 'Óptimo teórico');
+        'DisplayName', 'Óptimo teórico');
     hold off;
     xlabel('x_1', 'FontSize', 11);
     ylabel('x_2', 'FontSize', 11);
     title(['Paisaje de ' FUN_NAME ' (d=2)'], 'FontSize', 11);
     legend('Location', 'northeast', 'FontSize', 9, ...
-           'TextColor', 'white', 'Color', [0.2 0.2 0.2]);
+        'TextColor', 'white', 'Color', [0.2 0.2 0.2]);
     axis tight;
 else
     text(0.5, 0.5, 'Visualización 2D\ndisponible solo\ncuando d = 2', ...
-         'HorizontalAlignment', 'center', 'FontSize', 12, 'Units', 'normalized');
+        'HorizontalAlignment', 'center', 'FontSize', 12, 'Units', 'normalized');
     axis off;
 end
 
 sgtitle(['Simulated Annealing — Función: ' FUN_NAME ...
-         '  |  d=' num2str(d) ...
-         '  |  \alpha=' num2str(alpha)], ...
-        'FontSize', 13, 'FontWeight', 'bold');
+    '  |  d=' num2str(d) ...
+    '  |  \alpha=' num2str(alpha)], ...
+    'FontSize', 13, 'FontWeight', 'bold');
 
 % =========================================================================
 % FIN DEL SCRIPT
