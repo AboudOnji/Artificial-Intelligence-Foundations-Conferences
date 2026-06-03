@@ -3,8 +3,8 @@
 %
 %  Autor  : Prof. Dr. Aboud Barsekh-Onji
 %           Universidad Anáhuac México, Facultad de Ingeniería
-%  Curso  : Fundamentos de Inteligencia Artificial
-%  Fecha  : Abril 2026
+%  Curso  : Fundamentos de Inteligencia Artificial - Machine Learning
+%  Fecha  : junio 2026
 %
 %  DESCRIPCIÓN DEL ALGORITMO
 %  -------------------------
