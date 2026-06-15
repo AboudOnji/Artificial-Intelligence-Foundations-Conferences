@@ -5,18 +5,19 @@
 % https://orcid.org/0009-0004-5440-8092
 % Universidad Anáhuac México Sur - Facultad de Ingeniería 
 % ============================================================
-
+clear all
+clc
 ackley = @(x) -20 * exp(-0.2 * sqrt(0.5 * (x(1)^2 + x(2)^2))) ...
               - exp(0.5 * (cos(2 * pi * x(1)) + cos(2 * pi * x(2)))) ...
               + 20 + exp(1);
 
-[x_grid, y_grid] = meshgrid(-5:0.1:5, -5:0.1:5);
+[x_grid, y_grid] = meshgrid(-10:0.1:10, -10:0.1:10);
 z_grid = arrayfun(@(x, y) ackley([x, y]), x_grid, y_grid);
 
 T = 1000;              % Temperatura inicial
-T_min = 1;         % Temperatura mínima
-alpha = 0.95;          % Factor de enfriamiento
-max_iter = 700;      % Número máximo de iteraciones
+T_min = 0.1;         % Temperatura mínima
+alpha = 0.99;          % Factor de enfriamiento
+max_iter = 1200;      % Número máximo de iteraciones
 x = [0.1,0.1];   % Solución inicial aleatoria
 best_sol = x;
 best_cost = ackley(x);
@@ -29,7 +30,7 @@ ylabel('y');
 zlabel('f(x, y)');
 title('Ackley Function');
 
-figure;
+%figure;
 scatter3(x(1), x(2), best_cost, 100, 'b', 'filled'); % Punto inicial
 pause(1);
 costs = zeros(1, max_iter);
@@ -56,7 +57,7 @@ for iter = 1:max_iter
     trace_x(end+1) = x(1);
     trace_y(end+1) = x(2);
     trace_z(end+1) = ackley(x);
-    scatter3(trace_x, trace_y, trace_z, 50, 'r', 'filled');  % Mostrar los puntos explorados
+    scatter3(trace_x, trace_y, trace_z, 50, 'k', 'filled');  % Mostrar los puntos explorados
     drawnow;  % Actualizar la gráfica
     T = T * alpha;
     if T < T_min
