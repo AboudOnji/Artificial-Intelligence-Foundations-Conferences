@@ -116,7 +116,7 @@ rechazar; score < 30 → aprobar con tasa preferencial).
   experto (similar a cómo un analista de crédito razona), no de un proceso de
   ajuste automático sobre un histórico extenso de créditos otorgados. Mamdani es
   el enfoque natural cuando el FIS se construye "a mano".
-
+s
 
 **Cuándo se preferiría Sugeno en su lugar:** si la institución contara con un
 histórico extenso de créditos (miles de casos con resultado conocido: pagó / no

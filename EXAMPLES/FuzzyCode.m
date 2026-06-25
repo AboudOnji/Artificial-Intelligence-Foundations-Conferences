@@ -33,31 +33,29 @@ fis = addRule(fis,["if IDR is Alto or HD_pago is Excelente then Risk is Muy_bajo
     "if IDR is Insuficiente and HD_pago is Malo then Risk is Muy_Alto (1)"]);
 % Dibujar
 plotfis (fis)
-%%
-options = tunefisOptions("Method","ga");
-options.MethodOptions.MaxGenerations=100;
-options.OptimizationType="learning";
-options.Display="all"
-options.MethodOptions.PlotFcn="gaplotbestf";
 
+%%
+options=tunefisOptions("Method","ga", "OptimizationType","learning");
+options.MethodOptions.MaxGenerations=100;
+options.Display="all";
+options.MethodOptions.PlotFcn= "gaplotbestf"
 fis2=tunefis(fis,[],Input,Output,options)
 %%
 plotfis(fis2)
-
 %%
-[in, out, rule]=getTunableSettings(fis2);
-
-options = tunefisOptions("Method","patternsearch");
-options.MethodOptions.MaxIterations=200;
+[in,out,rule] = getTunableSettings(fis2);
 options.OptimizationType="tuning";
-options.Display="all"
-
+options.Method='patternsearch';
+options.MethodOptions.MaxIterations=200;
+options.Display="all";
 fis3=tunefis(fis2,[in;out;rule],Input,Output,options)
 %%
 outmodel=evalfis(fis3,inputTest);
 residuals=outmodel-outputTest;
 RMSE= sqrt(mean(residuals.^2))
-%% 
+%%
+
+%% 7. Figura 1 — Serie temporal: Real vs Predicho
 figure('Color','w','Position',[100 200 900 380]);
     plot(outputTest, 'b-o', 'LineWidth',1.5, 'MarkerSize',4, ...
          'DisplayName','Real');
